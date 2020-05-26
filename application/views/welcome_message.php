@@ -243,7 +243,7 @@
 				<button onclick="toggleMenu();">&#9776;</button>
 			</li>
 			<li class="menu-item hidden"><a href="#">Inicio</a></li>
-			<li class="menu-item hidden"><a href="<?=base_url()?>index.php/login">Acceder</a>
+			<li class="menu-item hidden"><a href="<?=base_url()?>login">Acceder</a>
 			</li>
 			<li class="menu-item hidden"><a href="https://forum.codeigniter.com/" target="_blank">Profesionales</a></li>
 			<li class="menu-item hidden"><a

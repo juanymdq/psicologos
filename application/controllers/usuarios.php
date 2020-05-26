@@ -1,13 +1,11 @@
 <?php
-
-use App\Controllers\BaseController;
-
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Usuarios extends BaseController
+class Usuarios extends CI_Controller
 {
     public function __construct()
-    {        
+    {       
+        parent::__construct();
          //llamo o incluyo el modelo
          $this->load->model('usuarios_model');
          //cargo la libreria de sesiones
@@ -21,9 +19,14 @@ class Usuarios extends BaseController
     public function index()    
     {        
         //llamo al metodo ver
-        $usuarios['ver']=$this->usuarios_model->ver();
+        //$usuarios['ver']=$this->usuarios_model->ver();
         //cargo la vista usuarios_view
-        $this->load->view('usuarios/usuarios_view',$usuarios);
+        $this->load->view('usuarios/registro_usuarios');
+    }
+
+    public function forgot_password()
+    {
+        $this->load->view('usuarios/forgot_password');
     }
     
     //CONTROLADOR QUE AGREGA UN USUARIO
