@@ -33,25 +33,32 @@ class Usuarios extends CI_Controller
     public function add()
     {
          //compruebo si se a enviado submit
-        if($this->input->post("submit")){         
+        //if($this->input->post("submit")){         
             //llamo al metodo add
-            $add=$this->usuarios_model->add(
-                    $this->input->post("nombre"),
-                    $this->input->post("apellido"),
-                    $this->input->post("username"),
-                    sha1($this->input->post("password")),               
-                    $this->input->post("perfil")
-                    );
-        }
+        //ToDo VALIDATION RULES
+        $this->usuarios_model->add();
+
+        /*
+        $add=$this->usuarios_model->add(
+                $this->input->post("nombre"),
+                $this->input->post("apellido"),
+                $this->input->post("username"),
+                sha1($this->input->post("password")),
+                'cliente'
+                //$this->input->post("perfil")
+        );
+          */
+        //}
+/*
         if($add==true){
             //Sesion de una sola ejecución
             $this->session->set_flashdata('correcto', 'Usuario a&ntilde;adido correctamente');
         }else{
             $this->session->set_flashdata('incorrecto', 'Usuario a&ntilde;adido correctamente');
         }
-         
+  */       
         //redirecciono la pagina a la url por defecto
-        redirect(base_url().'usuarios');
+        redirect(base_url().'login');
     }
        
     //controlador para modificar al que 

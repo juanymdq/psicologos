@@ -21,10 +21,10 @@
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/registerUser.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_css.css">
     <style>
-		header .logo {
+		.logo {
             float: left;			
             color: #ADAFAF;	
-            margin-top: -7em;	
+            margin-top: -1em;	
             margin-left: 2.5em;	
         }
         .textLogo {
@@ -49,29 +49,34 @@
 		}
 	</style> 
   </head>
-  <body>
-	<header>
-		<div class="logo">
-			<a href="<?=base_url()?>">
-			<div class="divLogo">
-				<img 
-					src="<?=base_url()?>application/assets/img/divan.png" 
-					class="imgLogo"
-					title="Inicio"    
-				/>
-			</div>            
-			</a>
-		</div>
-	</header>
+  <?php $attributes = array('class' => 'form-register', 'id' => 'register-form'); ?>
+  <body>		
+	<div class="logo">
+		<a href="<?=base_url()?>">
+		<div class="divLogo">
+			<img 
+				src="<?=base_url()?>application/assets/img/divan.png" 
+				class="imgLogo"
+				title="Inicio"    
+			/>
+		</div>            
+		</a>
+	</div>
+		
 	<div class="container">		
 		<div class="login-form">			
 			<div class="form-header">
 				<img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
 				<!-- <i class="fa fa-user"></i> -->
 			</div>
-			<form method="post" action="" class="form-register" role="form" id="register-form">
+			<?=form_open(base_url().'usuarios/add', $attributes) ?>
+			<!-- <form method="post" action="<?=base_url('usuarios/add')?>" class="form-register" role="form" id="register-form"> -->
+				<div>					
+					<input name="nombre" id="nombre" type="text" class="form-control" placeholder="Nombre"> 
+					<span class="help-block"></span>
+				</div>
 				<div>
-					<input name="name" id="name" type="text" class="form-control" placeholder="Nombres"> 
+					<input name="apellido" id="apellido" type="text" class="form-control" placeholder="Apellido"> 
 					<span class="help-block"></span>
 				</div>
 				<div>
@@ -87,22 +92,8 @@
 					<span class="help-block"></span>
 				</div>
 				<button class="btn btn-block bt-login" type="submit" id="submit_btn" data-loading-text="Registrando....">Registrarse</button>
-			</form>
-			<!--
-			<div class="form-footer">
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<i class="fa fa-lock"></i>
-						<a href="forget_password.php"> Olvidó su contraseña? </a>					
-					</div>
-					
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<i class="fa fa-check"></i>
-						<a href="index.php">  Iniciar sesión  </a>
-					</div>
-				</div>
-			</div>
--->
+			<!-- </form> -->
+			<?=form_close()?>
 		</div>
 	</div>	
 </body>

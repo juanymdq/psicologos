@@ -26,6 +26,7 @@ class Login extends CI_Controller {
             case 'cliente':
                 $data['token'] = $this->token();
                 //ToDo Cliente redirect
+                redirect(base_url().'cliente');
                 break;
             case 'profesional':
                 $data['token'] = $this->token();

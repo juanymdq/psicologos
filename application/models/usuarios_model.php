@@ -26,21 +26,51 @@ class Usuarios_model extends CI_Model {
         return $consulta->result();
         
     }
-    
+   
     
     //AGREGAR UN USUARIO A LA BD
-    public function add($nombre,$apellido,$username,$password,$perfil){
-        $consulta=$this->db->query("SELECT username FROM users WHERE username LIKE '$username'");
-        if($consulta->num_rows()==0){
-            $consulta=$this->db->query("INSERT INTO users VALUES(NULL,'$perfil','$username','$password','$nombre','$apellido');");
+    public function add(){
+       // $this->db->like('email', $email);
+      //  $query = $this->db->get();
+        //$consulta=$this->db->query("SELECT email FROM users WHERE email LIKE '$email'");
+      //  if(!$query){
+        
+        //$this->input->post("perfil")
+
+            $data = array("perfil" => 'cliente',
+                "email" =>  $this->input->post("email"),
+                "password" => sha1($this->input->post("password")),
+                "nombre" => $this->input->post("nombre"),
+                "apellido" =>$this->input->post("apellido")
+            );
+
+            $this->db->trans_begin(); 
+            $this->db->insert('users', $data);
+            $this->session->set_userdata($data);
+            return $this->db->affected_rows();
+
+            if ($this->db->trans_status() === FALSE){      
+                //Hubo errores en la consulta, entonces se cancela la transacción.   
+                $this->db->trans_rollback();      
+                return false;    
+             }else{      
+                //Todas las consultas se hicieron correctamente.  
+                $this->db->trans_commit();    
+                return true;    
+             }  
+/*
+           $consulta=$this->db->query("INSERT INTO users VALUES(NULL,'$perfil','$email','$password','$nombre','$apellido');");
             if($consulta==true){
-              return true;
+                $this->session->set_userdata($data);
+                return true;
             }else{
                 return false;
             }
+          
         }else{
             return false;
-        }
+        }*/
+        
     }
     
     //MODIFICAR UN USUARIO DE LA BD
