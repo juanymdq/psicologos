@@ -18,15 +18,55 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
     <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
     <!-- Nuestro css -->
-    <link href="<?=base_url()?>application/assets/css/registerUser.css" rel="stylesheet">
-       
-   
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/registerUser.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_css.css">
+    <style>
+		header .logo {
+            float: left;			
+            color: #ADAFAF;	
+            margin-top: -7em;	
+            margin-left: 2.5em;	
+        }
+        .textLogo {
+            float: left;
+            width: 380px;
+            margin-left: 1em;
+            margin-top: 1em;			
+        }
+
+        .textLogo p {			
+            font-size: 30px;
+        }
+
+        .divLogo {
+            float: left;
+            margin-top: 5px
+        }
+
+        .imgLogo {
+            width: 100px;
+            height: 60px;
+		}
+	</style> 
   </head>
   <body>
+	<header>
+		<div class="logo">
+			<a href="<?=base_url()?>">
+			<div class="divLogo">
+				<img 
+					src="<?=base_url()?>application/assets/img/divan.png" 
+					class="imgLogo"
+					title="Inicio"    
+				/>
+			</div>            
+			</a>
+		</div>
+	</header>
 	<div class="container">		
 		<div class="login-form">			
 			<div class="form-header">
-                <img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
+				<img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
 				<!-- <i class="fa fa-user"></i> -->
 			</div>
 			<form method="post" action="" class="form-register" role="form" id="register-form">
@@ -47,8 +87,8 @@
 					<span class="help-block"></span>
 				</div>
 				<button class="btn btn-block bt-login" type="submit" id="submit_btn" data-loading-text="Registrando....">Registrarse</button>
-            </form>
-            <!--
+			</form>
+			<!--
 			<div class="form-footer">
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
@@ -61,9 +101,9 @@
 						<a href="index.php">  Iniciar sesión  </a>
 					</div>
 				</div>
-            </div>
+			</div>
 -->
 		</div>
 	</div>	
-  </body>
+</body>
 </html>

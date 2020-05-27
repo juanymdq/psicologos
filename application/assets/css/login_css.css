@@ -2,7 +2,7 @@
 body{
     color: rgba(33, 37, 41, 1);
     background-size: cover;
-    background-color: #D0D1D1;
+    background-color:  whitesmoke; ;    
 }
 
 .main-section{
@@ -65,3 +65,4 @@ button{
 .forgot a{
     color: white;
 }
+

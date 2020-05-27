@@ -16,7 +16,7 @@ class Usuarios extends CI_Controller
     }
     
     //controlador por defecto
-    public function index()    
+    public function registro_usuarios()    
     {        
         //llamo al metodo ver
         //$usuarios['ver']=$this->usuarios_model->ver();

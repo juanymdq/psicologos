@@ -11,10 +11,19 @@ class Login_model extends CI_Model {
      {
          $this->db->where('username',$username);
          $this->db->where('password',$password);
-         $query = $this->db->get('users');
-         if($query->num_rows() == 1)
+         $query = $this->db->get('users')->row();
+         if($query)
          {
-            return $query->row();
+            $data = array(
+                'is_logued_in' => TRUE,
+                'id_usuario' => $query->id,
+                'perfil' => $query->perfil,
+                'username' => $query->username,
+                'nombre' => $query->nombre,
+                'apellido' => $query->apellido
+             );
+            $this->session->set_userdata($data);  
+            return $query;
          }
          else
          {

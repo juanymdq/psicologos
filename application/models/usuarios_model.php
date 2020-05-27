@@ -6,23 +6,8 @@ class Usuarios_model extends CI_Model {
         parent::__construct();
         //cargamos la base de datos
         $this->load->database();
-    }
-     
-    public function login_user($username,$password)
-    {
-        $this->builder->where('username',$username);
-        $this->builder->where('password',$password);
-        $this->builder->get();
-        if($this->builder->numRows == 1)
-        {
-        return $this->builder->get();
-        }
-        else
-        {
-            $this->session->set_flashdata('usuario_incorrecto','Los datos introducidos son incorrectos');
-            redirect(base_url().'login','refresh');
-        }
-    }
+    }     
+    
 
      //VISUALIZAR TODOS LOS USUARIOS
      public function ver(){

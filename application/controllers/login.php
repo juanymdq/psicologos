@@ -16,28 +16,23 @@ class Login extends CI_Controller {
     public function index()
     { 
          switch ($this->session->userdata('perfil')) {
-             case '':
-                 $data['titulo'] = 'Login';
-                 $this->load->view('login_view',$data);
+             case '':                
+                 $this->load->view('login_view');
                  break;
              case 'administrador':
-                 $data['token'] = $this->token();
-                 $data['us'] = $this->usuarios_model->verxuser($this->session->userdata('username'));
-                 $data['titulo'] = 'Bienvenido Administrador';                
+                 $token['token'] = $this->token();                 
+                 redirect(base_url().'administrador');                 
                  break;
             case 'cliente':
                 $data['token'] = $this->token();
-                $data['us'] = $this->usuarios_model->verxuser($this->session->userdata('username'));
-                $data['titulo'] = 'Bienvenido Usuario';               
+                //ToDo Cliente redirect
                 break;
             case 'profesional':
                 $data['token'] = $this->token();
-                $data['us'] = $this->usuarios_model->verxuser($this->session->userdata('username'));
-                $data['titulo'] = 'Bienvenido Dr/Dra';                
+                //ToDo Profesional redirect               
                 break;               
-             default: 
-                 $data['titulo'] = 'Login in';
-                 $this->load->view('login_view',$data);
+             default:                 
+                 $this->load->view('login_view');
                  break; 
          }
     }
@@ -61,16 +56,7 @@ class Login extends CI_Controller {
             $password = sha1($this->input->post('password'));
             $check_user = $this->login_model->login_user($username,$password);
             if($check_user == TRUE)
-            {
-                 $data = array(
-                    'is_logued_in' => TRUE,
-                    'id_usuario' => $check_user->id,
-                    'perfil' => $check_user->perfil,
-                    'username' => $check_user->username,
-                    'nombre' => $check_user->nombre,
-                    'apellido' => $check_user->apellido
-                 );
-                $this->session->set_userdata($data);
+            {               
                 $this->index();
             }
          }
@@ -87,7 +73,7 @@ class Login extends CI_Controller {
      public function logout()
      {
          $this->session->sess_destroy();
-         return redirect(base_url().'login','refresh');
+         return redirect(base_url(),'refresh');
      }    
 
 }
