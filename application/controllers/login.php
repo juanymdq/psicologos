@@ -40,7 +40,7 @@ class Login extends CI_Controller {
 
     public function new_user()
     {
-        $this->form_validation->set_rules('username', 'nombre de usuario', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('password', 'password', 'required');
 
         //|trim|min_length[2]|max_length[150]|xss_clean MAS CUESTIONES DE SEGURIDAD DE CLAVES
@@ -53,9 +53,9 @@ class Login extends CI_Controller {
          }
          else
          {
-            $username = $this->input->post('username');
+            $email = $this->input->post('email');
             $password = sha1($this->input->post('password'));
-            $check_user = $this->login_model->login_user($username,$password);
+            $check_user = $this->login_model->login_user($email,$password);
             if($check_user == TRUE)
             {               
                 $this->index();

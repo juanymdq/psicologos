@@ -20,6 +20,16 @@
     <!-- Nuestro css -->
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/registerUser.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_css.css">
+
+	<script>
+		function func_volver_clientes() {			
+			window.location = <?=base_url('cliente');?>
+		}
+		function func_volver_login() {			
+			window.location = <?=base_url('login');?>
+		}
+	</script>
+	
     <style>
 		.logo {
             float: left;			
@@ -47,6 +57,15 @@
             width: 100px;
             height: 60px;
 		}
+
+		.div-botones {
+			display: flex;
+ 			justify-content: center;
+		}
+
+		.separator {
+			margin: 5px;
+		}
 	</style> 
   </head>
   <?php $attributes = array('class' => 'form-register', 'id' => 'register-form'); ?>
@@ -69,29 +88,71 @@
 				<img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
 				<!-- <i class="fa fa-user"></i> -->
 			</div>
-			<?=form_open(base_url().'usuarios/add', $attributes) ?>
+			<?=form_open('', $attributes) ?>
 			<!-- <form method="post" action="<?=base_url('usuarios/add')?>" class="form-register" role="form" id="register-form"> -->
-				<div>					
-					<input name="nombre" id="nombre" type="text" class="form-control" placeholder="Nombre"> 
-					<span class="help-block"></span>
+				<div>	
+					<?php
+						$text_input = array(
+							'name' => 'nombre',
+							'id' => 'nombre',
+							'value' => $nombre,
+							'class' => 'form-control',
+							'placeholder' => 'Nombre'
+						);
+						echo form_input($text_input);
+					?>								
+					<span class="help-block"><?php echo form_error('name', '<div class="text-error">', '</div>') ?></span>
 				</div>
 				<div>
-					<input name="apellido" id="apellido" type="text" class="form-control" placeholder="Apellido"> 
-					<span class="help-block"></span>
+					<?php
+						$text_input = array(
+							'name' => 'apellido',
+							'id' => 'apellido',
+							'value' => $apellido,
+							'class' => 'form-control',
+							'placeholder' => 'Apellido'
+						);
+						echo form_input($text_input);
+					?>					
+					<span class="help-block"><?php echo form_error('apellido', '<div class="text-error">', '</div>') ?></span>				
 				</div>
 				<div>
-					<input name="email" id="email" type="email" class="form-control" placeholder="Correo electrónico" > 
-					<span class="help-block"></span>
+					<?php
+						$text_input = array(
+							'name' => 'email',
+							'id' => 'email',
+							'value' => $email,
+							'class' => 'form-control',
+							'placeholder' => 'Email'
+						);
+						echo form_input($text_input);
+					?>					
+					<span class="help-block"><?php echo form_error('email', '<div class="text-error">', '</div>') ?></span>				
 				</div>
-				<div>
-					<input name="password" id="password" type="password" class="form-control" placeholder="Contraseña"> 
-					<span class="help-block"></span>
-				</div>
-				<div>
-					<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Contraseña"> 
-					<span class="help-block"></span>
-				</div>
-				<button class="btn btn-block bt-login" type="submit" id="submit_btn" data-loading-text="Registrando....">Registrarse</button>
+				<?php
+				if($registra){
+				?>
+					<div>
+						<input name="password" id="password" type="password" class="form-control" placeholder="Contraseña"> 
+						<span class="help-block"></span>
+					</div>
+					<div>
+						<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Contraseña"> 
+						<span class="help-block"></span>
+					</div>
+					<div class="div-botones">
+						<button class="btn bt-login" type="submit" id="submit_btn" data-loading-text="Registrando....">Registrarse</button>
+						<div class="separator"></div>
+						<button class="btn btn-warning" type="button" onclick="location.href='<?=base_url('login')?>'" >Cancelar</button>
+					</div>
+				<?php }else{?>
+					<div class="div-botones">
+						<button class="btn bt-login" type="submit" id="submit_btn" data-loading-text="Actualizando....">Actualizar</button>
+						<div class="separator"></div>
+						<button class="btn btn-warning" type="button" onclick="location.href='<?=base_url('cliente')?>'" >Cancelar</button>
+						<!--<a href="" class="btn bt-login">Cancelar</a>-->
+					</div>
+				<?php }?>
 			<!-- </form> -->
 			<?=form_close()?>
 		</div>

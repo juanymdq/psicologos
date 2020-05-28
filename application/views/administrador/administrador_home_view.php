@@ -14,8 +14,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     
     <!-- Los iconos tipo Solid de Fontawesome-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
-    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/solid.css">
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
 
 	<link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/administracionStyle.css"/>
@@ -28,6 +28,10 @@
 		grid-gap: 4rem 20em;
 		grid-template-columns: 120px 120px 120px;
 		grid-template-rows: 120px 120px 120px;	
+	}
+
+	.div-text{
+		margin-top: 10px;		
 	}
 	.icono {
 		font-size: 6em;		
@@ -97,14 +101,14 @@
     <section>
 		
 		<div class="wrapper">
-			<a href="<?=base_url()?>"><div class="one"><i class="fas fa-home icono" title="Inicio"></i></div></a>
-			<a href=""><div class="two"><i class="fas fa-calendar-check icono" title="Turnos"></i></div></a>
-			<a href=""><div class="three"><i class="fas fa-user-md icono" title="Profesionales"></i></div></a>
-			<a href=""><div class="four"><i class="fas fa-user icono" title="Clientes"></i></div></a>
-			<a href=""><div class="five"><i class="fas fa-list-alt icono" title="Historial"></i></div></a>
-			<a href=""><div class="six"><i class="fas fa-credit-card icono" title="Pagos"></i></div></a>
-			<a href=""><div class="seven"><i class="fas fa-key icono" title="cambiar contraseña"></i></div></a>
-			<a href="<?=base_url('login/logout')?>"><div class="eigth"><i class="fas fa-power-off icono" title="Salir"></i></div></a>
+			<a href="<?=base_url()?>"><div class="one"><i class="fas fa-home icono" title="Inicio"></i><label class="div-text">Inicio</label></div></a>
+			<a href=""><div class="two"><i class="fas fa-calendar-alt icono" title="Turnos"></i><label class="div-text">Turnos</label></div></a>
+			<a href=""><div class="three"><i class="fas fa-user-md icono" title="Profesionales"></i><label class="div-text">Profesionales</label></div></a>
+			<a href=""><div class="four"><i class="fas fa-users icono" title="Clientes"></i><label class="div-text">Clientes</label></div></a>
+			<a href=""><div class="five"><i class="fas fa-notes-medical icono" title="Historial"></i><label class="div-text">Historial</label></div></a>
+			<a href=""><div class="six"><i class="fas fa-credit-card icono" title="Pagos"></i><label class="div-text">Pagos</label></div></a>
+			<a href=""><div class="seven"><i class="fas fa-key icono" title="cambiar contraseña"></i><label class="div-text">Cambiar contraseña</label></div></a>
+			<a href="<?=base_url('login/logout')?>"><div class="eigth"><i class="fas fa-power-off icono" title="Salir"></i><label class="div-text">Salir</label></div></a>
 		</div>
     </section>
     <footer>

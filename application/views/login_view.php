@@ -72,7 +72,7 @@
                 </div>                
                 <form class="col-12" action="<?=base_url()?>login/new_user" method="post">
                     <div class="form-group" id="user-group">                        
-                        <input type="text" class="form-control" placeholder="Nombre de usuario" name="username"/>
+                        <input type="text" class="form-control" placeholder="@Email" name="email"/>
                     </div>
                     <div class="form-group" id="contrasena-group">                        
                         <input type="password" class="form-control" placeholder="Contrasena" name="password"/>
@@ -80,17 +80,17 @@
                     <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i>  Ingresar </button>
                 </form>
                 <div class="col-12 forgot">
-                    <span class="no-count">¿No tienes una cuenta?</span><a href="<?=base_url('usuarios/registro_usuarios')?>"> Crea una</a>
+                    <span class="no-count">¿No tienes una cuenta?</span><a href="<?=base_url('usuarios/user_save')?>"> Crea una</a>
                 </div>
                 <div class="col-12 forgot">
                     <a href="<?=base_url()?>usuarios/forgot_password">Recordar contrasena?</a>
                 </div>
                 <?php
-                    if($this->session->flashdata('usuario_incorrecto'))
+                    if($this->session->flashdata('email_incorrecto'))
                     {?>
                         <div class="alert alert-danger" role="alert">
                     
-                            <?=$this->session->flashdata('usuario_incorrecto');?>
+                            <?=$this->session->flashdata('email_incorrecto');?>
                         </div>
                         
                     <?php } ?> 		       

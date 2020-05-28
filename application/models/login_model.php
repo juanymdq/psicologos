@@ -7,18 +7,18 @@ class Login_model extends CI_Model {
         parent::__construct();
      }
      
-     public function login_user($username,$password)
+     public function login_user($email,$password)
      {
-         $this->db->where('username',$username);
+         $this->db->where('email',$email);
          $this->db->where('password',$password);
          $query = $this->db->get('users')->row();
-         if($query)
+         if($query > 0)
          {
             $data = array(
                 'is_logued_in' => TRUE,
-                'id_usuario' => $query->id,
+                'id' => $query->id,
                 'perfil' => $query->perfil,
-                'username' => $query->username,
+                'email' => $query->email,
                 'nombre' => $query->nombre,
                 'apellido' => $query->apellido
              );
@@ -27,9 +27,12 @@ class Login_model extends CI_Model {
          }
          else
          {
-             $this->session->set_flashdata('usuario_incorrecto','Los datos introducidos son incorrectos');
+             $this->session->set_flashdata('email_incorrecto','Los datos introducidos son incorrectos');
              redirect(base_url().'login','refresh');
          }
      }
+
+
+     
 }
 ?>

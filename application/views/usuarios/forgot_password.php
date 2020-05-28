@@ -51,3 +51,30 @@
 	</div>	
   </body>
 </html>
+
+
+
+<?php
+
+//Todo------------------------------------------
+public function email() {
+	$CI = & get_instance();
+	$CI->load->helper('url');
+	$CI->load->library('session');
+	$CI->config->item('base_url');
+
+	$CI->load->library('email');
+
+	$subject = 'Bienvenido a mi app';
+
+	$msg = 'Mensaje de prueba';
+
+	$CI->email
+		->from('barackobama@gmail.com')
+		->to($email)
+		->subject($subject)
+		->message($msg)
+		->send();
+}
+
+?>

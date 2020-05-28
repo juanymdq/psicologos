@@ -12,101 +12,88 @@ class Usuarios extends CI_Controller
          $this->load->library(array('session','form_validation'));
          //llamo al helper url
          $this->load->helper(array('url','form'));
-         $this->load->database('default');
-    }
-    
-    //controlador por defecto
-    public function registro_usuarios()    
-    {        
-        //llamo al metodo ver
-        //$usuarios['ver']=$this->usuarios_model->ver();
-        //cargo la vista usuarios_view
-        $this->load->view('usuarios/registro_usuarios');
-    }
-
-    public function forgot_password()
-    {
-        $this->load->view('usuarios/forgot_password');
-    }
-    
-    //CONTROLADOR QUE AGREGA UN USUARIO
-    public function add()
-    {
-         //compruebo si se a enviado submit
-        //if($this->input->post("submit")){         
-            //llamo al metodo add
-        //ToDo VALIDATION RULES
-        $this->usuarios_model->add();
-
-        /*
-        $add=$this->usuarios_model->add(
-                $this->input->post("nombre"),
-                $this->input->post("apellido"),
-                $this->input->post("username"),
-                sha1($this->input->post("password")),
-                'cliente'
-                //$this->input->post("perfil")
-        );
-          */
-        //}
-/*
-        if($add==true){
-            //Sesion de una sola ejecución
-            $this->session->set_flashdata('correcto', 'Usuario a&ntilde;adido correctamente');
-        }else{
-            $this->session->set_flashdata('incorrecto', 'Usuario a&ntilde;adido correctamente');
-        }
-  */       
-        //redirecciono la pagina a la url por defecto
-        redirect(base_url().'login');
-    }
-       
-    //controlador para modificar al que 
-    //le paso por la url un parametro
-    public function mod($id){
-        if(is_numeric($id)){
-          $datos["mod"]=$this->usuarios_model->mod($id);
-          $datos['idmod'] = $id;
-          $this->load->view("usuarios/modificar_view",$datos);
-          if($this->input->post("submit")){
-                $mod=$this->usuarios_model->mod(
-                        $id,
-                        $this->input->post("submit"),
-                        $this->input->post("username"),
-                        sha1($this->input->post("password")),
-                        $this->input->post("nombre"),
-                        $this->input->post("apellido"),
-                        $this->input->post("perfil")
-                        );
-                if($mod==true){
-                    //Sesion de una sola ejecución
-                    $this->session->set_flashdata('correcto', 'Usuario modificado correctamente');
-                }else{
-                    $this->session->set_flashdata('incorrecto', 'Usuario modificado correctamente');
-                }
-                redirect(base_url().'usuarios');
-          }
-        }else{
-            redirect(base_url().'usuarios'); 
-        }
-    }
-     
-    //Controlador para eliminar
-    public function eliminar($id){
-        if(is_numeric($id)){
-          $eliminar=$this->usuarios_model->eliminar($id);
-          if($eliminar==true){
-              $this->session->set_flashdata('correcto', 'Usuario eliminado correctamente');
-          }else{
-              $this->session->set_flashdata('incorrecto', 'Usuario eliminado correctamente');
-          }
-          redirect(base_url().'usuarios');
-        }else{
-          redirect(base_url().'usuarios');
-        }
-    }
-    
-      
         
-    
+    }
+
+//--------------------------------------------------------------------
+    public function user_save($id = null) {
+
+        if ($this->input->server('REQUEST_METHOD') == "POST") {
+
+            $this->form_validation->set_rules('nombre', 'Nombre', 'required|min_length[1]|max_length[100]');
+            $this->form_validation->set_rules('apellido', 'Apellido', 'required|min_length[1]|max_length[100]');
+            $this->form_validation->set_rules('email', 'Email', 'required|min_length[1]|max_length[100]');
+
+            if ($this->form_validation->run()) {
+                // nuestro form es valido
+                if($id==null){
+                    $save = array(
+                        'perfil' => 'cliente',
+                        'email' => $this->input->post("email"),
+                        'password' => sha1($this->input->post("password")),
+                        'nombre' => $this->input->post("nombre"),
+                        'apellido' => $this->input->post("apellido"),
+                    );
+                }else{
+                    $save = array(
+                        'perfil' => 'cliente',
+                        'email' => $this->input->post("email"),                        
+                        'nombre' => $this->input->post("nombre"),
+                        'apellido' => $this->input->post("apellido"),
+                    );
+                }
+
+                if ($id == null)
+                    $id = $this->usuarios_model->insert($save);
+
+                else
+                    $this->usuarios_model->update($id, $save);
+            }
+
+            //agregamos los datos insertados a la session
+            $data = array('id' => $id,
+                'nombre' => $this->input->post("nombre"),
+                'apellido' => $this->input->post("apellido"),
+                'email' => $this->input->post("email"),
+                'password' => $this->input->post("password"),
+                'perfil' => 'cliente'
+            );
+
+            $this->session->set_userdata($data);
+            $this->load->view("clientes/cliente_home_view");
+
+        }else{
+
+            if ($id == null) {
+                // crear usuario
+                $data['nombre'] = "";
+                $data['apellido'] = "";
+                $data['email'] = "";
+                $data['pasword'] = "";
+                $data['registra'] = true;
+               
+            } else {
+                // edicion usuario
+                $usuarios = $this->usuarios_model->find($id);
+                $data['nombre'] = $usuarios->nombre;
+                $data['apellido'] = $usuarios->apellido;
+                $data['email'] = $usuarios->email;
+                //$data['password'] = $usuarios->password;
+                $data['registra'] = false;
+                
+            }
+
+            $this->load->view("usuarios/registro_usuarios", $data);
+        }
+
+        
+    }
+
+    public function user_delete($id = null) {
+        if ($id !== null) {
+            $this->usuarios_model->delete($id);
+            echo 1;
+        }
+    }
+   
 }
