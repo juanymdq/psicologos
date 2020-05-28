@@ -112,6 +112,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Usuarios_model extends CI_Model {
     public $table = "users";
+    public $table_token = 'tbl_tokens';
     public $table_id = "id";
 
     public function __construct() {
@@ -150,6 +151,17 @@ class Usuarios_model extends CI_Model {
     function insert($data) {
             $this->db->insert($this->table, $data);
             return $this->db->insert_id();
+    }
+
+    function insert_token($data) {
+        $this->db->insert($this->table_token, $data);
+        return $this->db->insert_id();
+    }
+
+    function obtener_token(){
+        $token = md5(uniqid(rand(),true));
+        $this->session->set_userdata('token',$token);
+        return $token;
     }
 }
 ?>

@@ -89,6 +89,46 @@ class Usuarios extends CI_Controller
         
     }
 
+    public function sendMail()
+    {
+        $email = $this->input->post("email");  
+        $token = $this->usuarios_model->obtener_token();
+        if ($this->input->server('REQUEST_METHOD') == "POST") {
+            //guarda el token en la bd para cotejarlo luego
+            $data = array('token' => $token, 'email' => $email);
+            $id = $this->usuarios_model->insert_token($data);
+
+            $config = Array(
+                'protocol'  => 'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_port' => '465',
+                'smtp_user' => 'juanymdq@gmail.com',
+                'smtp_pass' => 'kano0479',
+                'mailtype'  => 'html',
+                'starttls'  => true,
+                'newline'   => "\r\n"
+            );
+    
+            $this->load->library('email', $config);
+           
+            $this->email->from('ejemplo@mipagina', 'Juan Fernandez');
+            $this->email->to('jifernandez04@hotmail.com');
+            
+            $this->email->subject('Prueba de envio');
+            $this->email->message('Email: ' . $email . '- Token: ' .  $token);
+
+            if($this->email->send()){
+                return redirect(base_url('Welcome'));
+            }else{
+                $this->email->print_debugger();
+            }
+ 
+        
+        }else{
+            $this->load->view('usuarios/forgot_password');
+        }
+    }
+
     public function user_delete($id = null) {
         if ($id !== null) {
             $this->usuarios_model->delete($id);

@@ -76,7 +76,7 @@
 			<div class="form-header">
             <img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
 			</div>
-			<form action="<?=base_url('usuarios/sendMail')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
+			<form action="<?=base_url('usuarios/forgot_password')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
 				<div>
 					<input id="email" name="email" type="email" class="form-control" placeholder="Correo electrónico">  
 					<span class="help-block"></span>

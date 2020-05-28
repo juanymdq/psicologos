@@ -83,7 +83,7 @@
                     <span class="no-count">¿No tienes una cuenta?</span><a href="<?=base_url('usuarios/user_save')?>"> Crea una</a>
                 </div>
                 <div class="col-12 forgot">
-                    <a href="<?=base_url()?>usuarios/forgot_password">Recordar contrasena?</a>
+                    <a href="<?=base_url()?>usuarios/sendMail">Recordar contrasena?</a>
                 </div>
                 <?php
                     if($this->session->flashdata('email_incorrecto'))

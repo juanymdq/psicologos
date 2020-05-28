@@ -20,15 +20,6 @@
     <!-- Nuestro css -->
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/registerUser.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_css.css">
-
-	<script>
-		function func_volver_clientes() {			
-			window.location = <?=base_url('cliente');?>
-		}
-		function func_volver_login() {			
-			window.location = <?=base_url('login');?>
-		}
-	</script>
 	
     <style>
 		.logo {
@@ -86,10 +77,9 @@
 		<div class="login-form">			
 			<div class="form-header">
 				<img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
-				<!-- <i class="fa fa-user"></i> -->
+				
 			</div>
-			<?=form_open('', $attributes) ?>
-			<!-- <form method="post" action="<?=base_url('usuarios/add')?>" class="form-register" role="form" id="register-form"> -->
+			<?=form_open('', $attributes) ?>			
 				<div>	
 					<?php
 						$text_input = array(
