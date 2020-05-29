@@ -6,8 +6,9 @@ class Welcome extends CI_Controller {
 	public function __construct()
     {
          parent::__construct();         
-         $this->load->helper('url');
-         
+		 $this->load->helper('url');
+		 //cargo la libreria de sesiones
+         $this->load->library(array('session','form_validation'));
 	}
 	
 	public function index()

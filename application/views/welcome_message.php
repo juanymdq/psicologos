@@ -217,6 +217,9 @@
 				background-color: rgba(221, 72, 20, .7);
 				color: rgba(255, 255, 255, .8);
 			}
+			.error_message {
+				color: red;
+			}
 		}
 	</style>
 </head>
@@ -247,7 +250,14 @@
 			</li>		
 		</ul>
 	</div>
-
+	<div class="error_message">
+		<?php 
+			if($this->session->flashdata('mensaje')) {
+				echo $this->session->flashdata('mensaje');
+			}
+			
+		?>
+	</div>
 	<div class="heroe">
 		<img 
 			class="hImagen" 

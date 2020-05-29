@@ -77,10 +77,16 @@
             <img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
 			</div>
 			<form action="<?=base_url('usuarios/forgot_password')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
-				<div>
-					<input id="email" name="email" type="email" class="form-control" placeholder="Correo electrónico">  
-					<span class="help-block"></span>
-				</div>	
+					<input type="hidden" name="id" value=""/>
+					<div>
+						<input name="password" id="password" type="password" class="form-control" placeholder="Contraseña"> 
+						<span class="help-block"></span>
+					</div>
+					<div>
+						<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Contraseña"> 
+						<span class="help-block"></span>
+					</div>
+					<a href=""></a>
 				<div class="div-botones">			
 					<button class="btn bt-login" type="submit" id="submit_btn" data-loading-text="Enviando email....">Restablecer contraseña</button>
 					<div class="separator"></div>

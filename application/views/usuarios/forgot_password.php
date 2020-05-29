@@ -57,6 +57,11 @@
 		.separator {
 			margin: 5px;
 		}
+
+		.error_message {
+			color: red;
+			margin-bottom: 20px;
+		}
 	</style>
   </head>
   <body>
@@ -75,8 +80,13 @@
 		<div class="login-form">
 			<div class="form-header">
             <img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
-			</div>
+			</div>			
 			<form action="<?=base_url('usuarios/sendMail')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
+				<?php
+					if(isset($error_message)){
+						echo "<div class='error_message'>".$error_message."</div>";						
+					}
+				?>
 				<div>
 					<input id="email" name="email" type="email" class="form-control" placeholder="Correo electrónico">  
 					<span class="help-block"></span>
