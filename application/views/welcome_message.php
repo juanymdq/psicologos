@@ -217,9 +217,10 @@
 				background-color: rgba(221, 72, 20, .7);
 				color: rgba(255, 255, 255, .8);
 			}
-			.error_message {
-				color: red;
-			}
+		}
+		.aviso_message {
+			color: red;
+			text-align: center;
 		}
 	</style>
 </head>
@@ -242,7 +243,7 @@
 			<li class="menu-toggle">
 				<button onclick="toggleMenu();">&#9776;</button>
 			</li>
-			<li class="menu-item hidden"><a href="#">Inicio</a></li>
+			<li class="menu-item hidden"><a href="<?=$this->session->unset_userdata('aviso_message')?>">Inicio</a></li>	
 			<li class="menu-item hidden"><a href="<?=base_url()?>login">Acceder</a>
 			</li>			
 			<li class="menu-item hidden"><a
@@ -250,12 +251,11 @@
 			</li>		
 		</ul>
 	</div>
-	<div class="error_message">
+	<div class="div_message">		
 		<?php 
-			if($this->session->flashdata('mensaje')) {
-				echo $this->session->flashdata('mensaje');
-			}
-			
+			if($this->session->userdata('aviso_message')) {
+				echo "<p class='aviso_message'>".$this->session->userdata('aviso_message')."</p>";
+			}			
 		?>
 	</div>
 	<div class="heroe">
@@ -329,18 +329,10 @@
 <!-- FOOTER: DEBUG INFO + COPYRIGHTS -->
 
 <footer>
-	<div class="environment">
-
-		<p>Page rendered in {elapsed_time} seconds</p>
-
-		<p>Environment: <?= ENVIRONMENT ?></p>
-
-	</div>
-
+	
 	<div class="copyrights">
 
-		<p>&copy; <?= date('Y') ?> CodeIgniter Foundation. CodeIgniter is open source project released under the MIT
-			open source licence.</p>
+		<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
 
 	</div>
 

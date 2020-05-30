@@ -77,6 +77,10 @@
 		grid-row: 3;		
 		text-align: center;		
 	}
+	.aviso_message {
+			color: red;
+			text-align: center;
+		}
 </style>
 <body>
 
@@ -93,26 +97,30 @@
 				</div>
 			</li>	
 			<li class="item-user">Bienvenido</li>
-			<li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>
-				
+			<li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>							
 		</ul>
 	</div>
 </header>
     <section>
-		
+		<?php 	
+		if(isset($aviso_message))
+			echo "<p class='aviso_message'>".$aviso_message."</p>";						
+		?>
 		<div class="wrapper">
 			<a href="<?=base_url()?>"><div class="one"><i class="fas fa-home icono" title="Inicio"></i><label class="div-text">Inicio</label></div></a>
 			<a href=""><div class="two"><i class="fas fa-calendar-alt icono" title="Turnos"></i><label class="div-text">Turnos</label></div></a>
 			<a href=""><div class="three"><i class="fas fa-user-md icono" title="Profesionales"></i><label class="div-text">Profesionales</label></div></a>
-			<a href=""><div class="four"><i class="fas fa-users icono" title="Clientes"></i><label class="div-text">Clientes</label></div></a>
+			<a href="<?=base_url('usuarios/view_all_clients')?>"><div class="four"><i class="fas fa-users icono" title="Clientes"></i><label class="div-text">Clientes</label></div></a>
 			<a href=""><div class="five"><i class="fas fa-notes-medical icono" title="Historial"></i><label class="div-text">Historial</label></div></a>
 			<a href=""><div class="six"><i class="fas fa-credit-card icono" title="Pagos"></i><label class="div-text">Pagos</label></div></a>
-			<a href=""><div class="seven"><i class="fas fa-key icono" title="cambiar contraseña"></i><label class="div-text">Cambiar contraseña</label></div></a>
+			<a href="<?=base_url('usuarios/cambio_de_password')?>"><div class="seven"><i class="fas fa-key icono" title="cambiar contraseña"></i><label class="div-text">Cambiar contraseña</label></div></a>
 			<a href="<?=base_url('login/logout')?>"><div class="eigth"><i class="fas fa-power-off icono" title="Salir"></i><label class="div-text">Salir</label></div></a>
 		</div>
     </section>
-    <footer>
-
+    <footer>	
+		<div class="copyrights">
+			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+		</div>
     </footer>
 </body>
 </html>

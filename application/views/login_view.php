@@ -16,12 +16,13 @@
 
     <!-- Nuestro css-->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_css.css">
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/administracionStyle.css"/>
 
     <style>
         header .logo {
             float: left;			
             color: #ADAFAF;	
-            margin-top: -7em;	
+            margin-top: 1em;	
             margin-left: 2.5em;	
         }
         .textLogo {
@@ -48,6 +49,11 @@
         .no-count {
             color: #ADAFAF;
         }
+
+        .aviso_message {
+			color: lightblue;
+			text-align: center;
+		}
     </style>
 </head>
 <body>
@@ -64,38 +70,50 @@
             </a>
         </div>
     </header>
-    <div class="modal-dialog text-center">
-        <div class="col-sm-8 main-section">
-            <div class="modal-content">
-                <div class="col-12 user-img">                    
-                    <img src="<?=base_url()?>application/assets/img/user.png"/>
-                </div>                
-                <form class="col-12" action="<?=base_url()?>login/new_user" method="post">
-                    <div class="form-group" id="user-group">                        
-                        <input type="text" class="form-control" placeholder="@Email" name="email"/>
-                    </div>
-                    <div class="form-group" id="contrasena-group">                        
-                        <input type="password" class="form-control" placeholder="Contrasena" name="password"/>
-                    </div>                    
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i>  Ingresar </button>
-                </form>
-                <div class="col-12 forgot">
-                    <span class="no-count">¿No tienes una cuenta?</span><a href="<?=base_url('usuarios/user_save')?>"> Crea una</a>
-                </div>
-                <div class="col-12 forgot">
-                    <a href="<?=base_url()?>usuarios/sendMail">Recordar contrasena?</a>
-                </div>
-                <?php
-                    if($this->session->flashdata('email_incorrecto'))
-                    {?>
-                        <div class="alert alert-danger" role="alert">
-                    
-                            <?=$this->session->flashdata('email_incorrecto');?>
+    <section>
+        <div class="modal-dialog text-center">
+            <div class="col-sm-8 main-section">
+                <div class="modal-content">
+                    <div class="col-12 user-img">                    
+                        <img src="<?=base_url()?>application/assets/img/user.png"/>
+                    </div>                
+                    <form class="col-12" action="<?=base_url()?>login/new_user" method="post">                
+                        <?php
+                            if(isset($aviso_message)){
+                                echo "<p class='aviso_message'>".$aviso_message."</p>";                         
+                            }
+                        ?>
+                        <div class="form-group" id="user-group">                        
+                            <input type="text" class="form-control" placeholder="@Email" name="email"/>
                         </div>
+                        <div class="form-group" id="contrasena-group">                        
+                            <input type="password" class="form-control" placeholder="Password" name="password"/>
+                        </div>                    
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i>  Ingresar </button>
+                    </form>
+                    <div class="col-12 forgot">
+                        <span class="no-count">¿No tienes una cuenta?</span><a href="<?=base_url('usuarios/user_save')?>"> Crea una</a>
+                    </div>
+                    <div class="col-12 forgot">
+                        <a href="<?=base_url()?>usuarios/sendMail">Recordar contrasena?</a>
+                    </div>
+                    <?php
+                        if($this->session->flashdata('email_incorrecto'))
+                        {?>
+                            <div class="alert alert-danger" role="alert">
                         
-                    <?php } ?> 		       
+                                <?=$this->session->flashdata('email_incorrecto');?>
+                            </div>
+                            
+                        <?php } ?> 		       
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+    <footer>	
+		<div class="copyrights">
+			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+		</div>
+    </footer>
 </body>
 </html>

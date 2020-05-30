@@ -57,6 +57,11 @@
 		.separator {
 			margin: 5px;
 		}
+
+		.error_message {
+			color: red;
+			text-align: center;
+		}
 	</style>
   </head>
   <body>
@@ -76,15 +81,20 @@
 			<div class="form-header">
             <img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
 			</div>
-			<form action="<?=base_url('usuarios/forgot_password')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
-					<input type="hidden" name="id" value=""/>
+			<form action="<?=base_url('usuarios/cambio_de_password')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
+					<?php
+						if(isset($error_message)){
+							echo "<p class='error_message'>".$error_message."</p>";
+						}
+					?>
+					<input type="text" name="id_user" value="<?=$id_user?>"/>
 					<div>
-						<input name="password" id="password" type="password" class="form-control" placeholder="Contraseña"> 
-						<span class="help-block"></span>
+						<input name="password" id="password" type="password" class="form-control" placeholder="Password"> 
+						<span class="help-block"><?php echo form_error('password', '<div class="text-danger">', '</div>') ?></span> 
 					</div>
 					<div>
-						<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Contraseña"> 
-						<span class="help-block"></span>
+						<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Password"> 
+						<span class="help-block"><?php echo form_error('confirm_password', '<div class="text-danger">', '</div>') ?></span> 
 					</div>
 					<a href=""></a>
 				<div class="div-botones">			
@@ -95,5 +105,10 @@
 			</form>			
 		</div>
 	</div>	
+	<footer>	
+		<div class="copyrights">
+			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+		</div>
+    </footer>
   </body>
 </html>

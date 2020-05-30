@@ -21,11 +21,15 @@
 	
 	<!-- Nuestro css -->
 	<link href="<?=base_url()?>application/assets/css/registerUser.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/administracionStyle.css"/>
 	<style>
+		.login-form {
+			margin-bottom: 150px;
+		}
 		.logo {
             float: left;			
             color: #ADAFAF;	
-            margin-top: -1em;	
+            margin-top: 1em;	
             margin-left: 2.5em;	
         }
         .textLogo {
@@ -65,6 +69,7 @@
 	</style>
   </head>
   <body>
+	  <header>
   	<div class="logo">
 		<a href="<?=base_url()?>">
 		<div class="divLogo">
@@ -76,28 +81,36 @@
 		</div>            
 		</a>
 	</div>
-	<div class="container">		
-		<div class="login-form">
-			<div class="form-header">
-            <img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
-			</div>			
-			<form action="<?=base_url('usuarios/sendMail')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
-				<?php
-					if(isset($error_message)){
-						echo "<div class='error_message'>".$error_message."</div>";						
-					}
-				?>
-				<div>
-					<input id="email" name="email" type="email" class="form-control" placeholder="Correo electrónico">  
-					<span class="help-block"></span>
-				</div>	
-				<div class="div-botones">			
-					<button class="btn bt-login" type="submit" id="submit_btn" data-loading-text="Enviando email....">Restablecer contraseña</button>
-					<div class="separator"></div>
-					<button class="btn btn-warning" type="button" onclick="location.href='<?=base_url('login')?>'" >Cancelar</button>
-				</div>
-			</form>			
+	</header>
+	<section>
+		<div class="container">		
+			<div class="login-form">
+				<div class="form-header">
+				<img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
+				</div>			
+				<form action="<?=base_url('usuarios/sendMail')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
+					<?php
+						if(isset($error_message)){
+							echo "<div class='error_message'>".$error_message."</div>";						
+						}
+					?>
+					<div>
+						<input id="email" name="email" type="email" class="form-control" value="jifernandez04@hotmail.com" placeholder="Correo electrónico">  
+						<span class="help-block"></span>
+					</div>	
+					<div class="div-botones">			
+						<button class="btn bt-login" type="submit" id="submit_btn" data-loading-text="Enviando email....">Restablecer contraseña</button>
+						<div class="separator"></div>
+						<button class="btn btn-warning" type="button" onclick="location.href='<?=base_url('login')?>'" >Cancelar</button>
+					</div>
+				</form>			
+			</div>
 		</div>
-	</div>	
+	</section>
+	<footer>	
+		<div class="copyrights">
+			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+		</div>
+    </footer>	
   </body>
 </html>

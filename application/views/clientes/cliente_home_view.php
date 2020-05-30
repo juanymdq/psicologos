@@ -81,27 +81,26 @@
 <body>
 
 <!-- HEADER: MENU + HEROE SECTION -->
-<header>
-	<div class="menu">
-		<ul>
-			<li class="logo">
-				<div class="divLogo">
-					<img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" />
-				</div>
-				<div class="textLogo">
-					<p>Espacio de terapia online</p>
-				</div>
-			</li>	
-			<li class="item-user">Bienvenido</li>
-			<li><?=$this->session->userdata('id')?></li>
-			<li><?=$this->session->userdata('perfil')?></li>
-			<li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>
-				
-		</ul>
-	</div>
-</header>
-    <section>
-		
+	<header>
+		<div class="menu">
+			<ul>
+				<li class="logo">
+					<div class="divLogo">
+						<img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" />
+					</div>
+					<div class="textLogo">
+						<p>Espacio de terapia online</p>
+					</div>
+				</li>	
+				<li class="item-user">Bienvenido</li>
+				<li><?=$this->session->userdata('id')?></li>
+				<li><?=$this->session->userdata('perfil')?></li>
+				<li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>
+					
+			</ul>
+		</div>
+	</header>
+	<section>		
 		<div class="wrapper">
 			<a href="<?=base_url()?>"><div class="one"><i class="fas fa-home icono" title="Inicio"></i><label class="div-text">Inicio</label></div></a>
 			<a href="<?=base_url('usuarios/user_save/'.$this->session->userdata('id'))?>"><div class="two"><i class="fas fa-user-edit icono" title="Modificar datos"></i><label class="div-text">Modificar datos</label></div></a>			
@@ -112,8 +111,10 @@
 			<a href="<?=base_url('login/logout')?>"><div class="seven"><i class="fas fa-power-off icono" title="Salir"></i><label class="div-text">Salir</label></div></a>
 		</div>
     </section>
-    <footer>
-
+    <footer>	
+		<div class="copyrights">
+			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+		</div>
     </footer>
 </body>
 </html>

@@ -20,6 +20,7 @@
     <!-- Nuestro css -->
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/registerUser.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_css.css">
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/administracionStyle.css"/>
 	
     <style>
 		.logo {
@@ -28,6 +29,10 @@
             margin-top: -1em;	
             margin-left: 2.5em;	
         }
+
+		.login-form {
+			margin-bottom: 50px;;
+		}
         .textLogo {
             float: left;
             width: 380px;
@@ -57,9 +62,13 @@
 		.separator {
 			margin: 5px;
 		}
+
+		.error_message {
+			color: red;
+			text-align: center;
+		}
 	</style> 
-  </head>
-  <?php $attributes = array('class' => 'form-register', 'id' => 'register-form'); ?>
+  </head>  
   <body>		
 	<div class="logo">
 		<a href="<?=base_url()?>">
@@ -79,56 +88,34 @@
 				<img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
 				
 			</div>
-			<?=form_open('', $attributes) ?>			
-				<div>	
-					<?php
-						$text_input = array(
-							'name' => 'nombre',
-							'id' => 'nombre',
-							'value' => $nombre,
-							'class' => 'form-control',
-							'placeholder' => 'Nombre'
-						);
-						echo form_input($text_input);
-					?>								
-					<span class="help-block"><?php echo form_error('name', '<div class="text-error">', '</div>') ?></span>
+			<form action="<?=base_url('usuarios/user_save')?>" id="register-form" method="post"  class="form-register" role="form">										
+				<?php
+				if(isset($error_message)){
+					echo "<p class='error_message'>".$error_message."</p>";
+				}
+				?>
+				<div>				
+					<input value="<?=$nombre?>" name="nombre" id="nombre" type="text" class="form-control" placeholder="Nombre"> 
+					<span class="help-block"><?php echo form_error('nombre', '<div class="text-danger">', '</div>') ?></span> 
 				</div>
-				<div>
-					<?php
-						$text_input = array(
-							'name' => 'apellido',
-							'id' => 'apellido',
-							'value' => $apellido,
-							'class' => 'form-control',
-							'placeholder' => 'Apellido'
-						);
-						echo form_input($text_input);
-					?>					
-					<span class="help-block"><?php echo form_error('apellido', '<div class="text-error">', '</div>') ?></span>				
+				<div>				
+					<input value="<?=$apellido?>" name="apellido" id="apellido" type="text" class="form-control" placeholder="Apellido"> 
+					<span class="help-block"><?php echo form_error('apellido', '<div class="text-danger">', '</div>') ?></span> 
 				</div>
-				<div>
-					<?php
-						$text_input = array(
-							'name' => 'email',
-							'id' => 'email',
-							'value' => $email,
-							'class' => 'form-control',
-							'placeholder' => 'Email'
-						);
-						echo form_input($text_input);
-					?>					
-					<span class="help-block"><?php echo form_error('email', '<div class="text-error">', '</div>') ?></span>				
+				<div>				
+					<input value="<?=$email?>" name="email" id="email" type="text" class="form-control" placeholder="@Email"> 					
+					<span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span> 
 				</div>
 				<?php
 				if($registra){
 				?>
 					<div>
-						<input name="password" id="password" type="password" class="form-control" placeholder="Contraseña"> 
-						<span class="help-block"></span>
+						<input name="password" id="password" type="password" class="form-control" placeholder="Password"> 
+						<span class="help-block"><?php echo form_error('password', '<div class="text-danger">', '</div>') ?></span> 
 					</div>
 					<div>
-						<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Contraseña"> 
-						<span class="help-block"></span>
+						<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Password"> 
+						<span class="help-block"><?php echo form_error('confirm_password', '<div class="text-danger">', '</div>') ?></span> 
 					</div>
 					<div class="div-botones">
 						<button class="btn bt-login" type="submit" id="submit_btn" data-loading-text="Registrando....">Registrarse</button>
@@ -143,9 +130,14 @@
 						<!--<a href="" class="btn bt-login">Cancelar</a>-->
 					</div>
 				<?php }?>
-			<!-- </form> -->
-			<?=form_close()?>
+			</form>
+			
 		</div>
-	</div>	
+	</div>
+	<footer>	
+		<div class="copyrights">
+			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+		</div>
+    </footer>	
 </body>
 </html>
