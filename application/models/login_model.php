@@ -7,7 +7,7 @@ class Login_model extends CI_Model {
         parent::__construct();
      }
      
-     public function login_user($email,$password)
+     public function login_user($email,$password,$perfil)
      {
          $this->db->where('email',$email);
          $this->db->where('password',$password);
@@ -20,15 +20,28 @@ class Login_model extends CI_Model {
                 'perfil' => $query->perfil,
                 'email' => $query->email,
                 'nombre' => $query->nombre,
-                'apellido' => $query->apellido
+                'apellido' => $query->apellido,
+                'matricula' => $query->matricula,
+                'telefono' => $query->telefono
              );
             $this->session->set_userdata($data);  
             return $query;
          }
          else
          {
-             $this->session->set_flashdata('email_incorrecto','Los datos introducidos son incorrectos');
-             redirect(base_url().'login','refresh');
+            //$this->session->set_flashdata('email_incorrecto','Los datos introducidos son incorrectos');
+            $datos['error_message'] = "Los datos introducidos son incorrectos";
+            if($perfil == 'cliente'){
+                $this->load->view('clientes/clientes_login_view', $datos);
+                //redirect(base_url('cliente/acceso_clientes'),'refresh');
+            }elseif($perfil == 'profesional'){
+                $this->load->view('profesionales/profesionales_login_view', $datos);
+                //redirect(base_url('profesional/acceso_profesionales'),'refresh');
+            }elseif($perfil == 'administrador'){
+                $this->load->view('profesionales/profesionales_login_view', $datos);
+            }
+             
+             
          }
      }
 

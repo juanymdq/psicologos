@@ -7,8 +7,7 @@ class Usuarios extends CI_Controller
     {       
         parent::__construct();
          //llamo o incluyo el modelo
-         $this->load->model('usuarios_model');
-         
+         $this->load->model('usuarios_model');         
          //cargo la libreria de sesiones
          $this->load->library(array('session','form_validation'));
          //llamo al helper url
@@ -19,41 +18,64 @@ class Usuarios extends CI_Controller
 //--------------------------------------------------------------------
     public function user_save($id = null) {
 
+        $perfil = $this->input->post('perfil');
+
+        if($perfil == 'cliente'){
+            $matricula = null;
+            $telefono = null;
+            $vista = "clientes/cliente_home_view";
+            $vista_registro = "clientes/clientes_login_view";
+        }elseif($perfil == 'profesional'){
+            $matricula = $this->input->post("matricula");
+            $telefono = $this->input->post("telefono");
+            $vista = "profesionales/profesionales_home_view";
+            $vista_registro = "profesionales/profesionales_login_view";
+            $this->form_validation->set_rules('matricula', 'Matricula', 'required|numeric|min_length[1]|max_length[10]');            
+            $this->form_validation->set_rules('telefono', 'Telefono', 'required|numeric|min_length[1]|max_length[20]');            
+        }
+
         if ($this->input->server('REQUEST_METHOD') == "POST") {
 
             $this->form_validation->set_rules('nombre', 'Nombre', 'required|min_length[1]|max_length[100]');
             $this->form_validation->set_rules('apellido', 'Apellido', 'required|min_length[1]|max_length[100]');            
             $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+            $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[100]');
+            $this->form_validation->set_rules('confirm_password', 'Confirmar Password', 'required|min_length[6]|max_length[100]');              
             
-
             $datos = array(                             
+                'matricula' => $matricula,
                 'nombre' => $this->input->post("nombre"),
                 'apellido' => $this->input->post("apellido"),
+                'telefono' => $telefono,
                 'email' => $this->input->post("email"),
-                'password' => $this->input->post("password"),
-                'perfil' => 'cliente'
-            );  
-
+                //'password' => $this->input->post("password"),
+                'perfil' => $perfil
+            ); 
+            
             //verificacion de passwords iguales
             $pass = $this->input->post('password');
             $confirm_pass = $this->input->post('confirm_password');
             if(strcmp($pass,$confirm_pass)==0){
                 if ($this->form_validation->run()) {
                     // nuestro form es valido
-                    if($id==null){                    
+                    if($id==null){           
                         $save = array(
-                            'perfil' => 'cliente',
+                            'perfil' => $perfil,
                             'email' => $this->input->post("email"),
                             'password' => sha1($this->input->post("password")),
                             'nombre' => $this->input->post("nombre"),
                             'apellido' => $this->input->post("apellido"),
-                        );
+                            'matricula' => $matricula,
+                            'telefono' => $telefono,
+                        );                    
                     }else{
                         $save = array(
-                            'perfil' => 'cliente',
+                            'perfil' => $perfil,
                             'email' => $this->input->post("email"),                        
                             'nombre' => $this->input->post("nombre"),
                             'apellido' => $this->input->post("apellido"),
+                            'matricula' => $matricula,
+                            'telefono' => $telefono,
                         );
                     }
 
@@ -65,12 +87,12 @@ class Usuarios extends CI_Controller
                     //cargamos datos a la sesion de usuario junato al id
                     $datos['id'] = $id;
                     $this->session->set_userdata($datos);
-                    $this->load->view("clientes/cliente_home_view");
+                    $this->load->view($vista);
 
                 }else{ //VALIDATION ERRORS
                     //$datos['error_message'] = validation_errors();
                     $datos['registra'] = true;
-                    $this->load->view("usuarios/registro_usuarios", $datos);
+                    $this->load->view($vista_registro, $datos);
                 }
                
             }else{ //CONTRASEÑAS DISTINTAS
@@ -78,7 +100,7 @@ class Usuarios extends CI_Controller
                 //y confirmar_password
                 $datos['error_message'] ='Las contraseñas no coinciden';
                 $datos['registra'] = true;                           
-                $this->load->view("usuarios/registro_usuarios", $datos);
+                $this->load->view($vista_registro, $datos);
             }
         }else{ //SI NO SE REALIZO POST
 
@@ -88,6 +110,8 @@ class Usuarios extends CI_Controller
                 $data['apellido'] = "";
                 $data['email'] = "";
                 $data['pasword'] = "";
+                $data['matricula'] = "";
+                $data['telefono'] = "";
                 $data['registra'] = true;
                
             } else {
@@ -95,12 +119,14 @@ class Usuarios extends CI_Controller
                 $usuarios = $this->usuarios_model->find($id);
                 $data['nombre'] = $usuarios->nombre;
                 $data['apellido'] = $usuarios->apellido;
+                $data['matricula'] = $usuarios->matricula; 
+                $data['telefono'] = $usuarios->telefono; 
                 $data['email'] = $usuarios->email;                
                 $data['registra'] = false;
                 
             }
 
-            $this->load->view("usuarios/registro_usuarios", $data);
+            $this->load->view($vista_registro, $data);
         }
     }
 

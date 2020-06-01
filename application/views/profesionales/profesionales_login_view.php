@@ -40,22 +40,36 @@
    
 </header>
     <section>
-        <div class="title">Acceso a Clientes </div>
+        <div class="title">Acceso a Profesionales </div>
         <div class="login-page">
             <div class="form">
-                <form class="register-form" action="<?=base_url('usuarios/user_save')?>" method="post">	
+                <form style="display: <?php 
+                                        if(isset($registra)){                                            
+                                                echo 'block';
+                                        }else{
+                                            echo 'none';
+                                        }
+                                           
+                                           ?>;" class="register-form" action="<?=base_url('usuarios/user_save')?>" method="post">	
                     <?php
                     if(isset($error_message)){
                         echo "<p class='error_message'>".$error_message."</p>";
                     }
                     ?>
-                    <input name="nombre" id="nombre" type="text" placeholder="Nombre"> 
+                    <input name="perfil" type="hidden" value="profesional"/>
+                    <input value="<?=(isset($matricula)) ? $matricula : ""?>" name="matricula" id="matricula" type="text" placeholder="Matricula">
+                    <span class="help-block"><?php echo form_error('matricula', '<div class="text-danger">', '</div>') ?></span> 
+
+                    <input value="<?=(isset($nombre)) ? $nombre : ""?>" name="nombre" id="nombre" type="text" placeholder="Nombre">                     
                     <span class="help-block"><?php echo form_error('nombre', '<div class="text-danger">', '</div>') ?></span> 
                                     
-                    <input name="apellido" id="apellido" type="text" placeholder="Apellido"> 
+                    <input value="<?=(isset($apellido)) ? $apellido : ""?>" name="apellido" id="apellido" type="text" placeholder="Apellido"> 
                     <span class="help-block"><?php echo form_error('apellido', '<div class="text-danger">', '</div>') ?></span> 
+
+                    <input value="<?=(isset($telefono)) ? $telefono : ""?>" name="telefono" id="telefono" type="text" placeholder="Teléfono"> 
+                    <span class="help-block"><?php echo form_error('telefono', '<div class="text-danger">', '</div>') ?></span> 
                                     
-                    <input name="email" id="email" type="text" placeholder="@Email"> 					
+                    <input value="<?=(isset($email)) ? $email : ""?>" name="email" id="email" type="text" placeholder="@Email"> 					
                     <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span> 
                     
                     <input name="password" id="password" type="password" class="form-control" placeholder="Password"> 
@@ -67,12 +81,20 @@
                     <button type="submit">Registrarse</button>
                     <p class="message">¿Ya tienes cuenta? <a href="#">Sign In</a></p>
                 </form>
-                <form class="login-form" action="<?=base_url('login/new_user')?>" method="post">                
-                    <?php
-                        if(isset($aviso_message)){
-                            echo "<p class='aviso_message'>".$aviso_message."</p>";                         
+                <form style="display: <?php 
+                                        if(isset($registra)){                                            
+                                                echo 'none';
+                                        }else{
+                                            echo 'block';
+                                        }
+                                           
+                                           ?>;" class="login-form" action="<?=base_url('login/new_user')?>" method="post">                
+                   <?php
+                        if(isset($error_message)){
+                            echo "<p class='error_message'>".$error_message."</p>";                         
                         }
                     ?>
+                    <input name="perfil" type="hidden" value="profesional"/>
                     <input type="text" placeholder="@Email" name="email"/>
                     <input type="password" placeholder="Password" name="password"/>                                        
                     <button type="submit">Ingresar </button>

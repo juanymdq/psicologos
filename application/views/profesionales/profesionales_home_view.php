@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Profesionales</title>
 	<meta name="description" content="The small framework with powerful features">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
@@ -18,86 +18,14 @@
     <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
 
 	<link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/administracionStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
 </head>
-<style>
-	html {
-			min-height: 100%;
-			position: relative;
-		}
-		body {
-		margin: 0;
-		margin-bottom: 40px;
-		}
-		footer {
-		background-color: black;
-		position: absolute;
-		bottom: 0;
-		width: 100%;
-		height: 40px;
-		color: white;
-		}
-	.wrapper {
-		width: 700px;
-		margin-left: 30px;
-		display: grid;
-		grid-gap: 4rem 20em;
-		grid-template-columns: 120px 120px 120px;
-		grid-template-rows: 120px 120px 120px;	
-	}
 
-	.div-text{
-		margin-top: 10px;		
-	}
-	.icono {
-		font-size: 6em;		
-	}
-	.one {
-		grid-column: 1;
-		grid-row: 1;					
-		text-align: center;
-	}
-	.two { 
-		grid-column: 2;
-		grid-row: 1;		
-		text-align: center;			
-	}
-	.three {
-		grid-column: 3;
-		grid-row: 1;
-		text-align: center;		
-	}
-	.four {
-		grid-column: 1;
-		grid-row: 2;
-		text-align: center;
-	}
-	.five {
-		grid-column: 2;
-		grid-row: 2;		
-		text-align: center;
-		
-	}
-	.six {
-		grid-column: 3;
-		grid-row: 2;		
-		text-align: center;
-	}
-	.seven {
-		grid-column: 1;
-		grid-row: 3;		
-		text-align: center;
-	}
-	.eigth {
-		grid-column: 2;
-		grid-row: 3;		
-		text-align: center;		
-	}
-</style>
 <body>
 
 <!-- HEADER: MENU + HEROE SECTION -->
 	<header>
+		<p>PROFESIONALES</p>
 		<div class="menu">
 			<ul>
 				<li class="logo">
@@ -114,7 +42,7 @@
 				<li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>
 					
 			</ul>
-		</div>
+		</div>		
 	</header>
 	<section>		
 		<div class="wrapper">

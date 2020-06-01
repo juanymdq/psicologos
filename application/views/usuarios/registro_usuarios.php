@@ -23,46 +23,6 @@
 	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/administracionStyle.css"/>
 	
     <style>
-		.logo {
-            float: left;			
-            color: #ADAFAF;	
-            margin-top: -1em;	
-            margin-left: 2.5em;	
-        }
-
-		.login-form {
-			margin-bottom: 50px;;
-		}
-        .textLogo {
-            float: left;
-            width: 380px;
-            margin-left: 1em;
-            margin-top: 1em;			
-        }
-
-        .textLogo p {			
-            font-size: 30px;
-        }
-
-        .divLogo {
-            float: left;
-            margin-top: 5px
-        }
-
-        .imgLogo {
-            width: 100px;
-            height: 60px;
-		}
-
-		.div-botones {
-			display: flex;
- 			justify-content: center;
-		}
-
-		.separator {
-			margin: 5px;
-		}
-
 		.error_message {
 			color: red;
 			text-align: center;
@@ -135,9 +95,18 @@
 		</div>
 	</div>
 	<footer>	
-		<div class="copyrights">
-			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+	<div class="copyrights">
+		<div class="container_footer">
+			<div class="col_full">
+				<div class="copyrights-menu">
+					<a href="/">Inicio</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/acerca-de/">Acerca de</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="<?=base_url('Welcome/privacidad')?>">Política de Privacidad</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/ayuda/">Ayuda</a>
+				</div>
+				<div class="copyrights-text">
+				Copyrights &copy; <?= date('Y') ?> Todos los derechos reservados.
+				</div>
+			</div>
 		</div>
+	</div>
     </footer>	
 </body>
 </html>

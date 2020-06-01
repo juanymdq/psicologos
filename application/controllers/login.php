@@ -21,16 +21,17 @@ class Login extends CI_Controller {
                  break;
              case 'administrador':
                  //$token['token'] = $this->token();                 
-                 redirect(base_url().'administrador');                 
+                 redirect(base_url('administrador'));                 
                  break;
             case 'cliente':
                 //$data['token'] = $this->token();
                 //ToDo Cliente redirect
-                redirect(base_url().'cliente');
+                redirect(base_url('cliente/home_clientes'));
                 break;
             case 'profesional':
                 //$data['token'] = $this->token();
-                //ToDo Profesional redirect               
+                redirect(base_url('profesional/home_profesionales'));
+                break;              
                 break;               
              default:                 
                  $this->load->view('login_view');
@@ -54,8 +55,9 @@ class Login extends CI_Controller {
          else
          {
             $email = $this->input->post('email');
-            $password = sha1($this->input->post('password'));           
-            $check_user = $this->login_model->login_user($email,$password);
+            $password = sha1($this->input->post('password'));      
+            $perfil = $this->input->post('perfil');
+            $check_user = $this->login_model->login_user($email,$password,$perfil);
             if($check_user == TRUE)
             {               
                 $this->index();

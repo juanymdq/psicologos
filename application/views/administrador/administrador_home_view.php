@@ -18,7 +18,8 @@
     <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
 
 	<link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/administracionStyle.css"/>
+	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
+	
 </head>
 <style>
 	.wrapper {

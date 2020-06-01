@@ -1,7 +1,7 @@
 <?php 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Cliente extends CI_Controller {
+class Profesional extends CI_Controller {
 
     public function __construct()
     {
@@ -11,15 +11,16 @@ class Cliente extends CI_Controller {
          $this->load->database('default');        
     }
 
-    public function acceso_clientes()
+    public function acceso_profesionales()
     { 
-        $this->load->view('clientes/clientes_login_view');
+        $this->load->view('profesionales/profesionales_login_view');
        
     }
 
-    public function home_clientes()
+    public function home_profesionales()
     { 
-        $this->load->view('clientes/cliente_home_view');
+        $this->load->view('profesionales/profesionales_home_view');
        
     }
+
 }

@@ -39,6 +39,9 @@
 		height: 40px;
 		color: white;
 		}
+		.login-form {
+			margin-bottom: 150px;
+		}
 		.logo {
             float: left;			
             color: #ADAFAF;	
@@ -77,59 +80,41 @@
 
 		.error_message {
 			color: red;
-			text-align: center;
+			margin-bottom: 20px;
 		}
 	</style>
   </head>
   <body>
 	  <header>
-		<div class="logo">
-			<a href="<?=base_url()?>">
-			<div class="divLogo">
-				<img 
-					src="<?=base_url()?>application/assets/img/divan.png" 
-					class="imgLogo"
-					title="Inicio"    
-				/>
-			</div>            
-			</a>
-		</div>
+  	<div class="logo">
+		<a href="<?=base_url()?>">
+		<div class="divLogo">
+			<img 
+				src="<?=base_url()?>application/assets/img/divan.png" 
+				class="imgLogo"
+				title="Inicio"    
+			/>
+		</div>            
+		</a>
+	</div>
 	</header>
 	<section>
 		<div class="container">		
-			<div class="login-form">
-				<div class="form-header">
-				<img src="<?=base_url()?>application/assets/img/user.png" width="70px" height="70px" />
-				</div>
-				<form action="<?=base_url('usuarios/cambio_de_password')?>" id="forgetpassword-form" method="post"  class="form-register" role="form">
-						<?php
-							if(isset($error_message)){
-								echo "<p class='error_message'>".$error_message."</p>";
-							}
-						?>
-						<input type="hidden" name="id_user" value="<?=$id_user?>"/>
-						<div>
-							<input name="password" id="password" type="password" class="form-control" placeholder="Password"> 
-							<span class="help-block"><?php echo form_error('password', '<div class="text-danger">', '</div>') ?></span> 
-						</div>
-						<div>
-							<input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Confirmar Password"> 
-							<span class="help-block"><?php echo form_error('confirm_password', '<div class="text-danger">', '</div>') ?></span> 
-						</div>
-						<a href=""></a>
-					<div class="div-botones">			
-						<button class="btn bt-login" type="submit" id="submit_btn" data-loading-text="Enviando email....">Restablecer contraseña</button>
-						<div class="separator"></div>
-						<button class="btn btn-warning" type="button" onclick="location.href='<?=base_url('login')?>'" >Cancelar</button>
-					</div>
-				</form>			
-			</div>
-		</div>	
+            <?php require_once('config.php'); ?>
+            <form action="charge.php" method="post">
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="<?php echo $stripe['publishable_key']; ?>"
+                    data-description="Envia un donativo simbolico de 1€"
+                    data-amount="100"
+                    data-currency="eur"
+                    data-locale="es"></script>
+            </form>
+		</div>
 	</section>
 	<footer>	
 		<div class="copyrights">
 			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
 		</div>
-    </footer>
+    </footer>	
   </body>
 </html>
