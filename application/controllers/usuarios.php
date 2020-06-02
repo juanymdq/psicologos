@@ -20,6 +20,30 @@ class Usuarios extends CI_Controller
 
         $perfil = $this->input->post('perfil');
 
+        switch($perfil){
+            case 'administrador':
+                $matricula = null;
+                $telefono = null;
+                $vista = "administrador/administrador_home_view";
+                $vista_registro = "clientes/clientes_login_view";
+            break;
+            case 'cliente':
+                $matricula = null;
+                $telefono = null;
+                $vista = "clientes/cliente_home_view";
+                $vista_registro = "clientes/clientes_login_view";
+            break;
+            case 'profesional':
+                $matricula = $this->input->post("matricula");
+                $telefono = $this->input->post("telefono");
+                $vista = "profesionales/profesionales_home_view";
+                $vista_registro = "profesionales/profesionales_login_view";
+                $this->form_validation->set_rules('matricula', 'Matricula', 'required|numeric|min_length[1]|max_length[10]');            
+                $this->form_validation->set_rules('telefono', 'Telefono', 'required|numeric|min_length[1]|max_length[20]');            
+            break;
+        }
+/*
+
         if($perfil == 'cliente'){
             $matricula = null;
             $telefono = null;
@@ -33,7 +57,7 @@ class Usuarios extends CI_Controller
             $this->form_validation->set_rules('matricula', 'Matricula', 'required|numeric|min_length[1]|max_length[10]');            
             $this->form_validation->set_rules('telefono', 'Telefono', 'required|numeric|min_length[1]|max_length[20]');            
         }
-
+*/
         if ($this->input->server('REQUEST_METHOD') == "POST") {
 
             $this->form_validation->set_rules('nombre', 'Nombre', 'required|min_length[1]|max_length[100]');

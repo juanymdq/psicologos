@@ -9,12 +9,16 @@
     
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_nuevo.css"/>
+    <style>
+
+        
+    </style>
 </head>
 <body>
     <header>
         <div class="menu">
 		<ul>
-			<li class="menu-item hidden"><a href="<?=base_url('profesional')?>">INICIAR SESIÓN PSICÓLOGOS</a></li>
+			<li class="menu-item hidden"><a href="<?=base_url('profesional/acceso_profesionales')?>">INICIAR SESIÓN PSICÓLOGOS</a></li>
 		</ul>
 		<ul>
 			<li class="logo">
@@ -30,19 +34,18 @@
 				<button onclick="toggleMenu();">&#9776;</button>
 			</li>
 			<li class="menu-item hidden"><a href="<?=base_url('Welcome')?>">INICIO</a></li>	
-			<li class="menu-item hidden"><a href="<?=base_url()?>login">ACCESO CLIENTES</a>
+			<li class="menu-item hidden"><a href="<?=base_url('cliente/acceso_clientes')?>">ACCESO CLIENTES</a>
 			</li>			
 			<li class="menu-item hidden"><a
 					href="">NOSOTROS</a>
 			</li>				
 		</ul>
-	</div>
-   
-</header>
+	</div>   
+    </header>
     <section>
         <div class="title">Acceso a Profesionales </div>
-        <div class="login-page">
-            <div class="form">
+        <div class="login-page">            
+            <div class="form">            
                 <form style="display: <?php 
                                         if(isset($registra)){                                            
                                                 echo 'block';
@@ -51,6 +54,14 @@
                                         }
                                            
                                            ?>;" class="register-form" action="<?=base_url('usuarios/user_save')?>" method="post">	
+                    <div class="encabezado">
+                        <div class=enc-titulo>
+                            Registro de Profesionales
+                        </div>
+                        <div class="enc-cuerpo">
+                            Deberías completar este formulario si estás interesado en formar parte del equipo de colaboradores de TerapiaVirtual.
+                        </div>
+                    </div>
                     <?php
                     if(isset($error_message)){
                         echo "<p class='error_message'>".$error_message."</p>";

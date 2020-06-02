@@ -14,7 +14,7 @@
     <header>
         <div class="menu">
 		<ul>
-			<li class="menu-item hidden"><a href="<?=base_url('profesional')?>">INICIAR SESIÓN PSICÓLOGOS</a></li>
+			<li class="menu-item hidden"><a href="<?=base_url('profesional/acceso_profesionales')?>">INICIAR SESIÓN PSICÓLOGOS</a></li>
 		</ul>
 		<ul>
 			<li class="logo">
@@ -30,7 +30,7 @@
 				<button onclick="toggleMenu();">&#9776;</button>
 			</li>
 			<li class="menu-item hidden"><a href="<?=base_url('Welcome')?>">INICIO</a></li>	
-			<li class="menu-item hidden"><a href="<?=base_url()?>login">ACCESO CLIENTES</a>
+			<li class="menu-item hidden"><a href="<?=base_url('cliente/acceso_clientes')?>">ACCESO CLIENTES</a>
 			</li>			
 			<li class="menu-item hidden"><a
 					href="">NOSOTROS</a>

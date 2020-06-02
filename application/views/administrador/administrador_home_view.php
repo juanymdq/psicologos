@@ -22,13 +22,18 @@
 	
 </head>
 <style>
+
+	body {
+		margin: 0;
+		margin-bottom: 40px;
+		}
 	.wrapper {
-		width: 700px;
+		width: 100%;
 		margin-left: 30px;
 		display: grid;
 		grid-gap: 4rem 20em;
 		grid-template-columns: 120px 120px 120px;
-		grid-template-rows: 120px 120px 120px;	
+		grid-template-rows: 110px 110px 10px;		
 	}
 
 	.div-text{
@@ -102,7 +107,7 @@
 		</ul>
 	</div>
 </header>
-    <section>
+    <section>		
 		<?php 	
 		if(isset($aviso_message))
 			echo "<p class='aviso_message'>".$aviso_message."</p>";						
@@ -117,10 +122,20 @@
 			<a href="<?=base_url('usuarios/cambio_de_password')?>"><div class="seven"><i class="fas fa-key icono" title="cambiar contraseña"></i><label class="div-text">Cambiar contraseña</label></div></a>
 			<a href="<?=base_url('login/logout')?>"><div class="eigth"><i class="fas fa-power-off icono" title="Salir"></i><label class="div-text">Salir</label></div></a>
 		</div>
+		
     </section>
     <footer>	
 		<div class="copyrights">
-			<p>&copy; <?= date('Y') ?> Desarrolado por J.I.F</p>
+			<div class="container_footer">
+				<div class="col_full">
+					<div class="copyrights-menu">
+						<a href="/">Inicio</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/acerca-de/">Acerca de</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="<?=base_url('Welcome/privacidad')?>">Política de Privacidad</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/ayuda/">Ayuda</a>
+					</div>
+					<div class="copyrights-text">
+					Copyrights &copy; <?= date('Y') ?> Todos los derechos reservados.
+					</div>
+				</div>
+			</div>
 		</div>
     </footer>
 </body>

@@ -265,4 +265,16 @@ footer {
     font-size: 13px;
 }
 
-/*----------ESTILOS DE TAB DE INICIO SESION*/
+/*----------ESTILO DE TITULOS DE REGISTRO PROFESIONALES*/
+.encabezado{            
+    margin-bottom: 15px;          
+}
+.enc-titulo {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.enc-cuerpo {
+    font-size: 12px;
+    text-align: left;
+}
