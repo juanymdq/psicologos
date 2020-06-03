@@ -22,7 +22,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container">          
         <div class="row">
             <div class="col"></div>
             <div class="col-7"><div id="CalendarioWeb"></div></div>
@@ -46,44 +46,30 @@
                         }
                     }
                 },
-                dayClick: function(date, jsEvent, view){
-                   // alert("Valos seleccionado: " + date.format());
-                   // alert("Vista actual: " + view.name);
-                    $(this).css('background-color','red');
-                    $('#exampleModal').modal();
+                dayClick: function(date, jsEvent, view){    
+
+                    $('#txtFecha').val(date.format());
+                    $('#ModalEventos').modal();
                 },
-                eventSources:[{
-                    events: [
-                    {
-                        id:1,
-                        title: 'Evento 1, llegamos a 800 suscriptores',
-                        descripcion: "Hermoso calendario",
-                        start: '2020-06-20',
-                        color: "#FF0F0",
-                        textColor: "#FFFFFF"
-                    },
-                    {
-                        title: 'Evento 2, llegamos a 803 suscriptores',
-                        descripcion: "No se si cumplire con el soft",
-                        start: '2020-06-12',
-                        end: '2020-06-14'
-                    },
-                    {
-                        title: 'Evento 3, saludos Dev',
-                        descripcion: "Preguuntar por hostinger",
-                        start: '2020-06-05T11:30:00',
-                        allDay: false,
-                        color: "#FFF000",
-                        textColor: "#000000"
-                    }
-                ],
-                color: "black",
-                textColor: "yellow"
-                }],
+
+                events: <?=$eventos?>,                
+
                 eventClick:function(callEvent,jsEvent,view){
+
+                    //H2
                     $('#tituloEvento').html(callEvent.title);
-                    $('#descripcionEvento').html(callEvent.descripcion);
-                    $('#exampleModal').modal();
+                    //Mostrar la informaciond el evento en los inputs
+                    $('#txtDescripcion').val(callEvent.descripcion);
+                    $('#txtID').val(callEvent.id);
+                    $('#txtTitulo').val(callEvent.title);
+                    $('#txtcolor').val(callEvent.color);
+
+                    FechaHora = callEvent.start._i.split(" ");
+                    $('#txtFecha').val(FechaHora[0]);
+                    $('#txtHora').val(FechaHora[1]);
+
+
+                    $('#ModalEventos').modal();
                 }
                
             });
@@ -91,15 +77,8 @@
 
     </script>
 
-    <!-- Modal -->
-    
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <a href="<?=base_url('calendar/find_all_eventos')?>">Buscar Eventos</a>
-        <?php
-            if(isset($datos_calendar)){
-                echo "<p>".$datos_calendar."</p>";
-            }
-        ?>
+    <!-- Modal PARA AGREGAR MODIFICAR Y ELIMINAR-->
+    <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
@@ -108,12 +87,18 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div id="descripcionEvento"></div>
+            <div class="modal-body">                
+                id: <input type="text" id="txtID" name="txtID"/><br/>
+                Fecha: <input type="text" id="txtFecha" name="txtFecha"/><br/>
+                Título: <input type="text" id="txtTitulo"/><br/>
+                Hora: <input type="text" id="txtHora" value="10:30"/><br/>
+                Descripción: <textarea id="txtDescripcion" rows="3"></textarea><br/>
+                Color: <input type="color" id="txtColor" value="#ff0000"/><br/>
+
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-success">Agregar</button>
+                <button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
                 <button type="button" class="btn btn-success">Modificar</button>
                 <button type="button" class="btn btn-danger">Borrar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -123,5 +108,45 @@
             </div>
         </div>
     </div>
+    <script>
+        var NuevoEvento;
+        $('#btnAgregar').click(function(){ 
+            RecolectarDatosGUI();
+            EnviarInformacion('agregar', NuevoEvento);
+            
+        });
+
+        function RecolectarDatosGUI() {
+            NuevoEvento = {
+                accion: 'agregar',                
+                id: $('#txtID').val(),
+                title: $('#txtTitulo').val(),
+                start: $('#txtFecha').val()+ " " +$('#txtHora').val(),
+                color: $('#txtColor').val(),
+                descripcion: $('#txtDescripcion').val(),
+                textColor: '#FFFFFF',
+                end: $('#txtFecha').val()+ " " +$('#txtHora').val(),
+            };
+        }
+
+        function EnviarInformacion(accion, objEvento) {
+            var url = '<?=base_url()?>calendar/accion?accion='+accion;
+            $.ajax({
+                type:'post',
+                url: url,
+                data: objEvento,                            
+                success: function(response) {            
+
+                    console.log(response);
+                    $('#CalendarioWeb').fullCalendar('refetchEvents');
+                    $('#ModalEventos').modal('toggle');                    
+                },
+                error: function(){
+                    alert("Hay un error...");
+                }
+            });
+        }
+
+    </script>
 </body>
 </html>

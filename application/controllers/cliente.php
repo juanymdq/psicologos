@@ -22,8 +22,5 @@ class Cliente extends CI_Controller {
         $this->load->view('clientes/cliente_home_view');
        
     }
-
-    public function calendar () {
-        $this->load->view('calendar/calendar_view');
-    }
+  
 }
