@@ -17,8 +17,11 @@ class Calendar extends CI_Controller {
     }
 
     public function find_all_eventos() {
-        $datos['eventos'] = $this->calendar_model->findAll();
-        $this->load->view('calendar/calendar_view', $datos);
+        if(isset($_GET['user'])){
+            $id = $_GET['user'];
+            $datos['eventos'] = $this->calendar_model->find_by_user($id);
+            $this->load->view('calendar/calendar_view', $datos);
+        }
     }
 
     public function accion() {
@@ -28,6 +31,7 @@ class Calendar extends CI_Controller {
         switch($accion){
             case 'agregar':
                 $data = array(
+                    'id_user' => $this->input->post('idUser'),
                     'title' => $this->input->post('title'),
                     'descripcion' => $this->input->post('descripcion'),
                     'color' => $this->input->post('color'),
@@ -35,15 +39,27 @@ class Calendar extends CI_Controller {
                     'start' => $this->input->post('start'),
                     'end' => $this->input->post('end')
                 );
-                $this->calendar_model->insert($data);                
+                $this->calendar_model->insert($data);               
                 break;
             case 'eliminar':
-                echo "Instruccion eliminar";
+                if($this->input->post('id') != null){
+                    $id = $this->input->post('id');
+                    $this->calendar_model->delete($id);
+                }
                 break;
             case 'modificar':
-                echo "Instruccion modificar";
+                $id = $this->input->post('id');
+                $data = array(
+                    //'id_user' => $this->input->post('idUser'),                  
+                    'title' => $this->input->post('title'),
+                    'descripcion' => $this->input->post('descripcion'),
+                    'color' => $this->input->post('color'),
+                    'textColor' => $this->input->post('textColor'),
+                    'start' => $this->input->post('start'),
+                    'end' => $this->input->post('end')
+                );
+                $this->calendar_model->update($id, $data);
                 break;
-
             default:
                 $datos['eventos'] = $this->calendar_model->findAll();
                 $this->load->view('calendar/calendar_view', $datos);

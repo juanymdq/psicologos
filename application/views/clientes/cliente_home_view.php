@@ -22,11 +22,28 @@
 </head>
 <style>
 
-		body {
+	body {
 		margin: 0;
 		margin-bottom: 40px;
-		}
+	}
+
 	
+	.imgLogo {
+		margin-bottom: 3px;
+		width: 70px;
+		height: 50px;
+	}
+
+	.textLogo {
+		text-align: left;
+		width: 250px;
+		margin-top: 0.4em;
+		margin-left: 1em;
+	}
+	.datos-usuario {
+		margin-top: 1em; 
+	}
+
 	.wrapper {
 		width: 700px;
 		margin-left: 30px;
@@ -88,21 +105,21 @@
 
 <!-- HEADER: MENU + HEROE SECTION -->
 	<header>
-		<div class="menu">
+	<div class="menu">
 			<ul>
 				<li class="logo">
 					<div class="divLogo">
-						<img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" />
+						<a href="<?=base_url('cliente/home_clientes')?>"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></a>
 					</div>
 					<div class="textLogo">
-						<p>Espacio de terapia online</p>
+						<p>TerapiaVirtual</p>
 					</div>
-				</li>	
-				<li class="item-user">Bienvenido</li>
-				<li><?=$this->session->userdata('id')?></li>
-				<li><?=$this->session->userdata('perfil')?></li>
-				<li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>
-					
+                </li>
+                <div class="datos-usuario">
+					<li class="item-user">Bienvenido</li>                    
+					<li class="item-user"><?php echo $this->session->userdata('id')?></li>
+                    <li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>
+                </div>
 			</ul>
 		</div>
 	</header>
@@ -110,7 +127,7 @@
 		<div class="wrapper">
 			<a href="<?=base_url()?>"><div class="one"><i class="fas fa-home icono" title="Inicio"></i><label class="div-text">Inicio</label></div></a>
 			<a href="<?=base_url('usuarios/user_save/'.$this->session->userdata('id'))?>"><div class="two"><i class="fas fa-user-edit icono" title="Modificar datos"></i><label class="div-text">Modificar datos</label></div></a>			
-			<a href="<?=base_url('calendar/find_all_eventos')?>"><div class="three"><i class="fas fa-calendar-alt icono" title="Turnos"></i><label class="div-text">Turnos</label></div></a>			
+			<a href="<?=base_url('calendar/find_all_eventos?user='.$this->session->userdata('id'))?>"><div class="three"><i class="fas fa-calendar-alt icono" title="Turnos"></i><label class="div-text">Turnos</label></div></a>			
 			<a href=""><div class="four"><i class="fas fa-notes-medical icono" title="Historial"></i><label class="div-text">Historial</label></div></a>
 			<a href=""><div class="five"><i class="fas fa-credit-card icono" title="Pagos"></i><label class="div-text">Pagos</label></div></a>
 			<a href=""><div class="six"><i class="fas fa-key icono" title="cambiar contraseña"></i><label class="div-text">Cambiar contraseña</label></div></a>
