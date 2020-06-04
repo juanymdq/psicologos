@@ -16,31 +16,25 @@
 </head>
 <body>
     <header>
-        <div class="menu">
-		<ul>
-			<li class="menu-item hidden"><a href="<?=base_url('profesional/acceso_profesionales')?>">INICIAR SESIÓN PSICÓLOGOS</a></li>
-		</ul>
-		<ul>
-			<li class="logo">
-				<div class="divLogo">
-					<img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" />
-				</div>
-				<div class="textLogo">
-					<p>Espacio de terapia online</p>
-				</div>
-			</li>
-			
-			<li class="menu-toggle">
-				<button onclick="toggleMenu();">&#9776;</button>
-			</li>
-			<li class="menu-item hidden"><a href="<?=base_url('Welcome')?>">INICIO</a></li>	
-			<li class="menu-item hidden"><a href="<?=base_url('cliente/acceso_clientes')?>">ACCESO CLIENTES</a>
-			</li>			
-			<li class="menu-item hidden"><a
-					href="">NOSOTROS</a>
-			</li>				
-		</ul>
-	</div>   
+        <div class="menu-uno">
+            <div class="menu-uno-usuario">				
+               
+            </div>
+            <div class="menu-uno-btn">
+                <a href="" class="btn-turnos">TURNOS</a>
+                <a href="<?=base_url('profesional/acceso_profesionales')?>" class="menu-uno-link">INICIAR SESIÓN PSICOLOGOS</a>			
+            </div>
+        </div>
+        <div class="menu-dos">
+            <div class="menu-dos-img"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></div>
+            <div class="menu-dos-text">Terapia Virtual</div>
+            <div class="menu-dos-link">
+                <a href="<?=base_url('Welcome')?>" class="menu-dos-link-text">INICIO</a>                
+                <a href="" class="menu-dos-link-text">NOSOTROS</a>
+                <a href="<?=base_url('webcam')?>" class="">WEBCAM</a>
+                <a href="" class="menu-dos-link-text">INICIO</a>			
+            </div>
+        </div>
     </header>
     <section>
         <div class="title">Acceso a Profesionales </div>
@@ -53,7 +47,7 @@
                                             echo 'none';
                                         }
                                            
-                                           ?>;" class="register-form" action="<?=base_url('usuarios/user_save')?>" method="post">	
+                                           ?>;" class="register-form" action="<?=base_url('profesional/profesional_save')?>" method="post">	
                     <div class="encabezado">
                         <div class=enc-titulo>
                             Registro de Profesionales
@@ -67,9 +61,7 @@
                         echo "<p class='error_message'>".$error_message."</p>";
                     }
                     ?>
-                    <input name="perfil" type="hidden" value="profesional"/>
-                    <input value="<?=(isset($matricula)) ? $matricula : ""?>" name="matricula" id="matricula" type="text" placeholder="Matricula">
-                    <span class="help-block"><?php echo form_error('matricula', '<div class="text-danger">', '</div>') ?></span> 
+                    <input name="perfil" type="hidden" value="profesional"/>                    
 
                     <input value="<?=(isset($nombre)) ? $nombre : ""?>" name="nombre" id="nombre" type="text" placeholder="Nombre">                     
                     <span class="help-block"><?php echo form_error('nombre', '<div class="text-danger">', '</div>') ?></span> 
@@ -81,15 +73,9 @@
                     <span class="help-block"><?php echo form_error('telefono', '<div class="text-danger">', '</div>') ?></span> 
                                     
                     <input value="<?=(isset($email)) ? $email : ""?>" name="email" id="email" type="text" placeholder="@Email"> 					
-                    <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span> 
+                    <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span>                     
                     
-                    <input name="password" id="password" type="password" class="form-control" placeholder="Password"> 
-                    <span class="help-block"><?php echo form_error('password', '<div class="text-danger">', '</div>') ?></span> 
-                    
-                    <input name="confirm_password" id="confirm_password" type="password" placeholder="Confirmar Password"> 
-                    <span class="help-block"><?php echo form_error('confirm_password', '<div class="text-danger">', '</div>') ?></span> 
-                    
-                    <button type="submit">Registrarse</button>
+                    <button type="submit">Enviar solicitud</button>
                     <p class="message">¿Ya tienes cuenta? <a href="#">Sign In</a></p>
                 </form>
                 <form style="display: <?php 
@@ -99,7 +85,7 @@
                                             echo 'block';
                                         }
                                            
-                                           ?>;" class="login-form" action="<?=base_url('login/new_user')?>" method="post">                
+                                           ?>;" class="login-form" action="<?=base_url('profesional/login_profesionales')?>" method="post">                
                    <?php
                         if(isset($error_message)){
                             echo "<p class='error_message'>".$error_message."</p>";                         

@@ -7,9 +7,10 @@
     outline: none;
 }
 html, body {
-    color: rgba(33, 37, 41, 1);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    font-size: 16px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgba(33, 37, 41, 1);    
+    font-weight: bold;
+    font-size: 18px;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -22,44 +23,20 @@ html {
 }
 header {
     background-color: rgba(247, 248, 249, 1);
-    padding: .4rem 0 0;
-    
+    padding: .4rem 0 0;    
 }
-.menu {
-    padding: .1rem 2rem;
-    margin-bottom: 1rem;
+
+
+.wallpaper {    
+    width: 100%;
+    height: 550px;
 }
-header ul {
-    border-bottom: 1px solid #B6B7B7/*rgba(242, 242, 242, 1)*/;
-    list-style-type: none;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    text-align: right;
+
+.imgHeader {
+    width: 100%;
+    height: 470px;
 }
-header li {
-    display: inline-block;
-}
-header li a {
-    border-radius: 5px;
-    color: rgba(0, 0, 0, .5);
-    display: block;
-    height: 44px;
-    text-decoration: none;
-}
-header li.menu-item a {
-    border-radius: 5px;
-    margin: 5px 0;
-    height: 38px;
-    line-height: 36px;
-    padding: .4rem .65rem;
-    text-align: center;
-}
-header li.menu-item a:hover,
-header li.menu-item a:focus {
-    background-color: rgba(221, 72, 20, .2);
-    color: rgba(221, 72, 20, 1);
-}
+
 
 .datosUsuario {
    float: left;
@@ -70,145 +47,83 @@ header li.menu-item a:focus {
    color: #949595;
    
 }
-
-header .logo {
-    float: left;			
-    color: #ADAFAF;			
-}
-
-.textLogo {
-    float: left;
-    width: 380px;
-    margin-left: -2em;
-    margin-top: -1em;
+/*********************PAGINA DE INICIO**********************************/
+.menu-uno a, .menu-dos a {
+    outline: none;
+      text-decoration: none;
+    color: black;
     
 }
-.textLogo p {			
-    font-size: 30px;
+.menu-uno a, .menu-dos a:hover {
+    
+      color:#168520;
 }
-.divLogo {
+
+.menu-uno {
+    background-color: #EBECEC;
+    
+    padding: 5px 10px;	
+    height: 60px;	
+}
+.menu-uno-usuario{
+    margin-top: .2em;
     float: left;
-    margin-top: 5px
+    position: relative;
+    text-align: left;
+    width: 500px;		
+    font-size: 24px;		
+}
+.menu-uno-btn {
+    margin-left: 380px;
+    margin-top: 10px;		
+    float: left;
+    position: relative;
+    text-align: right;				
+    
+}
+.btn-turnos{
+    border: green 1px solid;
+    padding: 8px 8px 8px 8px;
+    background-color: black;
+    color: #EBECEC;
+}
+.menu-uno-link {
+    margin-left: 10px;
+}
+.menu-dos {
+    
+    height: 80px;
+}
+.menu-dos-link {
+    float: left;
+    position: relative;
+    text-align: right;
+    width: 600px;
+    margin-top: 30px;
+    margin-left: 360px;
+}
+.menu-dos-link-text {
+    padding: 10px;
+    
+}
+.menu-dos-text {
+    float: left;
+    position: relative;
+    margin: 1em .5em;
+    font-size: 25px;		
+}
+.menu-dos-img{
+    float: left;
+    position: relative;			
+    margin-top: 1em;
+    margin-left: 1em;
 }
 .imgLogo {
-    width: 100px;
-    height: 60px;
+    width: 80px;
+    height: 50px;
 }
+/*************************************************************************/
 
-header .menu-toggle {
-    display: none;
-    float: right;
-    font-size: 2rem;
-    font-weight: bold;
-}
-header .menu-toggle button {
-    background-color: rgba(221, 72, 20, .6);
-    border: none;
-    border-radius: 3px;
-    color: rgba(255, 255, 255, 1);
-    cursor: pointer;
-    font: inherit;
-    font-size: 1.3rem;
-    height: 36px;
-    padding: 0;
-    margin: 11px 0;
-    overflow: visible;
-    width: 40px;
-}
-header .menu-toggle button:hover,
-header .menu-toggle button:focus {
-    background-color: rgba(221, 72, 20, .8);
-    color: rgba(255, 255, 255, .8);			
-}
-header .heroe {			
-    /*margin: 0 auto;*/					
-    padding: .1rem 1.75rem 1.75rem 1.75rem;
-}
-
-header .hero img {
-    width: 100%;
-    height: 480px;
-}
-
-.imgHeader {
-    width: 100%;
-    height: 480px;
-}
-
-header .heroe h1 {
-    font-size: 2.5rem;
-    font-weight: 500;
-    color: whitesmoke; 
-    /*-webkit-text-stroke: 1px white;*/
-}
-header .heroe h2 {
-    font-size: 1.5rem;
-    font-weight: 300;
-}
-section {
-    margin: 0 auto;
-    max-width: 1100px;
-    padding: 2.5rem 1.75rem 3.5rem 1.75rem;
-}
-section h1 {
-    margin-bottom: 2.5rem;
-}
-section h2 {
-    font-size: 120%;
-    line-height: 2.5rem;
-    padding-top: 1.5rem;
-}
-section pre {
-    background-color: rgba(247, 248, 249, 1);
-    border: 1px solid rgba(242, 242, 242, 1);
-    display: block;
-    font-size: .9rem;
-    margin: 2rem 0;
-    padding: 1rem 1.5rem;
-    white-space: pre-wrap;
-    word-break: break-all;
-}
-section code {
-    display: block;
-}
-section a {
-    color: rgba(221, 72, 20, 1);
-}
-section svg {
-    margin-bottom: -5px;
-    margin-right: 5px;
-    width: 25px;
-}
-
-
-@media (max-width: 559px) {
-    header ul {
-        padding: 0;				
-    }
-    header .menu-toggle {
-        padding: 0 1rem;
-    }
-    header .menu-item {
-        background-color: rgba(244, 245, 246, 1);
-        border-top: 1px solid rgba(242, 242, 242, 1);
-        margin: 0 15px;
-        width: calc(100% - 30px);
-    }
-    header .menu-toggle {
-        display: block;
-    }
-    header .hidden {
-        display: none;
-    }
-    header li.menu-item a {
-        background-color: rgba(221, 72, 20, .1);
-    }
-    header li.menu-item a:hover,
-    header li.menu-item a:focus {
-        background-color: rgba(221, 72, 20, .7);
-        color: rgba(255, 255, 255, .8);
-    }
-}
 .aviso_message {
     color: red;
     text-align: center;

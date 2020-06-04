@@ -13,4 +13,9 @@ class Webcam extends CI_Controller {
         $this->load->view('webcam/acceso_webcam');
        
     }
+
+    function camara() {
+        
+
+    }
 }

@@ -39,7 +39,10 @@
             vertical-align: middle;
             background-color: #F2F2F2;
         }
-
+        /*COLOREA LAS FECHA PASADAS*/
+        .fc-past {
+        background-color: #c94b4b;
+        }
         body {
             margin: 0;
             margin-bottom: 40px;
@@ -115,19 +118,33 @@
                 header: {
                     left: 'today,prev,next',
                     center: 'title',
-                    right: 'month,basicWeek,basicDay,agendaWeek,agendaDay'
+                    //right: 'month,basicWeek,basicDay,agendaWeek,agendaDay'
                 },
                
-                dayClick: function(date, jsEvent, view){   
+                dayClick: function(date, jsEvent, view){                       
+                    var myDate = new Date();                    
+                    //Cuantos días se agregarán desde hoy?
+                    var diasAdicionales = 0;
+                    myDate.setDate(myDate.getDate() + diasAdicionales);
+                    if (date < myDate) 
+                    {
+                        //VERDADERO Hiciste clic en una fecha menor a hoy + diasAdicionales
+                        alert("No puedes agendar esta fecha!");
+                    } 
+                    else 
+                    {
+                        $('#btnAgregar').prop('disabled',false);
+                        $('#btnModificar').prop('disabled',true);
+                        $('#btnEliminar').prop('disabled',true);
+                        
+                        limpiarFormulario();
+                        $('#txtFecha').val(date.format());
+                        $('#txtIDuser').val(<?=$this->session->userdata('id')?>);
+                        $('#ModalEventos').modal();
+                    }
+
                     
-                    $('#btnAgregar').prop('disabled',false);
-                    $('#btnModificar').prop('disabled',true);
-                    $('#btnEliminar').prop('disabled',true);
-                    
-                    limpiarFormulario();
-                    $('#txtFecha').val(date.format());
-                    $('#txtIDuser').val(<?=$this->session->userdata('id')?>);
-                    $('#ModalEventos').modal();
+                   
                 },
 
                 events: <?=$eventos?>,                

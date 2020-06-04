@@ -92,21 +92,26 @@
 
 <!-- HEADER: MENU + HEROE SECTION -->
 <header>
-	<div class="menu">
-		<ul>
-			<li class="logo">
-				<div class="divLogo">
-					<img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" />
-				</div>
-				<div class="textLogo">
-					<p>Espacio de terapia online</p>
-				</div>
-			</li>	
-			<li class="item-user">Bienvenido</li>
-			<li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>							
-		</ul>
-	</div>
-</header>
+        <div class="menu-uno">
+            <div class="menu-uno-usuario">				
+               
+            </div>
+            <div class="menu-uno-btn">
+                <a href="" class="btn-turnos">TURNOS</a>
+                <a href="<?=base_url('profesional/acceso_profesionales')?>" class="menu-uno-link">INICIAR SESIÓN PSICOLOGOS</a>			
+            </div>
+        </div>
+        <div class="menu-dos">
+            <div class="menu-dos-img"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></div>
+            <div class="menu-dos-text">Terapia Virtual</div>
+            <div class="menu-dos-link">
+                <a href="<?=base_url('Welcome')?>" class="menu-dos-link-text">INICIO</a>                
+                <a href="" class="menu-dos-link-text">NOSOTROS</a>
+                <a href="<?=base_url('webcam')?>" class="">WEBCAM</a>
+                <a href="" class="menu-dos-link-text">INICIO</a>			
+            </div>
+        </div>
+    </header>
     <section>		
 		<?php 	
 		if(isset($aviso_message))

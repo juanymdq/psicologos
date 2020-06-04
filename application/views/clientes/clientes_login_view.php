@@ -12,33 +12,26 @@
 </head>
 <body>
     <header>
-        <div class="menu">
-		<ul>
-			<li class="menu-item hidden"><a href="<?=base_url('profesional/acceso_profesionales')?>">INICIAR SESIÓN PSICÓLOGOS</a></li>
-		</ul>
-		<ul>
-			<li class="logo">
-				<div class="divLogo">
-					<img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" />
-				</div>
-				<div class="textLogo">
-					<p>Espacio de terapia online</p>
-				</div>
-			</li>
-			
-			<li class="menu-toggle">
-				<button onclick="toggleMenu();">&#9776;</button>
-			</li>
-			<li class="menu-item hidden"><a href="<?=base_url('Welcome')?>">INICIO</a></li>	
-			<li class="menu-item hidden"><a href="<?=base_url('cliente/acceso_clientes')?>">ACCESO CLIENTES</a>
-			</li>			
-			<li class="menu-item hidden"><a
-					href="">NOSOTROS</a>
-			</li>				
-		</ul>
-	</div>
-   
-</header>
+        <div class="menu-uno">
+            <div class="menu-uno-usuario">				
+               
+            </div>
+            <div class="menu-uno-btn">
+                <a href="" class="btn-turnos">TURNOS</a>
+                <a href="<?=base_url('profesional/acceso_profesionales')?>" class="menu-uno-link">INICIAR SESIÓN PSICOLOGOS</a>			
+            </div>
+        </div>
+        <div class="menu-dos">
+            <div class="menu-dos-img"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></div>
+            <div class="menu-dos-text">Terapia Virtual</div>
+            <div class="menu-dos-link">
+                <a href="<?=base_url('Welcome')?>" class="menu-dos-link-text">INICIO</a>                
+                <a href="" class="menu-dos-link-text">NOSOTROS</a>
+                <a href="<?=base_url('webcam')?>" class="">WEBCAM</a>
+                <a href="" class="menu-dos-link-text">INICIO</a>			
+            </div>
+        </div>
+    </header>
     <section>
         
         <div class="title">Acceso a Clientes </div>
