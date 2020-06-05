@@ -32,11 +32,18 @@
 
 	<div class="menu-uno">
 		<div class="menu-uno-usuario">				
-			<?php if($this->session->userdata('nombre') != null) {?>
-			<a href="<?=base_url('cliente/home_clientes')?>"> <?="Usuario: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido'); }?></a>
+			<?php if($this->session->userdata('nombre') != null) {
+				if($this->session->userdata('perfil')=='administrador'){?>
+					<a href="<?=base_url('administrador')?>"> <?="Usuario: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+				<?php }else if($this->session->userdata('perfil')=='profesional'){?>
+						<a href="<?=base_url('profesional/home_profesionales')?>"> <?="Usuario: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+				<?php }else if($this->session->userdata('perfil')=='cliente'){?>				
+						<a href="<?=base_url('cliente/home_clientes')?>"> <?="Usuario: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+				<?php }
+				}?>
 		</div>
 		<div class="menu-uno-btn">
-			<a href="" class="btn-turnos">TURNOS</a>
+			<a href="<?=base_url('turnos')?>" class="btn-turnos">TURNOS</a>
 			<a href="<?=base_url('profesional/acceso_profesionales')?>" class="menu-uno-link">INICIAR SESIÓN PSICOLOGOS</a>			
 		</div>
 	</div>

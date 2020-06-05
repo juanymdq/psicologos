@@ -11,7 +11,7 @@
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?=base_url()?>application/assets/js/moment.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <!--<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script> -->
     <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
     
     <!-- Nuestro css-->
@@ -40,7 +40,13 @@
             height: 400px;
         }
         
-        
+        .date {
+           font-size: 16px;
+            width: 300px;
+            text-align: left;
+            padding-top: 2px;
+            margin: 5px 5px 5px 5px;
+        }
         .titulo-date {
             font-size: 20px;
             margin-bottom: 10px;
@@ -73,31 +79,37 @@
     </header>
     <section>
         <h3>Agregue las fechas y horas de atención</h3>
-        <div class="container">            
-                <div class="col-sm-4">   
-                    <input type="hidden" id="txtID"/>                 
-                    <div class="form-group">
-                        <div class='input-group date' id='datetimepicker8'>                        
-                            <input type='text' class="form-control" id="txtFecha"/>
-                            <span class="input-group-addon">
-                                <span class="fa fa-calendar">
-                                </span>
+        <div class="container">
+            <div class="col-sm-3">
+                <input type="hidden" id="txtID"/>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker8'>                        
+                        <input type='text' class="form-control" id="txtFecha"/>
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar">
                             </span>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
-                        <a href="<?=base_url('profesional/home_profesionales')?>" id="btnVolver" class="btn btn-default">Volver</a>
+                        </span>
                     </div>
                 </div>
-            
+                
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
+                    <a href="<?=base_url('profesional/home_profesionales')?>" id="btnVolver" class="btn btn-default">Volver</a>
+                </div>
+            </div>
+       
             <script type="text/javascript">
                 $(function () {
-                    $('#datetimepicker8').datetimepicker({locale:'es'});
-                    
+                    $('#datetimepicker8').datetimepicker({
+                        icons: {
+                            time: "fa fa-clock-o",
+                            date: "fa fa-calendar",
+                            up: "fa fa-arrow-up",
+                            down: "fa fa-arrow-down"
+                        },                        
+                    });
                 });
             </script>
             
@@ -127,9 +139,12 @@
                 <?php                   
                         function fecha($fecha) {
                             $fechahora = explode(" ", $fecha);
-                            $d = new DateTime($fechahora[0]);
+                            $tempFecha = $fechahora[0];
+                            
+                            $d = new DateTime($tempFecha);
+                            //echo $d->format('d-m-Y'); 
                             //numero de dia de la semana 1: lunes
-                            $ndiasemana = $d->format('N');                             
+                            $ndiasemana = $d->format('N'); 
                             //numero de mes
                             $nmes = $d->format('m');
                             //numero de dia
@@ -234,7 +249,7 @@
             
             var fechahora = $('#txtFecha').val().split(" ");            
             var temFecha = fechahora[0].split("/");
-            var fechaFinal = temFecha[2]+'-'+temFecha[1]+'-'+temFecha[0];
+            var fechaFinal = temFecha[2]+'-'+temFecha[0]+'-'+temFecha[1];
             var temhora = fechahora[1].split(" ");
             var horaFinal = temhora[0]+':'+temhora[1]+':00';
             return fechaFinal+' '+horaFinal;
@@ -264,4 +279,3 @@
 
     </script>
 </body>
-</html>

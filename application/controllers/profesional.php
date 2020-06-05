@@ -17,11 +17,11 @@ class Profesional extends CI_Controller {
         $this->load->view('profesionales/profesionales_login_view');
        
     }
-
+    //vista de creacion de horarios
     public function horarios() {
         $this->load->view('profesionales/crear_horarios_view');
     }
-
+    //busca todos los horarios cargado por el profesional
     public function find_all_eventos() {
         if(isset($_GET['prof'])){
             $id = $_GET['prof'];
@@ -29,7 +29,7 @@ class Profesional extends CI_Controller {
             $this->load->view('profesionales/crear_horarios_view', $datos);
         }
     }
-
+    //login de profesionales
     public function login_profesionales()
     {
         $this->form_validation->set_rules('email', 'email', 'required|valid_email');           
@@ -54,6 +54,7 @@ class Profesional extends CI_Controller {
                 'matricula' => $prof->matricula,
                 'telefono' => $prof->telefono,
                 'resenia' => $prof->resenia,
+                'perfil' => $prof->perfil,
                 'autorizado' => $prof->autorizado
              );
             $this->session->set_userdata($data);  
@@ -64,6 +65,7 @@ class Profesional extends CI_Controller {
 
     }
 
+    //realiza acciones sobre los horarios, Agreagar y eliminar
     public function accion() {
         
         $accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'Leer' ;
@@ -77,11 +79,9 @@ class Profesional extends CI_Controller {
                 $this->profesional_model->insert_fecha($data);               
                 break;
             case 'eliminar':
-               
-                break;
-            case 'modificar':
-                
-                break;
+                $id = $this->input->post("id");
+                $this->profesional_model->delete_horarios($id);
+                break;            
             default:
                 $datos['eventos'] = $this->profesional_model->findAll();
                 $this->load->view('profesionales/crear_horarios_view', $datos);
@@ -89,13 +89,14 @@ class Profesional extends CI_Controller {
         }
     }
 
-
+    //c panel de profesionales
     public function home_profesionales()
     { 
         $this->load->view('profesionales/profesionales_home_view');
        
     }
 
+    //ABM profesionales
     public function profesional_save($id = null) {
 
         if ($this->input->server('REQUEST_METHOD') == "POST") {
@@ -112,6 +113,8 @@ class Profesional extends CI_Controller {
                 'telefono' => $this->input->post("telefono"),
                 'email' => $this->input->post("email"),         
                 'resenia' => $this->input->post("resenia"),
+                'foto' => base_url().'application/assets/img/avatar-men.jpg',
+                'perfil' => 'profesional',                
                 'autorizado' => 'false'
                 //perfil' => $perfil
             ); 
@@ -127,7 +130,7 @@ class Profesional extends CI_Controller {
                         'nombre' => $this->input->post("nombre"),
                         'apellido' => $this->input->post("apellido"),
                         'telefono' => $this->input->post("telefono"),
-                        'email' => $this->input->post("email"),                      
+                        'email' => $this->input->post("email"),
                         'resenia' => $this->input->post("resenia")
                         //perfil' => $perfil
                     ); 
@@ -174,11 +177,13 @@ class Profesional extends CI_Controller {
         }
     }
 
+    //muestra todos los clientes de ese profesional
     public function view_all_clients() {
         $datos['query'] = $this->profesional_model->findAll();
         $this->load->view('profesionales/view_clientes', $datos);
     }
 
+    //borra un profesional
     public function user_delete($id = null) {
         if ($id !== null) {
             $this->profesional_model->delete($id);

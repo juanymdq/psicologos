@@ -28,8 +28,10 @@ class Profesional_model extends CI_Model {
     function findAll() {
             $this->db->select();
             $this->db->from($this->table);
+            $this->db->where('autorizado', 'true');
             $query = $this->db->get();
-            return $query->result();
+            $res = $query->result_array();
+            return json_encode($res);
     }
 
     //busca un elemento en particular por id
@@ -46,6 +48,7 @@ class Profesional_model extends CI_Model {
         $this->db->select();
         $this->db->from('horarios_profesionales');
         $this->db->where('id_profesional', $id);
+        $this->db->order_by('fecha', 'ASC');
         $query = $this->db->get();        
         $res = $query->result_array();
         return json_encode($res);
@@ -81,6 +84,11 @@ class Profesional_model extends CI_Model {
             $this->db->delete($this->table);
     }
 
+    //borra registros de la tabla horarios_profesionales
+    function delete_horarios($id) {
+        $this->db->where($this->table_id, $id);
+        $this->db->delete('horarios_profesionales');
+    }
     //insercion de datos en tabla
     function insert($data) {
             $this->db->insert($this->table, $data);
