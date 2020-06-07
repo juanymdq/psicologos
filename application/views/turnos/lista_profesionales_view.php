@@ -3,97 +3,101 @@
 <head>
     <title>Horarios</title>
     <!--JQUERY-->
-    <link rel="stylesheet" type="text/css" media="screen" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
-
-    <script async="" src="//www.google-analytics.com/analytics.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<?=base_url()?>application/assets/js/moment.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-    <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     
     <!-- Nuestro css-->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/header.css"/>
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/footer.css"/>
     
-    <style>
-
-        .container{            
-            text-align: center;
-            margin-top: 50px;
-            height: 80px;
+    
+    <style>     
+        .container {
+            margin-top: 20px;
+            padding-bottom: 500px;
+            border: 1px solid;
+            justify-content: center;
+            align-items: center;
+            align-self: center;
         }
 
-        h3 {
-            text-align: center;
-            text-decoration: underline;
-            font-weight: bold;
-        }
-       
-        .fechas-horas { 
-            border-left: 1px solid #28D142 ;           
-            text-align: left;        
-            overflow: scroll;
-            padding-bottom: 20px;
-            margin-bottom: 120px;
-            height: 400px;
+        .card-text {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
         }
         
-        
-        .titulo-date {
-            font-size: 20px;
-            margin-bottom: 10px;
-            border: 1px solid;            
+        #avatar {
+            width: 160px;
+            height: 140px;
+            
         }
-        .row {
-            padding-left: 40px;
-        }
-
     </style>
 </head>
 <body>
-    <header>
-        <div class="menu-uno">
-            <div class="menu-uno-usuario">				
-				<?php if($this->session->userdata('nombre') != null) {?>
-				<?="Profesional: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido'); }?>
+<header>
+    <div class="menu-uno">
+        <div class="menu-uno-usuario">				
+            <?php if($this->session->userdata('nombre') != null) {?>
+            <?="Profesional: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido'); }?>
+        </div>
+    </div>
+    <div class="menu-dos">
+        <div class="menu-dos-img"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></div>
+        <div class="menu-dos-text">Terapia Virtual</div>
+        <div class="menu-dos-link">
+            <a href="<?=base_url('Welcome')?>" class="menu-dos-link-text">INICIO</a>               
+            <a href="" class="menu-dos-link-text">NOSOTROS</a>
+            <a href="<?=base_url('webcam')?>" class="">WEBCAM</a>
+            <a href="" class="menu-dos-link-text">INICIO</a>			
+        </div>
+    </div>
+</header>
+<section>
+<div class='container'>    
+<?php
+    if(isset($profesionales)){
+        foreach($profesionales as $item){            
+            echo '
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="'.$item["foto"].'" id="avatar"/>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Lic. '.$item["nombre"].' '.$item["apellido"].'</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-muted"><a href="'.base_url('turnos/ver_horarios?id='.$item["id"]).'">Ver horarios...</a></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ';
+        }
+    }
+?>
+
+</div><!-- container -->
+
+</section>
+<footer>	
+<div class="copyrights">
+    <div class="container_footer">
+        <div class="col_full">
+            <div class="copyrights-menu">
+                <a href="/">Inicio</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/acerca-de/">Acerca de</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="<?=base_url('Welcome/privacidad')?>">Política de Privacidad</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/ayuda/">Ayuda</a>
+            </div>
+            <div class="copyrights-text">
+            Copyrights &copy; <?= date('Y') ?> Todos los derechos reservados.
             </div>
         </div>
-        <div class="menu-dos">
-            <div class="menu-dos-img"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></div>
-            <div class="menu-dos-text">Terapia Virtual</div>
-            <div class="menu-dos-link">
-                <a href="<?=base_url('Welcome')?>" class="menu-dos-link-text">INICIO</a>               
-                <a href="" class="menu-dos-link-text">NOSOTROS</a>
-                <a href="<?=base_url('webcam')?>" class="">WEBCAM</a>
-                <a href="" class="menu-dos-link-text">INICIO</a>			
-            </div>
-        </div>
-    </header>
-    <section>
-            <?php
-                $array = (array)json_decode($query);
-                foreach($array as $clave => $item){
-                    echo $item->nombre;
-                    echo $item->apellido;
-                    echo $item->email;
-                }
-            ?>
-    </section>
-    <footer>	
-    <div class="copyrights">
-		<div class="container_footer">
-			<div class="col_full">
-				<div class="copyrights-menu">
-					<a href="/">Inicio</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/acerca-de/">Acerca de</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="<?=base_url('Welcome/privacidad')?>">Política de Privacidad</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/ayuda/">Ayuda</a>
-				</div>
-				<div class="copyrights-text">
-				Copyrights &copy; <?= date('Y') ?> Todos los derechos reservados.
-				</div>
-			</div>
-		</div>
-	</div>
-    </footer>
+    </div>
+</div>
+</footer>
+   
 </body>
 </html>

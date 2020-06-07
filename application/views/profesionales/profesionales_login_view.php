@@ -8,6 +8,9 @@
     <!-- Nuestro css-->
     
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/header.css"/>
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/footer.css"/>
+
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_nuevo.css"/>
     <style>
 

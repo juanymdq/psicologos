@@ -10,6 +10,8 @@
 	<link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">	
 	<link rel="stylesheet" href="<?=base_url()?>application/assets/css/inicio.css" >
+	<link rel="stylesheet" href="<?=base_url()?>application/assets/css/header.css" >
+	<link rel="stylesheet" href="<?=base_url()?>application/assets/css/footer.css" >
 	<!-- STYLES -->
 
 	 <!-- Smartsupp Live Chat script -->
@@ -130,7 +132,7 @@
 				<p>Los pagos se pueden realizar por <strong>transferencia bancaria</strong> o también por
 				la plataforma <strong>Mercado Pago</strong>. Si no resides en Argentina, <strong>Paypal</strong> es la
 				alternativa disponible.
-				</p><
+				</p>
 			
 			</div>
 		</div>

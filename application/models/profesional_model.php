@@ -21,17 +21,24 @@ class Profesional_model extends CI_Model {
         $this->db->where('password',$password);
         $query = $this->db->get('profesional')->row();
         return $query;
-       
+    
     }
 
-    //trae todos los registros de la tabla
+
+    //trae todos los registros de las tablas profesional
+    //y horarios profesionales
     function findAll() {
             $this->db->select();
             $this->db->from($this->table);
-            $this->db->where('autorizado', 'true');
-            $query = $this->db->get();
-            $res = $query->result_array();
-            return json_encode($res);
+             $aResult = $this->db->get();
+
+            if(!$aResult->num_rows() == 1)
+            {
+                return false;
+            }
+
+            return $aResult->result_array();
+
     }
 
     //busca un elemento en particular por id
@@ -44,16 +51,7 @@ class Profesional_model extends CI_Model {
             return $query->row();
     }
 
-    function find_by_prof($id) {
-        $this->db->select();
-        $this->db->from('horarios_profesionales');
-        $this->db->where('id_profesional', $id);
-        $this->db->order_by('fecha', 'ASC');
-        $query = $this->db->get();        
-        $res = $query->result_array();
-        return json_encode($res);
-    }
-
+   
     //busca el registro por el campo email
     function find_id_by_email($email) {
         //obtengo la fila que coincide con el mail
@@ -84,22 +82,14 @@ class Profesional_model extends CI_Model {
             $this->db->delete($this->table);
     }
 
-    //borra registros de la tabla horarios_profesionales
-    function delete_horarios($id) {
-        $this->db->where($this->table_id, $id);
-        $this->db->delete('horarios_profesionales');
-    }
+    
     //insercion de datos en tabla
     function insert($data) {
             $this->db->insert($this->table, $data);
             return $this->db->insert_id();
     }
 
-    //insercion de datos en tabla
-    function insert_fecha($data) {
-        $this->db->insert('horarios_profesionales', $data);
-        return $this->db->insert_id();
-    }
+    
 
     //inserta el token en la bd cuando se intente un cambio de pass
     public function insertar_token($data) {
