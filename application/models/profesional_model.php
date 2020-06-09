@@ -25,12 +25,11 @@ class Profesional_model extends CI_Model {
     }
 
 
-    //trae todos los registros de las tablas profesional
-    //y horarios profesionales
+    //trae todos los registros de las tablas profesional    
     function findAll() {
             $this->db->select();
             $this->db->from($this->table);
-             $aResult = $this->db->get();
+            $aResult = $this->db->get();
 
             if(!$aResult->num_rows() == 1)
             {
@@ -47,8 +46,14 @@ class Profesional_model extends CI_Model {
             $this->db->from($this->table);
             $this->db->where($this->table_id, $id);
 
-            $query = $this->db->get();
-            return $query->row();
+            $aResult = $this->db->get();
+
+            if(!$aResult->num_rows() == 1)
+            {
+                return false;
+            }
+
+            return $aResult->result_array();
     }
 
    

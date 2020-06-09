@@ -14,11 +14,14 @@ class Turnos_model extends CI_Model {
     }    
 
     function find_by_prof($id) { 
-        
-        $this->db->select();
-        $this->db->from('horarios_profesionales');
-        $this->db->where('id_profesional', $id);
-        $this->db->order_by('fecha', 'ASC');        
+       
+        $this->db->select('*');        
+        $this->db->from('profesional as p');
+        $this->db->join('horarios_profesionales as h', 'p.id = h.id_profesional');
+        $this->db->where('h.id_profesional', $id);
+        //$this->db->group_by('p.id');// add group_by
+        $this->db->order_by('fecha', 'ASC'); 
+                
         $aResult = $this->db->get();
 
         if(!$aResult->num_rows() == 1)
@@ -38,6 +41,24 @@ class Turnos_model extends CI_Model {
         if(!$aResult->num_rows() == 1)
         {
             return false;
+        }
+
+        return $aResult->result_array();
+        
+    }
+
+    function find_one_horario($id) {
+        $this->db->select();
+        $this->db->from('horarios_profesionales h');   
+        $this->db->join('profesional p', 'h.id_profesional = p.id');        
+        $this->db->where('h.id', $id);
+        //$this->db->where('h.id_profesional','p.id');
+        
+        $aResult = $this->db->get();
+
+        if(!$aResult->num_rows() == 1)
+        {
+            return false;            
         }
 
         return $aResult->result_array();

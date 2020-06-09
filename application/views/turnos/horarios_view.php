@@ -2,73 +2,64 @@
 <html>
 <head>
     <title>Horarios</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="<?=base_url()?>application/assets/js/horarios/horarios.js"></script>
-    <!-- Nuestro css-->
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/header.css"/>
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/footer.css"/>
-    
+     <!--JQUERY-->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        
+        <!-- Nuestro css-->
+        <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
+        <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/header.css"/>
+        <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/footer.css"/>
+        
     
     <style>     
-       #flip-container{
-        -webkit-perspective: 1000px;
-        perspective: 1000px;
-        padding: 50px;
-        position: relative;
-        margin: 10px auto;
-        width: 500px;
+     
+     .container {
+            margin-top: 20px;
+            padding-bottom: 500px;                 
         }
-        .card {
-        position: relative;
-        width: 500px;
-        height: 50px;
-        transition: 0.6s;
-        transform-style: preserve-3d;
-        transform-origin: 100% 25px;
-        margin: 5px;
+
+        .card-text {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
         }
-        .card:hover, .card.flip{
-        transform: rotateX(180deg);
+        
+        #avatar {
+            width: 160px;
+            height: 140px;
+            
         }
-        .front, .back{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
+
+        h2 {
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: underline;
+        }
+      .fechas{
+            margin-top: -2em;
+            margin-left: 20px;
+            text-align: left;
+            width: 350px;
+            height: 400px;
+            float: left;
+            overflow: scroll;           
+      }
+      .fechas p {
         text-align: center;
-        }
-        .front{
-        transform: rotateX(0deg);
-        z-index: 2;
-        background-color: #e93e29;
-        color: #FFF;
-        font: 1em/1.8em Arial;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        }
-        .back{
-        transform: rotateX(180deg);
-        background: repeating-linear-gradient(
-            -45deg,
-            #ececec,
-            #ececec 10px,
-            #dedede 10px,
-            #dedede 20px
-        );
-        }
+        font-size: 25px;
+        text-decoration: underline;
+      }
+      .profesional {
+        margin-left: 70px;
+        margin-top: -2em;
+        float: left;        
+      }
     </style>
 </head>
-<body  onload="fechas();">
+<body>
 <header>
     <div class="menu-uno">
         <div class="menu-uno-usuario">				
@@ -88,112 +79,62 @@
     </div>
 </header>
     <section>
-
+    <h2>SELECCIÓN DE HORARIO DE ATENCIÓN</h2>
     <a href="<?=base_url('turnos')?>" class="btn btn-default">Volver</a>
-    <div id="fecha"></div>   
-
-    <ul>
-    <?php            
-    if(isset($horarios)){
-        $cont = 0;
-        foreach($horarios as $item){
-            $cont += 1; 
-            echo "<li id='fecha".$item['id']."'>".$item['fecha']."</li>";
-        }
-
-        $articuos_x_pagina = 7;
-        $total_fechas = $cont;
-        $paginas = ceil(30/$articuos_x_pagina);     
-        
-        
-        //********************************************************************
-        date_default_timezone_set('America/Argentina/Buenos_Aires');
-        
-        $bisiesto = date('Y') % 4;//comprueba si es año bisiesto
-        $dia_numero = intval(date('d'));//numero de dia actual
-       
-        //arreglo de dias de la semana
-        $dia = ['Dom.','Lun.','Mar.','Mié.','Jue.','Vie','Sab'];  
-        //arreglo de meses
-        $mes = ['','Ene.','Feb.','Mar.','Abr.','May.','Jun.','Jul.','Ago.','Sep.','Oct.','Nov.','Dic.'];
-        //arreglo de cantidad de dias del mes
-        $nmes = ['',31,($bisiesto==0) ? 29 : 28,31,30,31,30,31,31,30,31,30,31];        
-        //getday() devuelve el siguiente array
-        //Array ( [seconds] => 58 [minutes] => 2 [hours] => 11 [mday] => 7 [wday] => 0 
-        //[mon] => 6 [year] => 2020 [yday] => 158 [weekday] => Sunday [month] => June 
-        //[0] => 1591538578 ) Jun.30
-        $hoy = getdate();        
-        $txtmes = $mes[$hoy['mon']];//texto del mes en español        
-        $dmes = $nmes[$hoy['mon']];//cantidad de dias del mes
-        
-        for($i = $dia_numero;$i <= $dmes;$i++){            
-            //sumo 1 día
-            $fecha = strtotime(date(date('Y').'-'.date('m').'-'.$i));
-            $fecha=  date('w', $fecha);
-            echo $dia[$fecha]." ";           
-            echo $i." ";//dia
-            echo $txtmes." "; //mes      
-            echo "<br>";
-        }
-        
-        //********************************************************************
-
-    }          
-    ?>
-    </ul>
-
-    <div class="container-fluid">
-        <br>
-        <nav>
-            <ul class="pagination" id="pag">
-
-                <?php
-                    if(!$_GET['pagina']){
-                        header('Location:'.base_url('turnos/ver_horarios?id='.$item["id_profesional"].'&pagina=1'));
+    <div class="container">
+        <div class="profesional">
+            <?php  
+            foreach($prof as $item){            
+                    echo '
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img src="'.$item["foto"].'" id="avatar"/>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Lic. '.$item["nombre"].' '.$item["apellido"].'</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ';
+                }
+            ?>
+        </div>
+        <div class="fechas">
+            <p>Horarios de atención.</p>
+            <ul>
+                <?php            
+                if(isset($horarios)){
+                    $cont = 0;
+                    foreach($horarios as $item){
+                        $cont += 1; 
+                        echo "<li><a href='".base_url('cliente/registro_cliente?id='.$item["id"])."'>".$item['fecha_string']."</a></li>";
                     }
-                ?>
-
-
-
-                
-                <li class="<?=$_GET['pagina'] <= 1 ? 'disabled' : ''?>">
-                    <a href="<?=base_url('turnos/ver_horarios?id='.$item["id_profesional"].'&pagina=')?><?=$_GET['pagina']-1?>">
-                        &laquo;
-                    </a>
-                </li>     
-
-                <?php for($i=0;$i<$paginas;$i++){ ?>
-                    <li class='<?=$_GET['pagina']==$i+1 ? 'active' : '' ?>'>
-                        <a href='<?=base_url('turnos/ver_horarios?id='.$item["id_profesional"].'&pagina=')?><?=$i+1?>'><?=$i+1?></a>
-                    </li>              
-                <?php } ?>
-
-
-                <li class="<?=$_GET['pagina'] >= $paginas ? 'disabled' : ''?>">
-                    <a href="<?=base_url('turnos/ver_horarios?id='.$item["id_profesional"].'&pagina=')?><?=$_GET['pagina']+1?>">&raquo;</a>
-                </li>     
+                }
+                ?>        
             </ul>
-        </nav>
+        </>
     </div>
-
-    <div class="col-md-5">
-        <nav>
-            <ul class="pager">
-                <li class="previous"><a href="#">&larr; Anterior</a></li>
-                <li class="next"><a href="#">Siguiente &rarr;</a></li>
-            </ul>
-        </nav>
-    </div>
+    
 
 
     </section>
-    <script>
-
-      
-    </script>
-     <script>
-                       
-                            
-    </script>
+    <footer>	
+    <div class="copyrights">
+        <div class="container_footer">
+            <div class="col_full">
+                <div class="copyrights-menu">
+                    <a href="/">Inicio</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/acerca-de/">Acerca de</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="<?=base_url('Welcome/privacidad')?>">Política de Privacidad</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/ayuda/">Ayuda</a>
+                </div>
+                <div class="copyrights-text">
+                Copyrights &copy; <?= date('Y') ?> Todos los derechos reservados.
+                </div>
+            </div>
+        </div>
+    </div>
+    </footer>
 </body>
 </html>

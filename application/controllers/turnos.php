@@ -13,6 +13,7 @@ class Turnos extends CI_Controller {
          $this->load->database('default');        
     }
 
+    //busca todos los profesionales aceptados
     public function index()
     { 
        $datos['profesionales'] = $this->profesional_model->findAll();       
@@ -20,13 +21,18 @@ class Turnos extends CI_Controller {
        
     }  
 
+    //busca todos los horarios de un profesional y los datos del mismo
     public function ver_horarios() {
         if(!empty($_GET['id'])){
             $id = $_GET['id'];
+            //busca todos los horarios del profesional
             $datos['horarios'] = $this->turnos_model->find_by_prof($id);
+            //busca el profesional segun id
+            $datos['prof'] = $this->profesional_model->find($id);
             $this->load->view('turnos/horarios_view', $datos);
         }
     }
+   
 
     //realiza acciones sobre los horarios, Agreagar y eliminar
     public function accion() {
@@ -69,7 +75,7 @@ class Turnos extends CI_Controller {
         $nmes = $d->format('m');
         //numero de dia
         $ndia = $d->format('d');   
-          
+        $anio = $d->format('Y');
         switch($nmes){
             case 1: 
                 $textmes = 'Enero';
@@ -131,7 +137,7 @@ class Turnos extends CI_Controller {
                 $textsemana = 'Domingo';
              break;
         }
-        return $textsemana .' '. $ndia . ' de '. $textmes . ' ' . $hora; 
+        return $textsemana .', '. $ndia . ' de '. $textmes . ' de ' .$anio. ', ' . $hora; 
     }
 
 }

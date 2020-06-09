@@ -44,7 +44,7 @@ function diasMes(flag,mes,año) {
     //flag=0: pasar ndias
     //plag=1: pasar textmes
     switch(mes){
-        case 0: 
+        case 0,2,4,6,7,9,11: 
             textmes = 'Ene.';
             ndias= 31;
         break;
@@ -56,47 +56,11 @@ function diasMes(flag,mes,año) {
             }else{
                 ndias= 28;
             }
-        break;
-        case 2: 
-            textmes = 'Mar.';
-            ndias= 31;
-        break;
-        case 3: 
+        break;      
+        case 3,5,8,10: 
             textmes = 'Abr.';
             ndias= 30;
-        break;
-        case 4: 
-            textmes = 'May.';
-            ndias= 31;
-        break;
-        case 5: 
-            textmes = 'Jun.';
-            ndias= 30;
-        break;
-        case 6: 
-            textmes = 'Jul.';
-            ndias= 31;
-        break;
-        case 7: 
-            textmes = 'Ago.';
-            ndias= 31;
-        break;
-        case 8: 
-            textmes = 'Sep.';
-            ndias= 30;
-        break;
-        case 9: 
-            textmes = 'Oct.';
-            ndias= 31;
-        break;
-        case 10: 
-            textmes = 'Nov.';
-            ndias= 30;
-        break;
-        case 11: 
-            textmes = 'Dic.';
-            ndias= 31;
-        break;
+        break;      
     }
     if(flag==0){
         return ndias;
