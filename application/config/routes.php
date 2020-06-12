@@ -50,6 +50,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 //$route['default_controller'] = 'welcome';
-$route['default_controller'] = 'welcome/index';
+$route['default_controller'] = 'principal/index';
+
+//ENRUTAMIENTO PARA EL CLIENTE********************************************
+$route['cliente'] = 'Cliente';
+$route['cliente/login'] = 'Cliente';
+$route['cliente/crear'] = 'Cliente';
+//lo que se muestra en la URL    = Ruta del controlador interno
+$route['cliente/editar/(:any)'] = 'Cliente/cliente_save/$1';
+$route['cliente/cpanel'] = 'Cliente/login_cliente';
+//************************************************************************
+$route['cliente/listar_profesionales'] = 'Turnos';
+
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

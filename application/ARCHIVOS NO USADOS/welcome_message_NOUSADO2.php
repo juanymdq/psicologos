@@ -40,12 +40,12 @@
 				<?php }else if($this->session->userdata('perfil')=='profesional'){?>
 						<a href="<?=base_url('profesional/home_profesionales')?>"> <?="Usuario: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
 				<?php }else if($this->session->userdata('perfil')=='cliente'){?>				
-						<a href="<?=base_url('cliente/home_clientes')?>"> <?="Usuario: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+						<a href="<?=base_url('cliente/cliente_cpanel')?>"> <?="Usuario: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
 				<?php }
 				}?>
 		</div>
 		<div class="menu-uno-btn">
-			<a href="<?=base_url('turnos')?>" class="btn-turnos">TURNOS</a>
+			<a href="<?=base_url('cliente')?>" class="menu-uno-link">ClIENTES&nbsp;&nbsp;&nbsp;|</a>
 			<a href="<?=base_url('profesional/acceso_profesionales')?>" class="menu-uno-link">INICIAR SESIÓN PSICOLOGOS</a>			
 		</div>
 	</div>

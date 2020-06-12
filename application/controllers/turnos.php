@@ -1,7 +1,7 @@
 <?php 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Turnos extends CI_Controller {
+class Turnos extends MY_Controller {
 
     public function __construct()
     {
@@ -15,10 +15,9 @@ class Turnos extends CI_Controller {
 
     //busca todos los profesionales aceptados
     public function index()
-    { 
-       $datos['profesionales'] = $this->profesional_model->findAll();       
-       $this->load->view('turnos/lista_profesionales_view', $datos);
-       
+    {   
+        $datos['profesionales'] = $this->profesional_model->findAll();     
+        $this->render_page('turnos/lista_profesionales_view',$datos);
     }  
 
     //busca todos los horarios de un profesional y los datos del mismo
@@ -34,6 +33,16 @@ class Turnos extends CI_Controller {
     }
    
 
+    public function turno_cliente()    
+    { 
+        if(!empty($_GET['id'])){
+            $id = $_GET['id'];
+            //busca el horario seleccionado y los datos del profesional
+            $datos['horario'] = $this->turnos_model->find_one_horario($id);
+            $this->load->view('clientes/cliente_register_view', $datos);
+       
+        }
+    }
     //realiza acciones sobre los horarios, Agreagar y eliminar
     public function accion() {
         
@@ -42,17 +51,30 @@ class Turnos extends CI_Controller {
         switch($accion){
             case 'agregar':
                 $f = $this->input->post('fecha');
+                $id_prof = $this->input->post('id_profesional');
                 $fecha = $this->fecha($f);
                 $data = array(
-                    'id_profesional' => $this->input->post('id_profesional'),
+                    'id_profesional' => $id_prof,
                     'fecha' => $this->input->post('fecha'),
-                    'fecha_string' => $fecha            
+                    'fecha_string' => $fecha,
+                    'estado' => 'disponible'          
                 );
-                $this->turnos_model->insert_fecha($data);               
+                if($this->turnos_model->insert_fecha($data) != null){
+                    $datos['horarios'] = $this->turnos_model->find_by_prof($id_prof);
+                    $this->load->view('profesionales/crear_horarios_view', $datos);     
+                }
                 break;
             case 'eliminar':
-                $id = $this->input->post("id");
-                $this->turnos_model->delete_horarios($id);
+                $id_prof = $this->input->post('id_profesional');                
+                $id = $this->input->post('id');
+                $ar = $this->turnos_model->delete_horarios($id);                
+                //$ar=1 significa que elimino el registro
+                if($ar!=null){
+                    $datos['horarios'] = $this->turnos_model->find_by_prof($id_prof);                    
+                }else{
+                    $datos['error_message'] = "No se pudo eliminar el registro";
+                }
+                $this->load->view('profesionales/crear_horarios_view', $datos);     
                 break;            
             default:
                 $datos['eventos'] = $this->profesional_model->findAll();

@@ -1,5 +1,15 @@
 
 /*********************PAGINA DE INICIO**********************************/
+body {
+    background: #E3FCE0; /* fallback for old browsers */
+    background: -webkit-linear-gradient(right, #E3FCE0, #b6cca9);
+    background: -moz-linear-gradient(right, #E3FCE0, #b6cca9);
+    background: -o-linear-gradient(right, #E3FCE0, #b6cca9);
+    background: linear-gradient(to left, #E3FCE0, #b6cca9); 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;      
+  }
+
 .menu-uno a, .menu-dos a {
     outline: none;
       text-decoration: none;
@@ -102,10 +112,11 @@
 
 /*----------ESTILO DE TITULOS DE REGISTRO PROFESIONALES*/
 .encabezado{            
-    margin-bottom: 15px;          
+    margin-top: -1em;
+    margin-bottom: 25px;          
 }
 .enc-titulo {
-    font-size: 50px;
+    font-size: 30px;
     margin-bottom: 15px;
     text-align: center;
 }

@@ -1,7 +1,7 @@
 <?php 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Profesional extends CI_Controller {
+class Profesional extends MY_Controller {
 
     public function __construct()
     {
@@ -13,16 +13,17 @@ class Profesional extends CI_Controller {
          $this->load->database('default');        
     }
 
-    public function acceso_profesionales()
+    public function index()
     { 
-        $this->load->view('profesionales/profesionales_login_view');
+        $datos['titulo'] = "Porfesional";
+        $this->render_page('profesionales/profesionales_login_view',$datos);
+       
        
     }
     //vista de creacion de horarios
     public function horarios() {
         $this->load->view('profesionales/crear_horarios_view');
     }
-
     
 
     public function guardar_foto() {
@@ -31,6 +32,7 @@ class Profesional extends CI_Controller {
 
     }
     //busca todos los horarios cargado por el profesional
+    //y redirige a la vista de crear horarios
     public function find_all_eventos() {       
         if(isset($_GET['prof'])){
             $id = $_GET['prof'];
@@ -63,26 +65,36 @@ class Profesional extends CI_Controller {
             $password = $this->input->post('password');      
             //$perfil = $this->input->post('perfil');
             $prof = $this->profesional_model->login_prof($email,$password);
-            $data = array(
-                'is_logued_in' => TRUE,
-                'id' => $prof->id,              
-                'email' => $prof->email,
-                'nombre' => $prof->nombre,
-                'apellido' => $prof->apellido,
-                'matricula' => $prof->matricula,
-                'telefono' => $prof->telefono,
-                'resenia' => $prof->resenia,
-                'perfil' => $prof->perfil,
-                'autorizado' => $prof->autorizado
-             );
-            $this->session->set_userdata($data);  
-                          
-            $this->home_profesionales();
+            if($prof!=null){
+                $data = array(
+                    'is_logued_in' => TRUE,
+                    'id' => $prof->id,              
+                    'email' => $prof->email,
+                    'nombre' => $prof->nombre,
+                    'apellido' => $prof->apellido,
+                    'matricula' => $prof->matricula,
+                    'telefono' => $prof->telefono,
+                    'resenia' => $prof->resenia,
+                    'perfil' => $prof->perfil,
+                    'autorizado' => $prof->autorizado
+                );
+                $this->session->set_userdata($data);  
+                            
+                $this->home_profesionales();
+            }else{
+                $datos['error_message'] = "Datos Incorrectos - intente nuevamente";
+                $this->load->view('profesionales/profesionales_login_view', $datos);
+            }
             
          }
 
     }
 
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        return redirect(base_url(),'refresh');
+    } 
     
     //c panel de profesionales
     public function home_profesionales()

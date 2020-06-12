@@ -111,8 +111,7 @@
                     $cont = 0;
                     foreach($horarios as $item){
                         $cont += 1; 
-                        echo "<li><a href='".base_url('cliente/registro_cliente?id='.$item["id"])."'>".$item['fecha_string']."</a></li>";
-                    }
+                        echo "<li><a href='".base_url('cliente/acceso_cliente?id='.$item["id"])."'>".$item['fecha_string']."</a></li>";                  }
                 }
                 ?>        
             </ul>

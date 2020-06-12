@@ -110,12 +110,10 @@
     <section>
     <div class="container">
       <div class="row">
-
-      
      
           <div class="col-sm-7 text-left">
               
-            <form method="post">
+            <form action="<?=base_url('cliente/')?>" method="post">
                 
                     <legend class="text-center header" style="color: black">Registro de usuarios</legend>
                     
@@ -178,8 +176,7 @@
                           <p>Los campos marcados con asterisco deben ser completados</p>
                       </div>
                       </div>                     
-            </form>
-                         
+            </form>                         
           </div><!--col-sm-7 text-left-->
           <div class="col-sm-1"></div>
           <div class="col-sm-2">

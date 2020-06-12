@@ -2,8 +2,8 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Usuarios_model extends CI_Model {
-    public $table = "users";
+class Cliente_model extends CI_Model {
+    public $table = "cliente";
     public $table_token = 'tbl_tokens';
     public $table_id = "id";
 
@@ -11,7 +11,17 @@ class Usuarios_model extends CI_Model {
         parent::__construct();
         //cargamos la base de datos
         $this->load->database();
-    }    
+    }  
+    
+    public function login_clie($email,$password)
+    {
+        //error_reporting(0);
+        $this->db->where('email',$email);
+        $this->db->where('password',$password);
+        $query = $this->db->get('cliente')->row();
+        return $query;
+    
+    }
 
     //trae todos los registros de la tabla
     function findAll() {

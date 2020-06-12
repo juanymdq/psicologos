@@ -75,5 +75,6 @@ class Turnos_model extends CI_Model {
     function delete_horarios($id) {
         $this->db->where($this->table_id, $id);
         $this->db->delete('horarios_profesionales');
+        return $this->db->affected_rows();
     }
 }

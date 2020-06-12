@@ -76,12 +76,15 @@
     </header>
     <section>
         <h3>Agregue las fechas y horas de atención</h3>
-        <div class="container">            
+        <?=(isset($error_message)) ? $error_message : ""?>
+        <div class="container">   
+            <form action="<?=base_url('turnos/accion?accion=agregar')?>" method="post" id="myForm" onsubmit="return enviar()">
                 <div class="col-sm-4">   
-                    <input type="hidden" id="txtID"/>                 
+                    <input type="hidden" name="id_profesional" value="<?=$this->session->userdata('id')?>"/>                 
+                    <input type="hidden" name="fecha" id="fechadb" value=""/>
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker8'>                        
-                            <input type='text' class="form-control" id="txtFecha"/>
+                            <input type='text' class="form-control" id="txtFecha"   />                            
                             <span class="input-group-addon">
                                 <span class="fa fa-calendar">
                                 </span>
@@ -92,11 +95,12 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
+                        <button type="submit" id="btnAgregar" class="btn btn-success">Agregar</button>
                         <a href="<?=base_url('profesional/home_profesionales')?>" id="btnVolver" class="btn btn-default">Volver</a>
                     </div>
                 </div>
-            
+            </form>
+
             <script type="text/javascript">
                 $(function () {
                     $('#datetimepicker8').datetimepicker({locale:'es'});
@@ -108,29 +112,30 @@
             <div class="titulo-date">Fecha y hora</div>
                 <div class="fechas-horas">
                     <?php
-                        if(isset($horarios)){
-                            $array = (array)json_decode($horarios);                            
+                        if(!empty($horarios)){
+                                                       
                             //Este seria si tuvieses mas de un indice dentro de tu json array
-                            foreach($array as $clave => $valor){                            
-                                echo '<div class="row">
-                                        <div class="col-md-10">'.$valor->fecha_string.'</div>
+                            foreach($horarios as $item){       
+
+                                echo '
+                                <form action="'.base_url('turnos/accion?accion=eliminar').'" method="post">
+                                    <div class="row">
+                                        <input type="hidden" name="id" value="'.$item['id'].'"/>
+                                        <input type="hidden" name="id_profesional" value="'.$item['id_profesional'].'"/>
+                                        <div class="col-md-10">'.$item['fecha_string'].'</div>
                                         <div class="col-md-2">
-                                            <button type="button" id="btnEliminar" onClick="eliminar('.$valor->id.')">                                                
+                                            <button type="submit" id="btnEliminar">                                                
                                                 <span class="fa fa-trash"></span>                                                
                                             </button>   
                                         </div>                                       
-                                    </div>';
+                                    </div>
+                                </form>';
                             }
                         }
                     ?>
                 </div>
             </div>          
-        </div>            
-        <script>
-            $(document).ready(function(){
-                $('#txtID').val(<?=$this->session->userdata('id')?>);
-            });
-        </script>
+        </div>                   
     </section>
     <footer>	
     <div class="copyrights">
@@ -146,50 +151,34 @@
 		</div>
 	</div>
     </footer>
-    <script>
-        var NuevoEvento;
-
-        $('#btnAgregar').click(function(){ 
-            RecolectarDatosGUI();
-            EnviarInformacion('agregar', NuevoEvento);            
-        });
-
-        function eliminar(id) {            
-            EnviarInformacion('eliminar', {id:id});
-        }      
-
-        function trae_fecha() {
-            
-            var fechahora = $('#txtFecha').val().split(" ");            
+    <script>   
+    ///convierte la fecha seleccionada a formato db mysql "2020-06-01 12:00:00"
+    $(document).ready(function() {
+        $("#txtFecha").blur(function(){
+            //obtengo la fecha y hora seleccionada
+            var fh =$(this).val();                
+            //divido la fecha de la hora por espacio  
+            var fechahora = fh.split(" ");          
+            //divido la fecha en dia mes y año por /  
             var temFecha = fechahora[0].split("/");
+            //concateno para guardar en db mysql YYYY-mm-dd
             var fechaFinal = temFecha[2]+'-'+temFecha[1]+'-'+temFecha[0];
-            var temhora = fechahora[1].split(" ");
-            var horaFinal = temhora[0]+':'+temhora[1]+':00';
-            return fechaFinal+' '+horaFinal;
-            console.log(fechaFinal+' '+horaFinal);
+            //coloco la fecha y hora en el input
+            $("#fechadb").val(fechaFinal+' '+fechahora[1]);                  
+        });       
+    });
+
+    //Verifica que se agregue una fecha antes de guardarla
+    function enviar() {        
+        var formulario = document.getElementById("myForm");
+        var fecha = document.getElementById('txtFecha').value;
+        if(fecha=="") {
+            alert('Agrege una fecha');
+            return false;            
+        } else {            
+            return true;            
         }
-
-        function RecolectarDatosGUI() {
-            NuevoEvento = {                
-                id_profesional: $('#txtID').val(),           
-                fecha: trae_fecha()
-            };
-        }
-
-        function EnviarInformacion(accion, objEvento) {
-            
-            var url = '<?=base_url()?>turnos/accion?accion='+accion;
-            
-            $.ajax({
-                type:'post',
-                url: url,
-                data: objEvento
-            });
-           
-            window.location.href = '<?=base_url('profesional/find_all_eventos?prof='.$this->session->userdata('id'))?>';                   
-        }
-
-
+    }
     </script>
 </body>
 </html>
