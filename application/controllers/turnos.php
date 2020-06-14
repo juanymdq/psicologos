@@ -10,7 +10,8 @@ class Turnos extends MY_Controller {
          $this->load->model('turnos_model');
          $this->load->library(array('session','form_validation'));         
          $this->load->helper(array('url','form'));
-         $this->load->database('default');        
+         $this->load->database('default');   
+             
     }
 
     //busca todos los profesionales aceptados
@@ -28,11 +29,17 @@ class Turnos extends MY_Controller {
             $datos['horarios'] = $this->turnos_model->find_by_prof($id);
             //busca el profesional segun id
             $datos['prof'] = $this->profesional_model->find($id);
-            $this->load->view('turnos/horarios_view', $datos);
+            $this->render_page('turnos/horarios_view', $datos);
         }
     }
    
-
+    public function ver_horarios_limit() { 
+        if(!empty($_GET['id'])){
+            $id = $_GET['id'];      
+            $datos['fechas_limit'] = $this->turnos_model->find_by_prof_limit($id);
+            $this->render_page('turnos/horarios_view', $datos);
+        }       
+    }
     public function turno_cliente()    
     { 
         if(!empty($_GET['id'])){

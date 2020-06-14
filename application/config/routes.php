@@ -61,6 +61,7 @@ $route['cliente/editar/(:any)'] = 'Cliente/cliente_save/$1';
 $route['cliente/cpanel'] = 'Cliente/login_cliente';
 //************************************************************************
 $route['cliente/listar_profesionales'] = 'Turnos';
+$route['cliente/ver_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1';
 
 
 

@@ -1,36 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Horarios</title>
-     <!--JQUERY-->
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-   
-    
-    <!-- Nuestro css-->
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/header.css"/>
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/footer.css"/>
-</head>
-<body>
-<header>
-    <div class="menu-uno">
-        <div class="menu-uno-usuario">				
-            <?php if($this->session->userdata('nombre') != null) {?>
-            <?="Profesional: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido'); }?>
-        </div>
-    </div>
-    <div class="menu-dos">
-        <div class="menu-dos-img"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></div>
-        <div class="menu-dos-text">Terapia Virtual</div>
-        <div class="menu-dos-link">
-            <a href="<?=base_url('Welcome')?>" class="menu-dos-link-text">INICIO</a>               
-            <a href="" class="menu-dos-link-text">NOSOTROS</a>
-            <a href="<?=base_url('webcam')?>" class="">WEBCAM</a>
-            <a href="" class="menu-dos-link-text">INICIO</a>			
-        </div>
-    </div>
+    <title>Turnos</title>
+
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -105,8 +77,9 @@
 }
 
     </style>
-
-</header>
+  
+</head>
+<body>  
     <section>
     <div class="container">
       <div class="row">

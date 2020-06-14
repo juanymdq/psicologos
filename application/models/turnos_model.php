@@ -16,7 +16,7 @@ class Turnos_model extends CI_Model {
     function find_by_prof($id) { 
        
         $this->db->select('*');        
-        $this->db->from('profesional as p');
+        $this->db->from('profesional as p');        
         $this->db->join('horarios_profesionales as h', 'p.id = h.id_profesional');
         $this->db->where('h.id_profesional', $id);
         //$this->db->group_by('p.id');// add group_by
@@ -28,7 +28,7 @@ class Turnos_model extends CI_Model {
         {
             return false;
         }
-
+        
         return $aResult->result_array();
     }
 
