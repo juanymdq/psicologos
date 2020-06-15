@@ -8,6 +8,7 @@ class Turnos extends MY_Controller {
          parent::__construct(); 
          $this->load->model('profesional_model');
          $this->load->model('turnos_model');
+         $this->load->model('Cliente_model');
          $this->load->library(array('session','form_validation'));         
          $this->load->helper(array('url','form'));
          $this->load->database('default');   
@@ -32,7 +33,7 @@ class Turnos extends MY_Controller {
             $this->render_page('turnos/horarios_view', $datos);
         }
     }
-   
+   /*
     public function ver_horarios_limit() { 
         if(!empty($_GET['id'])){
             $id = $_GET['id'];      
@@ -40,14 +41,27 @@ class Turnos extends MY_Controller {
             $this->render_page('turnos/horarios_view', $datos);
         }       
     }
+    */
     public function turno_cliente()    
     { 
         if(!empty($_GET['id'])){
-            $id = $_GET['id'];
-            //busca el horario seleccionado y los datos del profesional
+            $id = $_GET['id'];            
+            //busca el horario seleccionado y los datos del profesional           
             $datos['horario'] = $this->turnos_model->find_one_horario($id);
-            $this->load->view('clientes/cliente_register_view', $datos);
+            $this->render_page('turnos/turno_register_view', $datos);
        
+        }
+    }
+
+    public function guardar_turno() {
+        $data = array (
+        'id_horario' => $this->input->post('id_turno'),
+        'id_cliente' => $this->session->userdata('id'),
+        'comentarios' => $this->input->post('comentarios')        
+        );
+        if($this->turnos_model->insert_turno_temporal($data) != null){
+            $datos['horario'] = $this->turnos_model->find_one_horario($this->input->post('id_turno'));
+            $this->render_page('turnos/turno_register_pago_view', $datos);  
         }
     }
     //realiza acciones sobre los horarios, Agreagar y eliminar

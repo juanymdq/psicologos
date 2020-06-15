@@ -16,9 +16,11 @@ class Cliente_model extends CI_Model {
     public function login_clie($email,$password)
     {
         //error_reporting(0);
+        $this->db->select();
+        $this->db->from('cliente');
         $this->db->where('email',$email);
         $this->db->where('password',$password);
-        $query = $this->db->get('cliente')->row();
+        $query = $this->db->get()->row();
         return $query;
     
     }

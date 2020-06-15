@@ -3,6 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
 class Cliente extends MY_Controller
 {     
+    public $datos = [];
 
     public function __construct()
     {       
@@ -19,6 +20,7 @@ class Cliente extends MY_Controller
 
     public function index() {         
         $datos['titulo'] = "Cliente";
+        
         if(isset($_GET['var'])){
             if($_GET['var']==0){//si va a hacer login
                 $datos['registra'] = false;
@@ -36,7 +38,6 @@ class Cliente extends MY_Controller
            
     }
 
-   
 
     public function cliente_cpanel() {
         $datos['titulo'] = "Cliente CPanel";
@@ -62,7 +63,7 @@ class Cliente extends MY_Controller
             {
                 $email = $this->input->post('email');
                 $password = $this->input->post('password');                  
-                $clie = $this->cliente_model->login_clie($email,$password);
+                $clie = $this->cliente_model->login_clie($email,$password);                
                 if($clie!=null){
                     $data = array(
                         'is_logued_in' => TRUE,
@@ -75,11 +76,12 @@ class Cliente extends MY_Controller
                     );
                     $this->session->set_userdata($data);  
                     
-                    $this->cliente_cpanel();
-                    //$this->load->view('turnos/lista_profesionales_view'); 
-                }else{
-                    $datos['message'] = "Datos Incorrectos - intente nuevamente";
-                    $this->render_page('clientes/clientes_login_view', $datos);
+                    $this->cliente_cpanel();                    
+                }else{                    
+                    $data['message'] = 'Error en los datos. Por favor, inente nuevamente';
+                    $this->session->set_userdata($data);
+                    $this->index();
+                    //$this->render_page('clientes/clientes_login_view', $datos);                
                 }
                 
             }

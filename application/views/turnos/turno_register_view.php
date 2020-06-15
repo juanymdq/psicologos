@@ -51,7 +51,7 @@
   background-color: white;
   border-radius: 10px;
   width: 350px;
-  height: 240px;
+  height: 340px;
   border: 1px solid;
 }
 .titulo-prof {
@@ -85,37 +85,39 @@
       <div class="row">
      
           <div class="col-sm-7 text-left">
-              
-            <form action="<?=base_url('cliente/')?>" method="post">
-                
-                    <legend class="text-center header" style="color: black">Registro de usuarios</legend>
+          <?php
+                  if(isset($horario)){
+                    $item = array_values($horario)[0]?>
+            <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
+                    <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
+
+                  
+
+                    <legend class="text-center header" style="color: black">Datos del Cliente</legend>
                     
                     <div class="form-group"> 
                         <div class="row">                       
                             <span class="col-md-1 text-center"><i class="fa fa-user bigicon" style="color: black"></i></span>
-                            <div class="col-md-8">
-                                <input id="fname" name="nombre" type="text" placeholder="Nombre" class="form-control">
-                            </div>
-                            <span class="col-md-1 text-center"><i class="fa fa-asterisk" style="color:red; font-size:12px"></i></span>
+                            <div class="col-md-8">                            
+                             <label><?=$this->session->userdata('nombre')?></label>                                
+                            </div>                            
                         </div>
                     </div>
                     <div class="form-group">
                       <div class="row">  
                           <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon" style="color: black"></i></span>
                           <div class="col-md-8">
-                              <input id="lname" name="apellido" type="text" placeholder="Apellido" class="form-control">
-                          </div>
-                          <span class="col-md-1 text-center"><i class="fa fa-asterisk" style="color:red; font-size:12px"></i></span>
+                          <label><?=$this->session->userdata('apellido')?></label>    
+                          </div>                          
                       </div>
                     </div>
 
                     <div class="form-group">
                       <div class="row">  
-                          <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon" style="color: black"></i></span>
+                          <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope bigicon" style="color: black"></i></span>
                           <div class="col-md-8">
-                              <input id="email" name="email" type="text" placeholder="Correo electrónico" class="form-control">
-                          </div>
-                          <span class="col-md-1 text-center"><i class="fa fa-asterisk" style="color:red; font-size:12px"></i></span>
+                          <label><?=$this->session->userdata('email')?></label>    
+                          </div>                          
                       </div>
                     </div>
 
@@ -123,15 +125,14 @@
                       <div class="row">  
                           <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon" style="color: black"></i></span>
                           <div class="col-md-8">
-                              <input id="phone" name="telefono" type="text" placeholder="telefono" class="form-control">
-                          </div>
-                          <span class="col-md-1 text-center"><i class="fa fa-asterisk" style="color:red; font-size:12px"></i></span>
+                          <label><?=$this->session->userdata('telefono')?></label>    
+                          </div>                          
                       </div>
                     </div>
 
                     <div class="form-group">
                       <div class="row">  
-                          <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pencil-square-o bigicon" style="color: black"></i></span>
+                          <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-edit bigicon" style="color: black"></i></span>
                           <div class="col-md-8">
                               <textarea class="form-control" id="message" name="comentarios" placeholder="Podes añadir cualquier comentario de interes para el especialista (opcional)." rows="7"></textarea>
                           </div>
@@ -140,24 +141,17 @@
 
                     <div class="form-group">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary btn-lg">Siguiente ></button>
+                        
+                            <button type="submit" class="btn btn-primary btn-lg">Proceder al pago $</button>
                         </div>
                     </div> 
-                    <div class="row">  
-                      <span class="col-md-1 text-center"><i class="fa fa-asterisk" style="color:red; font-size:12px"></i></span>
-                      <div class="col-md-10">
-                          <p>Los campos marcados con asterisco deben ser completados</p>
-                      </div>
-                      </div>                     
+                                       
             </form>                         
           </div><!--col-sm-7 text-left-->
           <div class="col-sm-1"></div>
           <div class="col-sm-2">
             <div class="contenedor">
               <div class="titulo-prof">Detalles de la Visita</div>
-              <?php
-                  if(isset($horario)){
-                    $item = array_values($horario)[0]?>
                     <div class="datos-prof">
                       <hr>
                       <div class="row" style="width: 300px; margin-left:-.5em">
@@ -171,11 +165,16 @@
                           <span class="col-md-1 col-md-offset-2"><i class="fa fa-calendar bigicon" style="color: grey"></i></span>                          
                           <div class="col-md-8" style="margin-left:20px;"><?=$item["fecha_string"]?></div>
                       </div> 
+                      <hr>
+                      <div class="row" style="width: 350px; margin-left:-.5em">  
+                          <span class="col-md-1 col-md-offset-2"><i class="fa fa-dollar-sign bigicon" style="color: grey"></i></span>                          
+                          <div class="col-md-8" style="margin-left:20px;"><label>Costo de la consulta $800</label></div>
+                      </div> 
                       <div class="cambiar-horario">
-                        <a href="<?=base_url('turnos/ver_horarios?id='.$item["id"])?>">Cambiar horario</a>
+                        <a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a>
                       </div>                         
-                 <?php }
-              ?>
+                      <?php }?>
+                    </div>              
             </div>
           </div><!--col-sm-2-->  
       </div><!--row-->
@@ -183,21 +182,6 @@
      
   
     </section>
-    <footer>	
-    <div class="copyrights">
-        <div class="container_footer">
-            <div class="col_full">
-                <div class="copyrights-menu">
-                    <a href="/">Inicio</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/acerca-de/">Acerca de</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="<?=base_url('Welcome/privacidad')?>">Política de Privacidad</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/ayuda/">Ayuda</a>
-                </div>
-                <div class="copyrights-text">
-                Copyrights &copy; <?= date('Y') ?> Todos los derechos reservados.
-                </div>
-            </div>
-        </div>
-    </div>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+ 
 </body>
 </html>

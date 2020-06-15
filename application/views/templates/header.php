@@ -34,14 +34,11 @@
                         }
                     }?>
                 </div>  
-                <?php if($this->session->userdata('nombre') != null) {?> 
-                    <div class="menu-uno-btn">                        
-                    </div> 
-                <?php }else{?>
+                <?php if($this->session->userdata('nombre') == null) {?> 
                     <div class="menu-uno-btn">
                         <a href="<?=base_url('cliente/login')?>?var=0" class="menu-uno-link">CLIENTES&nbsp;&nbsp;&nbsp;|</a>
                         <a href="<?=base_url('profesional')?>" class="menu-uno-link">INICIAR SESIÓN PSICOLOGOS</a>			
-                    </div>                     
+                    </div>  
                 <?php }?>
             </div>
             <div class="menu-dos">

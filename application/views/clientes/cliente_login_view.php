@@ -136,11 +136,11 @@
                                             }
                                         }
                                            
-                                           ?>;"class="login-form" action="<?=base_url('cliente/cpanel')?>" method="post">                
+                                           ?>;" class="login-form" action="<?=base_url('cliente/log_in')?>" method="post">                
                     <?php
-                        if(isset($error_message)){
-                            echo "<p class='error_message'>".$error_message."</p>";                         
-                        }
+                        //if(isset($message)){
+                            echo "<p class='error_message'>".$this->session->userdata('message')."</p>";                         
+                        //}
                     ?>
                     <div class="title">Acceso a Clientes </div>
                     <input name="perfil" type="hidden" value="cliente"/>

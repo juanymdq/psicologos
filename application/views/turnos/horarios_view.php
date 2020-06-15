@@ -6,6 +6,7 @@
     <style>     
      
      .container {
+         text-align: center;
             margin-top: 20px;
             padding-bottom: 50px;     
             border: 1px solid;            
@@ -27,9 +28,9 @@
             height: 500px;
             margin-top: 10px;
         }
-      .profesional {
+      .profesional {          
         margin-left: 70px;
-        margin-top: -2em;
+        margin-top: 10pxem;
         
             
       }
@@ -38,7 +39,7 @@
 <body>
 
     <section>
-    <h2>SELECCIÓN DE HORARIO DE ATENCIÓN</h2>
+    <h2>SELECCIÓN DE HORARIO DE ATENCIÓN</h2>    
     <a href="<?=base_url('turnos')?>" class="btn btn-default">Volver</a>
     <div class="container">
         <div class="profesional">
@@ -89,7 +90,8 @@
 
         <?php
         if(!$_GET['pagina']){
-            header('Location:'.base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=1'));
+            //header('Location:'.base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=1'));
+            header('Location:'.base_url('cliente/ver_horarios_de_profesional?id='.$_GET['id'].'&pagina=1'));
         }  
 
         ?>
@@ -99,7 +101,7 @@
             $item = array_values($horarios)[$i]
             ?>
         <div class="alert alert-primary" role="alert">
-            <?=$item['fecha_string']?>
+            <a href="<?=base_url('cliente/datos_del_turno')?>?id=<?=$item['id']?>"><?=$item['fecha_string']?></a>
         </div>
         <?php $i++;
         } ?>

@@ -22,35 +22,32 @@ body {
 }
 
 .menu-uno {
-    background-color: #EBECEC;
-    
+    background-color: #EBECEC;    		
     padding: 5px 10px;	
     height: 60px;	
 }
 .menu-uno-usuario{
-    margin-top: .2em;
-    float: left;
-    position: relative;
+    margin-top: 10px;
+    float: left;    
     text-align: left;
     width: 700px;		
-    font-size: 24px;		
+    font-size: 24px;    			
 }
-.menu-uno-btn {
-    margin-left: 380px;
+.menu-uno-btn {   
     margin-top: 10px;		
-    float: left;
-    position: relative;
-    text-align: right;				
-    
+    float: left;    
+    text-align: right;
+    margin-left: 175px;
 }
 .menu-uno-message {
-    color: red;
-    margin-left: 380px;
+    color: red;    
     margin-top: 10px;		
-    float: left;
-    position: relative;
+    float: left;    
     text-align: right;				
     
+}
+.menu-uno-link {
+    margin-left: 10px;
 }
 .btn-turnos{
     border: green 1px solid;
@@ -58,9 +55,7 @@ body {
     background-color: black;
     color: #EBECEC;
 }
-.menu-uno-link {
-    margin-left: 10px;
-}
+
 .menu-dos {
     
     height: 80px;

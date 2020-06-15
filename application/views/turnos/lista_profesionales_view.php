@@ -25,7 +25,7 @@
             <div class="car-container">
                 <div class="txt-nombre">Lic.&nbsp;<?=$item['apellido'].", ".$item['nombre']?></div>
                 <div><img src="<?=$item["foto"]?>" id="avatar"/></div>
-                <div class="ver-horarios"><a href="<?=base_url('Turnos/ver_horarios?id='.$item['id'])?>">Ver horarios</a></div>                
+                <div class="ver-horarios"><a href="<?=base_url('cliente/ver_horarios_de_profesional')?>?id=<?=$item['id']?>">Ver horarios</a></div>                
             </div>    
         </div>
   <?php }}?>

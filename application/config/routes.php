@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | This is not exactly a route, but allows you to automatically route
 | controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
+| class or method name character, so it requires translation
 | When you set this option to TRUE, it will replace ALL dashes in the
 | controller and method URI segments.
 |
@@ -53,15 +53,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'principal/index';
 
 //ENRUTAMIENTO PARA EL CLIENTE********************************************
-$route['cliente'] = 'Cliente';
+
+//$route['cliente'] = 'Cliente';
 $route['cliente/login'] = 'Cliente';
+$route['cliente/log_in'] = 'Cliente/login_cliente';
+$route['cliente/cpanel'] = 'Cliente/cliente_cpanel';
 $route['cliente/crear'] = 'Cliente';
 //lo que se muestra en la URL    = Ruta del controlador interno
 $route['cliente/editar/(:any)'] = 'Cliente/cliente_save/$1';
-$route['cliente/cpanel'] = 'Cliente/login_cliente';
+
 //************************************************************************
 $route['cliente/listar_profesionales'] = 'Turnos';
-$route['cliente/ver_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1';
+$route['cliente/ver_horarios_de_profesional'] = 'Turnos/ver_horarios';
+$route['cliente/datos_del_turno'] = 'Turnos/turno_cliente';
 
 
 

@@ -46,7 +46,7 @@ class Turnos_model extends CI_Model {
         return $aResult->result_array();
         
     }
-
+//busca un horario en particular y trae todos los datos
     function find_one_horario($id) {
         $this->db->select();
         $this->db->from('horarios_profesionales h');   
@@ -65,6 +65,13 @@ class Turnos_model extends CI_Model {
         
     }
 
+   
+
+    function insert_turno_temporal($data) {
+        $this->db->insert('tmp_horarios_clientes', $data);
+        return $this->db->insert_id();
+    }
+    
     //insercion de datos en tabla
     function insert_fecha($data) {
         $this->db->insert('horarios_profesionales', $data);
