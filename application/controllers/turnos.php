@@ -61,7 +61,8 @@ class Turnos extends MY_Controller {
         );
         if($this->turnos_model->insert_turno_temporal($data) != null){
             $datos['horario'] = $this->turnos_model->find_one_horario($this->input->post('id_turno'));
-            $this->render_page('turnos/turno_register_pago_view', $datos);  
+            //$this->render_page('turnos/turno_register_pago_view', $datos);  
+            $this->render_page('turnos/prueba', $datos);  
         }
     }
     //realiza acciones sobre los horarios, Agreagar y eliminar

@@ -1,45 +1,28 @@
+<?php
+        require 'vendor/autoload.php';
+// Agrega credenciales
+        MercadoPago\SDK::setAccessToken('TEST-4595810000936907-072214-41c06a876bf09298517b02fda5442845-11138814');
 
 
+        $payment = new MercadoPago\Payment();
+        $payment->transaction_amount = 100;
+        $payment->description = "Título del producto";
+        $payment->payment_method_id = "rapipago";
+        $payment->payer = array(
+            "email" => "test_user_19653727@testuser.com"
+        );
 
+        $payment->save();
+?>
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Demo paginacion</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-</head>
+<head></head>
 <body>
-
-<div class="container-fluid">
-    <br>
-    <nav>
-        <ul class="pagination">
-            <li class="disabled"><a href="#">&laquo;</a></li>            
-            <li class="active"><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <li><a href="#">&raquo;</a></li>     
-        </ul>
-    </nav>
-</div>
-
-<div class="col-md-5">
-    <nav>
-        <ul class="pager">
-            <li class="previous"><a href="#">&larr; Anterior</a></li>
-            <li class="next"><a href="#">Siguiente &rarr;</a></li>
-        </ul>
-    </nav>
-</div>
-
-
+<form action="" method="POST">
+  <script
+   src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+   data-preference-id="<?php echo $preference->id; ?>">
+  </script>
+</form>
 </body>
 </html>
