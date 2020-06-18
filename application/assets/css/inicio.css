@@ -1,43 +1,72 @@
 
 /*********************PAGINA DE INICIO**********************************/
 body {
-    background: #E3FCE0; /* fallback for old browsers */
-    background: -webkit-linear-gradient(right, #E3FCE0, #b6cca9);
-    background: -moz-linear-gradient(right, #E3FCE0, #b6cca9);
-    background: -o-linear-gradient(right, #E3FCE0, #b6cca9);
-    background: linear-gradient(to left, #E3FCE0, #b6cca9); 
+   /* background: #323A46;
+    background: -webkit-linear-gradient(right, #323A46, #323A46);
+    background: -moz-linear-gradient(right, #323A46, #323A46);
+    background: -o-linear-gradient(right, #323A46, #323A46);
+    background: linear-gradient(to left, #323A46, #323A46); 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;      
+    
+    background-color: gray;*/
+    font-family: Arial;
   }
+.container {
+    width: 90%;
+    margin: 0 auto;
+    
+}
+header {   
+    background: #4E94AE;
+    border: 1px solid;
+}
+/*IMAGEN DE INICIO*/
+.wallpaper {    
+    width: 100%;
+    height: 80%;
+}
 
+.imgHeader {
+    width: 100%;
+    height: 90%;
+}
+/*+++++++++++++++++++++++++++++++++++++++++*/
+.menu {
+    width: 100%;
+    height: 55%;
+    border: 1px solid;
+}
 .menu-uno a, .menu-dos a {
     outline: none;
-      text-decoration: none;
+    text-decoration: none;
     color: black;
     
 }
-.menu-uno a, .menu-dos a:hover {
-    
-      color:#168520;
+.menu-uno a, .menu-dos a:hover {    
+      color:#457EFC;
 }
 
 .menu-uno {
-    background-color: #EBECEC;    		
-    padding: 5px 10px;	
-    height: 60px;	
+    height: 30%;
+    width: 100%;	
+   
 }
 .menu-uno-usuario{
     margin-top: 10px;
     float: left;    
     text-align: left;
-    width: 700px;		
-    font-size: 24px;    			
+    width: 40%;		
+    font-size: 14px;  
+    border: 1px solid;  			
 }
 .menu-uno-btn {   
+    width: 35%;
     margin-top: 10px;		
     float: left;    
     text-align: right;
     margin-left: 175px;
+   
 }
 .menu-uno-message {
     color: red;    
@@ -49,46 +78,96 @@ body {
 .menu-uno-link {
     margin-left: 10px;
 }
-.btn-turnos{
-    border: green 1px solid;
-    padding: 8px 8px 8px 8px;
-    background-color: black;
-    color: #EBECEC;
-}
 
 .menu-dos {
-    
-    height: 80px;
-}
-.menu-dos-link {
-    float: left;
-    position: relative;
-    text-align: right;
-    width: 600px;
-    margin-top: 30px;
-    margin-left: 360px;
-}
-.menu-dos-link-text {
-    padding: 10px;
+    height: 25%;
+    width: 100%;	
     
 }
-.menu-dos-text {
-    float: left;
-    position: relative;
-    margin: 1em .5em;
-    font-size: 25px;		
+
+#btn-menu{
+    display: none;    
 }
-.menu-dos-img{
-    float: left;
-    position: relative;			
-    margin-top: 1em;
-    margin-left: 1em;
+header label {
+    display: none;
+    width: 30px;
+    height: 30px; 
+    border-right: 1px solid #fff;
 }
-.imgLogo {
-    width: 80px;
-    height: 50px;
+header label:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.3);
 }
+.nav ul {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    display: flex;   
+}
+.nav li {
+    border-right: 1px solid #fff;
+}
+.nav li:hover{
+    background: rgba(0, 0, 0, 0.3);
+}
+.nav li a {
+    display: block;
+    padding: 15px 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+@media (max-width:768px) {
+
+    .container {
+        width: 100%;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    header {     
+        background: #4E94AE;
+        border: 1px solid;
+    }
+
+    header label {
+        z-index: 1;
+        position: absolute;
+        display: block;
+    }
+
+    .nav {
+        position: absolute;        
+        background: #4E94AE ;
+        width: 30%;
+        margin-left: -70%;
+        transition: all 0.5s;
+    }
+
+    .nav ul {        
+        flex-direction: column;
+    }
+
+    .nav li {
+        border-top: 1px solid #fff;
+    }
+
+    #btn-menu:checked ~ .nav {
+        margin: 0;
+    }
+}
+
+
+
+
+
+
+
+
 /*************************************************************************/
+
+
+
 
 .aviso_message {
     color: red;
