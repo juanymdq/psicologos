@@ -6,7 +6,7 @@
     </head>
 <body>
 	<div class="container">
-		<header>
+		
 			<div class="div_message">		
             <?php 
                 if($this->session->userdata('aviso_message')) {
@@ -17,7 +17,7 @@
             <div class="wallpaper">
                 <img src="<?=base_url()?>application/assets/img/psico1.jpg" class="imgHeader"/>
             </div>
-		</header>
+		
 		<section class="main">
 
 		<h1>Red de psicologos online</h1>

@@ -12,14 +12,19 @@ body {
     background-color: gray;*/
     font-family: Arial;
   }
+
+.contenedor {
+    width: 90%;
+    margin: 0 auto;   
+    overflow: hidden;      
+}
 .container {
     width: 90%;
     margin: 0 auto;
-    
+    overflow: hidden;    
 }
 header {   
-    background: #4E94AE;
-    border: 1px solid;
+    background: #4E94AE;    
 }
 /*IMAGEN DE INICIO*/
 .wallpaper {    
@@ -34,55 +39,20 @@ header {
 /*+++++++++++++++++++++++++++++++++++++++++*/
 .menu {
     width: 100%;
-    height: 55%;
-    border: 1px solid;
+    padding-top: 10px;
+    padding-bottom: 5px; 
+    margin: 0 auto;
+    overflow: hidden;    
 }
-.menu-uno a, .menu-dos a {
-    outline: none;
-    text-decoration: none;
-    color: black;
-    
-}
-.menu-uno a, .menu-dos a:hover {    
-      color:#457EFC;
+.menu-uno {
+    border-bottom: 1px solid #fff;
 }
 
-.menu-uno {
-    height: 30%;
-    width: 100%;	
-   
-}
-.menu-uno-usuario{
-    margin-top: 10px;
-    float: left;    
-    text-align: left;
-    width: 40%;		
-    font-size: 14px;  
-    border: 1px solid;  			
-}
-.menu-uno-btn {   
-    width: 35%;
-    margin-top: 10px;		
-    float: left;    
-    text-align: right;
-    margin-left: 175px;
-   
-}
 .menu-uno-message {
     color: red;    
     margin-top: 10px;		
     float: left;    
-    text-align: right;				
-    
-}
-.menu-uno-link {
-    margin-left: 10px;
-}
-
-.menu-dos {
-    height: 25%;
-    width: 100%;	
-    
+    text-align: right;    
 }
 
 #btn-menu{
@@ -98,19 +68,23 @@ header label:hover {
     cursor: pointer;
     background: rgba(0, 0, 0, 0.3);
 }
-.nav ul {
+
+.nav ul, .uno ul {
     margin: 0;
     list-style: none;
     padding: 0;
-    display: flex;   
+    display: flex;     
 }
-.nav li {
-    border-right: 1px solid #fff;
+
+
+.logins {
+    margin-left: auto;
 }
-.nav li:hover{
+
+.nav li:hover, .uno li:hover{
     background: rgba(0, 0, 0, 0.3);
 }
-.nav li a {
+.nav li a, .uno li a {
     display: block;
     padding: 15px 20px;
     color: #fff;
@@ -119,15 +93,14 @@ header label:hover {
 
 @media (max-width:768px) {
 
-    .container {
-        width: 100%;
+    .contenedor {
+        width: 90%;
         margin: 0 auto;
         overflow: hidden;
     }
 
     header {     
-        background: #4E94AE;
-        border: 1px solid;
+        background: #4E94AE;        
     }
 
     header label {

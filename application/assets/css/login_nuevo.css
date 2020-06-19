@@ -60,12 +60,7 @@
   text-decoration: none;
 }
 
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 400px;
-  margin: 0 auto;
-}
+
 .container:before, .container:after {
   content: "";
   display: block;
@@ -94,11 +89,11 @@
   color: #EF3B3A;
 }
 body {
-  background: #E3FCE0; /* fallback for old browsers */
+ /* background: #E3FCE0; 
   background: -webkit-linear-gradient(right, #E3FCE0, #8DC26F);
   background: -moz-linear-gradient(right, #E3FCE0, #8DC26F);
   background: -o-linear-gradient(right, #E3FCE0, #8DC26F);
   background: linear-gradient(to left, #E3FCE0, #8DC26F); 
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
+  -moz-osx-font-smoothing: grayscale;      */
 }

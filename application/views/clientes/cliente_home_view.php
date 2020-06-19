@@ -3,13 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/body.css"/>
 </head>
 <style>
 
-
-	.wrapper {
-		width: 100%;	
+	.wrapper {		
 		margin-left: 30px;
 		padding-top: 50px;
 		padding-bottom: 30px;
@@ -75,26 +73,26 @@
 	
 </style>
 <body>
-<div class="message">
+	<div class="container">
+		<div class="message">
 				<?php 
 				if(isset($message)){
                 	echo "<p>".$message."</p>"; 
 				}
 					?>	
 		</div>
-	<section>	
-		
-		<div class="wrapper">
-				
-			<a href="<?=base_url()?>"><div class="one"><i class="fas fa-home icono" title="Inicio"></i><label class="div-text">Inicio</label></div></a>
-			<a href="<?=base_url('cliente/editar/'.$this->session->userdata('id'))?>"><div class="two"><i class="fas fa-user-edit icono" title="Modificar datos"></i><label class="div-text">Modificar datos</label></div></a>			
-			<a href="<?=base_url('cliente/listar_profesionales')?>"><div class="three"><i class="fas fa-calendar-alt icono" title="Turnos"></i><label class="div-text">Turnos</label></div></a>			
-			<a href=""><div class="four"><i class="fas fa-notes-medical icono" title="Historial"></i><label class="div-text">Historial</label></div></a>
-			<a href=""><div class="five"><i class="fas fa-credit-card icono" title="Pagos"></i><label class="div-text">Pagos</label></div></a>
-			<a href=""><div class="six"><i class="fas fa-key icono" title="cambiar contraseña"></i><label class="div-text">Cambiar contraseña</label></div></a>
-			<a href="<?=base_url('cliente/logout')?>"><div class="seven"><i class="fas fa-power-off icono" title="Salir"></i><label class="div-text">Cerrar sesión</label></div></a>
-		</>
-    </section>
-    
+		<section>		
+			<div class="wrapper">
+					
+				<a href="<?=base_url()?>"><div class="one"><i class="fas fa-home icono" title="Inicio"></i><label class="div-text">Inicio</label></div></a>
+				<a href="<?=base_url('cliente/editar/'.$this->session->userdata('id'))?>"><div class="two"><i class="fas fa-user-edit icono" title="Modificar datos"></i><label class="div-text">Modificar datos</label></div></a>			
+				<a href="<?=base_url('cliente/listar_profesionales')?>"><div class="three"><i class="fas fa-calendar-alt icono" title="Turnos"></i><label class="div-text">Turnos</label></div></a>			
+				<a href=""><div class="four"><i class="fas fa-notes-medical icono" title="Historial"></i><label class="div-text">Historial</label></div></a>
+				<a href=""><div class="five"><i class="fas fa-credit-card icono" title="Pagos"></i><label class="div-text">Pagos</label></div></a>
+				<a href=""><div class="six"><i class="fas fa-key icono" title="cambiar contraseña"></i><label class="div-text">Cambiar contraseña</label></div></a>
+				<a href="<?=base_url('cliente/logout')?>"><div class="seven"><i class="fas fa-power-off icono" title="Salir"></i><label class="div-text">Cerrar sesión</label></div></a>
+			</div>
+		</section>
+    </div>
 </body>
 </html>

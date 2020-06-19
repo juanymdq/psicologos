@@ -1,46 +1,106 @@
-      /*º
-        .container {
-            margin-top: 20px;
-            padding-bottom: 500px;            
-            justify-content: center;
-            align-items: center;
-            align-self: center;
-        }
-
-      */  
-      p {
-          text-align: center;
-      }
-      .grid-container {
-        display: grid;
-        grid-template-columns: auto auto auto auto;
-        grid-gap: 10px;
-        
-        padding: 10px;
-        
+     
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
       
-      .grid-container > div {
-        width: 300;
-        height: 150px;
-        background-color: rgba(163, 211, 223, 0.8);
-        text-align: center;
-        padding: 20px 0;
-        font-size: 15px;
-        border: 1px solid black;
-      }      
-      #avatar {          
-          width: 80px;
-          height: 70px;
-          border-radius: 100%;
-          margin-bottom: 10px;
-      }
-      .txt-nombre {       
-        margin-top: -1em;
-        margin-bottom: 10px;
-       
-      }
-      .ver-horarios {
-       
+      .container {
+        display: flex;            
+        justify-content: center;
+        align-items: center;        
+        font-family: 'Numito';
+        padding: 0 20px;
         
+      }
+
+      .card-container {
+       display: flex;
+       width: 600px;
+       height: auto;       
+       background: #fff;
+       border-radius: 2px;
+       box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, .2);
+       margin-bottom: 20px;
+      }
+
+      .header {
+        border-right: 1px solid #ddd;
+      }
+
+      .description {
+        background: #fbfbfb;
+      }
+
+      .header, .description {
+        padding: 20px;
+        text-align: center;
+      }
+      
+      .header a {
+        position: relative;
+        display: block;
+      }
+
+      .header img {
+        width: 100px;
+        height: 90px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 8px rgba(0, 0, 0, .06);
+        margin: 20px 30px;
+        transition: .2s;
+      }
+
+      .header a:hover img{
+        box-shadow: 0 0 0 12px rgba(0, 0, 0, .1);
+      }
+
+      .header h2 {
+        font-size: 20px;
+        color: #f0522a;
+      }
+
+      .header h4 {
+        margin-bottom: 20px;
+      }
+
+      .description {
+        position: relative;
+      }
+
+      .description p {
+        margin: 20px 30px
+      }
+
+      .description .social {
+        margin-top: 25px;
+      }
+
+      .description .social a {
+        display: inline-block;
+        padding: 0 15px;
+        color: #f0522a;
+      }
+      
+      @media (max-width:640px) {
+        .card-container {
+          display: block;
+          width: 400px;
+        }
+        .header {
+          padding: 20px 20px 5px 20px;
+          border: 0;
+        }
+        .description {
+          padding: 5px 20px 20px 20px;
+          background: transparent;
+        }
+        .h4 {
+          margin: 0;
+        }
+      }
+    
+      
+      .ver-horarios a {
+        color: #fff;        
       }

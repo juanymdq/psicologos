@@ -19,7 +19,8 @@ class Turnos extends MY_Controller {
     public function index()
     {   
         $datos['profesionales'] = $this->profesional_model->findAll();     
-        $this->render_page('turnos/lista_profesionales_view',$datos);
+        //$this->render_page('turnos/lista_profesionales_view',$datos);
+        $this->render_page('turnos/pruebaprof',$datos);
     }  
 
     //busca todos los horarios de un profesional y los datos del mismo
