@@ -2,68 +2,64 @@
 <html>
 <head>
     <title>Horarios</title>
-    
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/tarjetas.css"/> 
     <style>     
      
-     .container {
-         text-align: center;
-            margin-top: 20px;
-            padding-bottom: 50px;     
-            border: 1px solid;            
-        }
-
-        .card-text {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 14px;
-        }
-        
-        #avatar {
-            width: 160px;
-            height: 140px;
-            
+        h2 {
+            color: #4E94AE;
+            text-decoration: underline;
+            margin-bottom: 10px;
         }
         .horarios {
-            border: 1px solid;
-            width: 500px;
-            height: 500px;
+            text-align: center;           
+            width: 400px;
+            height: auto;
             margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
         }
-      .profesional {          
-        margin-left: 70px;
-        margin-top: 10pxem;
+        .horarios nav {            
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto; 
+            margin-bottom: 50px;                    
+        }
         
-            
-      }
     </style>
 </head>
 <body>
-
-    <section>
-    <h2>SELECCIÓN DE HORARIO DE ATENCIÓN</h2>    
-    <a href="<?=base_url('turnos')?>" class="btn btn-default">Volver</a>
-    <div class="container">
-        <div class="profesional">
-            <?php  
-            foreach($prof as $item){            
-                    echo '
-                    <div class="card mb-3" style="max-width: 540px;  background-color: rgba(163, 211, 223, 0.8); ">
-                        <div class="row no-gutters">
-                            <div class="col-md-4">
-                                <img src="'.$item["foto"].'" id="avatar"/>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Lic. '.$item["nombre"].' '.$item["apellido"].'</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    ';
-                }
-            ?>
-        </div>       
     
+    <section>
+    <h3>SELECCIÓN DE HORARIO DE ATENCIÓN</h3>    
+    <p><a href="<?=base_url('turnos')?>" class="btn btn-default">Volver</a></p>
+    <?php
+        if(isset($prof)){
+            $itemprof = array_values($prof)[0];       
+    ?>
+    <div class="container">
+        
+        <div class="card-container">
+            <div class="header">
+                <a href="#">
+                    <img src="<?=$itemprof["foto"]?>"/>
+                </a>
+                <h2>Lic.&nbsp;<?=$itemprof['apellido'].", ".$itemprof['nombre']?></h2>
+                <h4>Psicologo</h4>
+            </div>
+            <div class="description">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod 
+                    tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                    quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.</p>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>                              
+    </div>
+    <?php } ?>
+
     <div class="horarios">
     <?php
     //filas que queremos por pagina
@@ -86,7 +82,7 @@
     
     ?>
     
-        <h2>Paginacion</h2>
+        <h2>Horarios de atención</h2>
 
         <?php
         if(!$_GET['pagina']){
@@ -101,38 +97,38 @@
             $item = array_values($horarios)[$i]
             ?>
         <div class="alert alert-primary" role="alert">
-            <a href="<?=base_url('cliente/datos_del_turno')?>?id=<?=$item['id']?>"><?=$item['fecha_string']?></a>
+            <a href="<?=base_url('cliente/datos_del_turno')?>?id=<?=$item['id']?>"><?=$item['fecha_string']?>hs.</a>
         </div>
         <?php $i++;
         } ?>
        
+        <div class="nav">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item <?=$_GET['pagina'] <= 1 ? 'disabled' : ''?>">
+                        <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$_GET['pagina']-1?>">
+                            Anterior
+                        </a>
+                    </li>
 
-        <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item <?=$_GET['pagina'] <= 1 ? 'disabled' : ''?>">
-                <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$_GET['pagina']-1?>">
-                    Anterior
-                </a>
-            </li>
+                    <?php for($i=0;$i<$paginas;$i++):?>
+                    <li class="page-item <?=($_GET['pagina']==$i+1) ? 'active' : '' ?>">
+                        <a class="page-link" href='<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$i+1?>'>
+                            <?=$i+1?>
+                        </a>
+                    </li>
+                    <?php endfor?>
 
-            <?php for($i=0;$i<$paginas;$i++):?>
-            <li class="page-item <?=($_GET['pagina']==$i+1) ? 'active' : '' ?>">
-                <a class="page-link" href='<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$i+1?>'>
-                    <?=$i+1?>
-                </a>
-            </li>
-            <?php endfor?>
-
-            <li class="page-item <?=$_GET['pagina'] >= $paginas ? 'disabled' : ''?>">
-                <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$_GET['pagina']+1?>">
-                    Siguiente
-                </a>
-            </li>
-        </ul>
-        </nav>
+                    <li class="page-item <?=$_GET['pagina'] >= $paginas ? 'disabled' : ''?>">
+                        <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$_GET['pagina']+1?>">
+                            Siguiente
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     
-    </div><!--horarios-->
-            </div>
+    </div><!--horarios-->           
 
     </section>
    

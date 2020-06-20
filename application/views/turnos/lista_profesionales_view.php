@@ -11,33 +11,37 @@
    
 </head>
 <body>
+    <h3>Staff de Profesionales</h3>
+    <p>Haga click en la foto del profesional deseado para ver sus horarios de atención</p>
+        <?php 
+            if(isset($profesionales)){
+                foreach($profesionales as $item){        
+        ?>
+        
     <div class="container">
-        <section>
-            <h1>Listado de nuestro Staff de Profesionales</h1>
-
-            <p>Seleccione la opción <em>Ver horarios</em> para sacar un turno con el mismo.</p>
-
-            <div class="box">
-                <?php 
-                        if(isset($profesionales)){
-                            foreach($profesionales as $item){        
-                    ?>
-                            
-                <div class="card-container">
-                    <div class="txt-nombre">Lic.&nbsp;<?=$item['apellido'].", ".$item['nombre']?></div>
-                    <div><img src="<?=$item["foto"]?>" id="avatar"/></div>
-                    <div class="ver-horarios"><a href="<?=base_url('cliente/ver_horarios_de_profesional')?>?id=<?=$item['id']?>">Ver horarios</a></div>                
-                </div>    
-                        
-                <?php }}?>
+        
+        <div class="card-container">
+            <div class="header">
+                <a href="<?=base_url('cliente/ver_horarios_de_profesional')?>?id=<?=$item['id']?>" title="Ver horarios">
+                    <img src="<?=$item["foto"]?>"/>
+                </a>
+                <h2>Lic.&nbsp;<?=$item['apellido'].", ".$item['nombre']?></h2>
+                <h4>Psicologo</h4>
             </div>
-
-
-
-
-
-
-        </section>
+            <div class="description">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod 
+                    tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                    quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.</p>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>                              
     </div>
+        <?php }
+            }
+        ?>
 </body>
 </html>

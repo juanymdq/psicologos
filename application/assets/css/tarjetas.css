@@ -14,6 +14,16 @@
         
       }
 
+      h3 {
+        margin-top: 10px;
+        text-align: center;
+        color: #4E94AE;
+      }
+
+      p {
+        text-align: center;
+        color: #4E94AE;
+      }
       .card-container {
        display: flex;
        width: 600px;
@@ -21,6 +31,7 @@
        background: #fff;
        border-radius: 2px;
        box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, .2);
+       margin-top: 20px;
        margin-bottom: 20px;
       }
 
@@ -57,7 +68,7 @@
 
       .header h2 {
         font-size: 20px;
-        color: #f0522a;
+        color: #4E94AE;
       }
 
       .header h4 {
@@ -79,7 +90,7 @@
       .description .social a {
         display: inline-block;
         padding: 0 15px;
-        color: #f0522a;
+        color: #4E94AE;
       }
       
       @media (max-width:640px) {
