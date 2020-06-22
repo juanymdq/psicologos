@@ -34,7 +34,11 @@ color: #4E94AE;
   background-color: #4E94AE;
 }
 
-.flex-container > div, .flex-prof div {
+.flex-prof > div{
+   text-align: left;
+}
+
+.flex-container > div, .flex-prof > div {
   background-color: #f1f1f1;
   width: 400px;
   margin: 10px;
@@ -73,7 +77,7 @@ color: #4E94AE;
   
   text-align: center;
   
-}
+
 </style>
 </head>
 <body>
@@ -87,96 +91,103 @@ color: #4E94AE;
         Una vez verificado, debera proceder al pago de la sesión</p>
 
         <div class="flex-container">
+            <div>
+                <div class="row">
+                        
+                    <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
+                            <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
 
-        <div>
-            <div class="row">
-                    
-                <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
-                        <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
-
-                        <legend class="titulo-prof" style="color: black">Datos del Cliente</legend>
-                        <hr>
-                        <div class="form-group"> 
-                            <div class="row">                       
-                                <span class="col-md-1 text-center"><i class="fa fa-user bigicon" style="color: black"></i></span>
-                                <div class="col-md-8">                            
-                                <label><?=$this->session->userdata('nombre')?></label>                                
-                                </div>                            
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">  
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon" style="color: black"></i></span>
-                                <div class="col-md-8">
-                                <label><?=$this->session->userdata('apellido')?></label>    
-                                </div>                          
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="row">  
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope bigicon" style="color: black"></i></span>
-                                <div class="col-md-8">
-                                <label><?=$this->session->userdata('email')?></label>    
-                                </div>                          
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="row">  
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon" style="color: black"></i></span>
-                                <div class="col-md-8">
-                                <label><?=$this->session->userdata('telefono')?></label>    
-                                </div>                          
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="row">  
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-edit bigicon" style="color: black"></i></span>
-                                <div class="col-md-8">
-                                    <textarea class="form-control" id="message" name="comentarios" placeholder="Podes añadir cualquier comentario de interes para el especialista (opcional)." rows="5" cols="40"></textarea>
+                            <legend class="titulo-prof" style="color: black">Datos del Cliente</legend>
+                            <hr>
+                            <div class="form-group"> 
+                                <div class="row">                       
+                                    <span class="col-md-1 text-center"><i class="fa fa-user bigicon" style="color: black"></i></span>
+                                    <div class="col-md-8">                            
+                                    <label><?=$this->session->userdata('nombre')?></label>                                
+                                    </div>                            
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-12">
-                            
-                                <button type="submit" class="btn btn-primary btn-lg">Proceder al pago $</button>
+                            <div class="form-group">
+                                <div class="row">  
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon" style="color: black"></i></span>
+                                    <div class="col-md-8">
+                                    <label><?=$this->session->userdata('apellido')?></label>    
+                                    </div>                          
+                                </div>
                             </div>
-                        </div>                                         
-                </form>
-            </div><!--class row-->
-        </div>
-        <!--DATOS DEL PROFESIONAL-->
-        <div>
-        <?php
-                    if(isset($horario)){
-                    $item = array_values($horario)[0]
-                ?>
-            <div class="flex-prof">
-                <div>
-                    <img src="<?=$item["foto"]?>" id="avatar"/>
-                    <label>Lic. <?=$item["nombre"]?>&nbsp;<?=$item["apellido"]?></label>
-                </div>
-                <div>
-                    <span><i class="fa fa-calendar bigicon" style="color: grey"></i></span>
-                    <label><?=$item["fecha_string"]?>hs.</label>
-                </div>
-                <div>
-                    <span><i class="fa fa-dollar-sign bigicon" style="color: grey"></i></span> 
-                    <label>Costo de la consulta $800</label>
-                </div>  
-                <div>
-                    <a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a>
-                </div>  
+
+                            <div class="form-group">
+                                <div class="row">  
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope bigicon" style="color: black"></i></span>
+                                    <div class="col-md-8">
+                                    <label><?=$this->session->userdata('email')?></label>    
+                                    </div>                          
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">  
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon" style="color: black"></i></span>
+                                    <div class="col-md-8">
+                                    <label><?=$this->session->userdata('telefono')?></label>    
+                                    </div>                          
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">  
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-edit bigicon" style="color: black"></i></span>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" id="message" name="comentarios" placeholder="Podes añadir cualquier comentario de interes para el especialista (opcional)." rows="5" cols="40"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                
+                                    <button type="submit" class="btn btn-primary btn-lg">Proceder al pago $</button>
+                                </div>
+                            </div>                                         
+                    </form>
+                </div><!--class row-->
             </div>
-            <?php }?>
+            <!--DATOS DEL PROFESIONAL-->
+            <div>
+                <?php
+                        if(isset($horario)){
+                        $item = array_values($horario)[0]
+                    ?>
+                <div class="flex-prof">
+                    <legend class="titulo-prof" style="color: black">Detalle de la visita</legend>
+                    <hr>
+                    <div>
+                        <img src="<?=$item["foto"]?>" id="avatar"/>
+                        <label>Lic. <?=$item["nombre"]?>&nbsp;<?=$item["apellido"]?></label>
+                    </div>
+                    <hr>
+                    <div>
+                        <span><i class="fa fa-calendar bigicon" style="color: grey"></i></span>
+                        <label><?=$item["fecha_string"]?>hs.</label>
+                    </div>
+                    <hr>
+                    <div>
+                        <span><i class="fa fa-dollar-sign bigicon" style="color: grey"></i></span> 
+                        <label>Costo de la consulta $800</label>
+                    </div>  
+                    <hr>
+                    <div>
+                        <a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a>
+                    </div> 
+                    <hr>
+                   
 
-
-        </div>
+                </div>
+                <?php }?>
+            </div>
+        </div><!--END FLEX-->
     </div> <!--END CONTAINER-->
     </section>
+    
 </body>
 </html>

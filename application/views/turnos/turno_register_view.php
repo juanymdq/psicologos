@@ -91,8 +91,6 @@
             <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
                     <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
 
-                  
-
                     <legend class="text-center header" style="color: black">Datos del Cliente</legend>
                     
                     <div class="form-group"> 
@@ -165,7 +163,7 @@
                           <span class="col-md-1 col-md-offset-2"><i class="fa fa-calendar bigicon" style="color: grey"></i></span>                          
                           <div class="col-md-8" style="margin-left:20px;"><?=$item["fecha_string"]?></div>
                       </div> 
-                      <hr>
+                      <hr/>
                       <div class="row" style="width: 350px; margin-left:-.5em">  
                           <span class="col-md-1 col-md-offset-2"><i class="fa fa-dollar-sign bigicon" style="color: grey"></i></span>                          
                           <div class="col-md-8" style="margin-left:20px;"><label>Costo de la consulta $800</label></div>
