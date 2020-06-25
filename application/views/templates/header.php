@@ -48,8 +48,10 @@
                         
                     </div>
                     <div class="menu-dos">
-                        <input type="checkbox" id="btn-menu">
-                        <label for="btn-menu"><img id="img" src="<?=base_url()?>application/assets/img/menu.png" alt=""></label>
+                        
+                            <input type="checkbox" id="btn-menu">
+                            <label for="btn-menu"><img id="img" src="<?=base_url()?>application/assets/img/menu.png" alt=""></label>
+                       
                         <nav class="nav">
                             <ul>
                                 <li><a href="<?=base_url('principal')?>" class="menu-dos-link-text">INICIO</a></li>

@@ -92,12 +92,18 @@ header label:hover {
     text-decoration: none;
 }
 
+
 @media (max-width:768px) {
 
     .contenedor {
         width: 90%;
         margin: 0 auto;
         overflow: hidden;
+    }
+
+    .menu-dos {
+        margin-bottom: 10px;       
+        height: 8%;
     }
 
     header {     
@@ -108,9 +114,12 @@ header label:hover {
         z-index: 1;
         position: absolute;
         display: block;
+        
+        
     }
 
     .nav {
+        padding-top: 40px;
         position: absolute;        
         background: #4E94AE ;
         width: 30%;

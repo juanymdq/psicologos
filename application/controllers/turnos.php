@@ -66,6 +66,12 @@ class Turnos extends MY_Controller {
             $this->render_page('turnos/turno_register_pago_view', $datos);          
         }
     }
+
+
+    function success_checkout() {
+        $datos['datos'] = "se guardo";
+        $this->render_page('turnos/success_checkout_view', $datos);
+    }
     //realiza acciones sobre los horarios, Agreagar y eliminar
     public function accion() {
         

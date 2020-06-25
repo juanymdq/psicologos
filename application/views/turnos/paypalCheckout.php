@@ -1,5 +1,5 @@
-<div id="paypal-button-container"></div>
-<div id="paypal-button"></div>
+<div id="paypal-button-container" style="width: 200px; height:50px;"></div>
+<div id="paypal-button" style="width: 200px; height:50px;"></div>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
 paypal.Button.render({

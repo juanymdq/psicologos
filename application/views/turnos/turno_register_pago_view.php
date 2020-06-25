@@ -18,13 +18,15 @@
 
 </head>
 <body>  
+
 <div class="container">
-    <form name="pagos">
+    
+    <form name="pagos" action="<?=base_url('turnos/success_checkout')?>">
 
         <div class="mpago">
             <input type="radio" id="btn-pago" name="pago" value="mercadopago" onclick="pagar()" >
             <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-pago">
-            <label>Pagar con Mercado Libre - Clientes de Argentina</label>
+            <label>Pagar con MercadoPago - Clientes de Argentina</label>
         </div> 
         <div class="paypal">
             <input type="radio" id="btn-pago" name="pago" value="paypal" onclick="pagar()">
@@ -34,13 +36,18 @@
     </form> 
 
 
-
-
+   
+    
     <div class="mercadopago" id="mercadopago">
-        <script src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-        data-preference-id="11138814-fdf02b8c-d47f-49bb-8d44-92a4b0b9e01f">
-        </script>
+    <a 
+        href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=11138814-fdf02b8c-d47f-49bb-8d44-92a4b0b9e01f" 
+        target="blank"
+        class="btn btn-success"
+    >
+        Pagar
+    </a>
     </div>
+   
   
     <div class="paypal" id="paypal">
         <?php 

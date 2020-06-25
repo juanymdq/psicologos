@@ -1,4 +1,10 @@
 <?php
+//----------CONFIG MERCADOPAGO--------------------------------------------------------
+define('ENV_PUBLIC_KEY','TEST-228223e9-bf5e-44e8-addc-ce07719c2ed4');
+define('ENV_ACCESS_TOKEN','TEST-4595810000936907-072214-41c06a876bf09298517b02fda5442845-11138814');
+define('ENV_BASE_URL',base_url());
+//------------------------------------------------------------------------------------
+//--------------CONFIG PAYPAL---------------------------------------------------------
 define('ProPayPal', 0);
 if(ProPayPal){
 	define("PayPalClientId", "*********************");
@@ -13,4 +19,5 @@ if(ProPayPal){
 	define("PayPalBaseUrl", "http://localhost/paypal/");
 	define("PayPalENV", "sandbox");
 }
+//---------------------------------------------------------------------------------------
 ?>

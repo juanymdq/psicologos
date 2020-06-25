@@ -3,25 +3,25 @@
 <head>
     <title>Turnos</title>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-      .header {
-    color: #36A0FF;
-    font-size: 27px;
-    padding: 10px;
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+.header {
+  color: #36A0FF;
+  font-size: 27px;
+  padding: 10px;
 }
 
 .bigicon {
@@ -84,10 +84,11 @@
     <div class="container">
       <div class="row">
      
-          <div class="col-sm-7 text-left">
-          <?php
-                  if(isset($horario)){
-                    $item = array_values($horario)[0]?>
+          <div class="col-sm-6 text-left">
+            <?php
+              if(isset($horario)){
+                $item = array_values($horario)[0]
+            ?>
             <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
                     <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
 
@@ -145,38 +146,36 @@
                     </div> 
                                        
             </form>                         
-          </div><!--col-sm-7 text-left-->
-          <div class="col-sm-1"></div>
-          <div class="col-sm-2">
-            <div class="contenedor">
-              <div class="titulo-prof">Detalles de la Visita</div>
-                    <div class="datos-prof">
-                      <hr>
-                      <div class="row" style="width: 300px; margin-left:-.5em">
-                        <div class="col-md-3">
-                          <img src="<?=$item["foto"]?>" id="avatar"/>
-                        </div>
-                        <div class="col-md-8">Lic. <?=$item["nombre"]?>&nbsp;<?=$item["apellido"]?></div>
-                      </div>
-                      <hr>
-                      <div class="row" style="width: 350px; margin-left:-.5em">  
-                          <span class="col-md-1 col-md-offset-2"><i class="fa fa-calendar bigicon" style="color: grey"></i></span>                          
-                          <div class="col-md-8" style="margin-left:20px;"><?=$item["fecha_string"]?></div>
-                      </div> 
-                      <hr/>
-                      <div class="row" style="width: 350px; margin-left:-.5em">  
-                          <span class="col-md-1 col-md-offset-2"><i class="fa fa-dollar-sign bigicon" style="color: grey"></i></span>                          
-                          <div class="col-md-8" style="margin-left:20px;"><label>Costo de la consulta $800</label></div>
-                      </div> 
-                      <div class="cambiar-horario">
-                        <a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a>
-                      </div>                         
-                      <?php }?>
-                    </div>              
-            </div>
-          </div><!--col-sm-2-->  
+          </div><!--col-sm-6 text-left-->
+          
+          <div class="col-sm-5 text-left">            
+            <div class="titulo-prof">Detalles de la Visita</div>
+            <div class="datos-prof">
+              <hr>
+              <div class="row" style="width: 300px; margin-left:-.5em">
+                <div class="col-md-3">
+                  <img src="<?=$item["foto"]?>" id="avatar"/>
+                </div>
+                <div class="col-md-8">Lic. <?=$item["nombre"]?>&nbsp;<?=$item["apellido"]?></div>
+              </div>
+              <hr>
+              <div class="row" style="width: 350px; margin-left:-.5em">  
+                  <span class="col-md-1 col-md-offset-2"><i class="fa fa-calendar bigicon" style="color: grey"></i></span>                          
+                  <div class="col-md-8" style="margin-left:20px;"><?=$item["fecha_string"]?></div>
+              </div> 
+              <hr/>
+              <div class="row" style="width: 350px; margin-left:-.5em">  
+                  <span class="col-md-1 col-md-offset-2"><i class="fa fa-dollar-sign bigicon" style="color: grey"></i></span>                          
+                  <div class="col-md-8" style="margin-left:20px;"><label>Costo de la consulta $800</label></div>
+              </div> 
+              <div class="cambiar-horario">
+                <a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a>
+              </div>                         
+              <?php }?>
+            </div>   
+          </div><!--col-sm-5-->  
       </div><!--row-->
-</div><!--contenedor-->
+  </div><!--contenedor-->
      
   
     </section>

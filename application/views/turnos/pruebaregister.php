@@ -9,20 +9,22 @@
     margin-bottom: 10px;
 }
 h1 {
-margin-top: 10px;
-text-align: center;
-color: #4E94AE;
+    margin-top: 1px;
+    text-align: center;
+    color: #4E94AE;
 }
-
+h2 {    
+    text-align: center;    
+}
 p {
-text-align: center;
-color: #4E94AE;
+    text-align: center;
+    color: #4E94AE;
 }
 .row {    
-    width: auto;
+    width: 100%;
     margin-left: auto;
-    margin-right: auto;
-    border: 1px solid;
+    margin-right: auto;   
+    border-radius: 10px;
 }
 .form-group {
     text-align: left;
@@ -32,13 +34,12 @@ color: #4E94AE;
   display: flex;
   flex-direction: row;
   background-color: #4E94AE;
+  border-radius: 10px;
+  border: 1px solid;
+  
 }
 
-.flex-prof > div{
-   text-align: left;
-}
-
-.flex-container > div, .flex-prof > div {
+.flex-container > div {
   background-color: #f1f1f1;
   width: 400px;
   margin: 10px;
@@ -46,13 +47,15 @@ color: #4E94AE;
   font-size: 15px;
   margin-left: auto;
   margin-right: auto;  
+  border-radius: 10px;
 }
 
-
-
-@media (max-width:640px) {
+@media (max-width:768px) {
     .form-group {
-    text-align: center;
+        text-align: center;
+    }
+    .fields {        
+        text-align: center;
     }
 }
 
@@ -73,11 +76,43 @@ color: #4E94AE;
   
   
 }
-.cambiar-horario{
-  
+.cambiar-horario{  
   text-align: center;
-  
-
+}
+.fields {
+    width: 100%;
+    text-align: left;
+}
+.fields > .row{    
+    align-items: center;
+    margin-bottom: 15px;
+}
+.content-pagos {
+    width: 100%;
+    height: 30%;
+    border: 1px solid;
+    border-radius: 10px;
+    background: #4E94AE;
+}
+.pagos {
+    display: flex;
+    flex-direction: row;
+        
+}
+.pagos > div {    
+    border: 1px solid;
+    width: 400px;
+    margin: 10px;
+    text-align: center;  
+    font-size: 15px;
+    margin-left: auto;
+    margin-right: auto;  
+    border-radius: 10px;
+}
+.icono-mpago {
+    width: 80px;
+    height: 80px;
+}
 </style>
 </head>
 <body>
@@ -92,8 +127,7 @@ color: #4E94AE;
 
         <div class="flex-container">
             <div>
-                <div class="row">
-                        
+                <div class="row">                        
                     <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
                             <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
 
@@ -102,7 +136,7 @@ color: #4E94AE;
                             <div class="form-group"> 
                                 <div class="row">                       
                                     <span class="col-md-1 text-center"><i class="fa fa-user bigicon" style="color: black"></i></span>
-                                    <div class="col-md-8">                            
+                                    <div class="col-md-11">                            
                                     <label><?=$this->session->userdata('nombre')?></label>                                
                                     </div>                            
                                 </div>
@@ -141,51 +175,90 @@ color: #4E94AE;
                                         <textarea class="form-control" id="message" name="comentarios" placeholder="Podes añadir cualquier comentario de interes para el especialista (opcional)." rows="5" cols="40"></textarea>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                
-                                    <button type="submit" class="btn btn-primary btn-lg">Proceder al pago $</button>
-                                </div>
-                            </div>                                         
+                            </div>                             
                     </form>
                 </div><!--class row-->
             </div>
             <!--DATOS DEL PROFESIONAL-->
-            <div>
-                <?php
-                        if(isset($horario)){
-                        $item = array_values($horario)[0]
-                    ?>
-                <div class="flex-prof">
+            <?php   
+                if(isset($horario)){
+                $item = array_values($horario)[0]
+            ?>
+            <div>                  
+                <div class="row">                   
                     <legend class="titulo-prof" style="color: black">Detalle de la visita</legend>
-                    <hr>
-                    <div>
-                        <img src="<?=$item["foto"]?>" id="avatar"/>
-                        <label>Lic. <?=$item["nombre"]?>&nbsp;<?=$item["apellido"]?></label>
-                    </div>
-                    <hr>
-                    <div>
-                        <span><i class="fa fa-calendar bigicon" style="color: grey"></i></span>
-                        <label><?=$item["fecha_string"]?>hs.</label>
-                    </div>
-                    <hr>
-                    <div>
-                        <span><i class="fa fa-dollar-sign bigicon" style="color: grey"></i></span> 
-                        <label>Costo de la consulta $800</label>
-                    </div>  
-                    <hr>
-                    <div>
-                        <a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a>
-                    </div> 
-                    <hr>
-                   
-
-                </div>
-                <?php }?>
+                    <hr />
+                    <div class="fields">
+                    <hr />
+                        <div class="row">                       
+                            <span class="col-md-4 text-center"><img src="<?=$item["foto"]?>" id="avatar"/></span>
+                            <div class="col-md-8">
+                                <label>Lic. <?=$item["nombre"]?>&nbsp;<?=$item["apellido"]?></label>                               
+                            </div>                            
+                        </div>
+                        <hr />
+                    </div>                    
+                    <div class="fields">
+                        <div class="row">         
+                            <span class="col-md-1 text-center"><i class="fa fa-calendar bigicon" style="color: black"></i></span>                                
+                            <div class="col-md-11">                            
+                                <label><?=$item["fecha_string"]?>hs.</label>
+                            </div>                            
+                        </div>
+                        <hr />
+                    </div>                    
+                    <div class="fields">
+                        <div class="row">         
+                            <span class="col-md-1 text-center"><i class="fa fa-dollar-sign bigicon" style="color: black"></i></span>                                
+                            <div class="col-md-11">                            
+                                <label>Costo de la consulta $800</label>
+                            </div>                            
+                        </div>
+                        <hr />
+                    </div>                    
+                    <div class="fields">
+                        <div class="row">    
+                            <span class="col-md-8"><a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a></span>
+                        </div>              
+                    </div>   
+                </div>                                 
             </div>
         </div><!--END FLEX-->
+        <?php }?>
+        <div class="content-pagos">
+            <h2>Seleccionar medio de pago</h2>
+            <div class="pagos"> 
+                <?php
+                include('config.php');
+                include('procesar-pago-ml.php');
+                ?>
+                <div>
+                <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-mpago"> 
+                    <form action="<?=ENV_BASE_URL?>/cliente/cpanel" method="POST">
+                        <script
+                        src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+                        data-preference-id="<?php echo $preference->id; ?>">
+                        </script>
+                    </form>
+                </div>
+                <div>
+                    <div class="paypal" id="paypal">
+                        <?php                     
+                        $productName = "Producto Demostración";
+                        $currency = "USD";
+                        $productPrice = 100;
+                        $productId = 1;
+                        $orderNumber = 1;
+                        ?>
+                        <div class="container">                            
+                            <?php include 'paypalCheckout.php'; ?>                            	
+                        </div>
+
+                    </div>
+                </div> 
+            </div>
+
+        </div>     
     </div> <!--END CONTAINER-->
     </section>
     
