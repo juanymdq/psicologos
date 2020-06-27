@@ -5,9 +5,36 @@
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/tarjetas.css"/> 
     
   
-      <style>
-     
-</style>
+        <style>
+           
+            .clasificacion {
+            position: relative;
+            display:flex;
+            flex-direction: row;
+            overflow: hidden;                     
+            justify-content: center;
+            }
+
+            .clasificacion input {
+            position: absolute;
+            
+            top: -100px;
+            }
+
+            .clasificacion label {
+            float: right;
+            padding-right: 15px;
+            font-size: 20px;
+            color: #333;
+            }
+
+            .clasificacion label:hover,
+            .clasificacion label:hover ~ label,
+            .clasificacion input:checked ~ label {
+            color: #dd4;
+            }
+
+        </style>
    
 </head>
 <body>
@@ -29,6 +56,19 @@
                 <h4>Psicologo</h4>
             </div>
             <div class="description">
+                <div class="clasificacion">
+                    <input id="radio1" type="radio" name="estrellas" value="5">
+                    <label for="radio1">★</label>
+                    <input id="radio2" type="radio" name="estrellas" value="4">
+                    <label for="radio2">★</label>
+                    <input id="radio3" type="radio" name="estrellas" value="3">
+                    <label for="radio3">★</label>
+                    <input id="radio4" type="radio" name="estrellas" value="2">
+                    <label for="radio4">★</label>
+                    <input id="radio5" type="radio" name="estrellas" value="1">
+                    <label for="radio5">★</label>
+                </div>
+            
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod 
                     tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
                     quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.</p>

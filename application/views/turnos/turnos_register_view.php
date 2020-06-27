@@ -228,18 +228,23 @@ p {
         <div class="content-pagos">
             <h2>Seleccionar medio de pago</h2>
             <div class="pagos"> 
+
                 <?php
-                include('config.php');
+                include('config.php');                
                 include('procesar-pago-ml.php');
                 ?>
                 <div>
-                <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-mpago"> 
-                    <form action="<?=ENV_BASE_URL?>/cliente/cpanel" method="POST">
-                        <script
-                        src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-                        data-preference-id="<?php echo $preference->id; ?>">
-                        </script>
-                    </form>
+                    <div class="row">                          
+                        <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-mpago"> 
+                        <form action="<?=base_url('turnos/redirectmp')?>" method="GET">
+                            <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
+                            <input type="hidden" name="comentarios">
+                            <script
+                            src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+                            data-preference-id="<?php echo $preference->id; ?>">
+                            </script>
+                        </form>
+                    </div>
                 </div>
                 <div>
                     <div class="paypal" id="paypal">

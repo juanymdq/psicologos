@@ -57,8 +57,8 @@
 		</div>
 		<section>
 		<h1>Panel de Control del cliente</h1>
-
-		<p>The "flex-wrap: wrap;" specifies that the flex items will wrap if necessary:</p>
+		
+		<p><?php //TODO: colocar mensaje de exito de pago - ml y paypal ?></p>
 
 		<div class="flex-container">
 			<div>
@@ -75,14 +75,14 @@
 			</div>
 			<div>
 				<a href="<?=base_url('cliente/listar_profesionales')?>">
-					<div class="icon"><i class="fas fa-calendar-alt icono" title="Turnos"></i></div>
-					<div class="div-text">Turnos</div>
+					<div class="icon"><i class="fas fa-calendar-alt icono" title="Pedir un turno"></i></div>
+					<div class="div-text">Pedir un turno</div>
 				</a>
 			</div>  
 			<div>
 				<a href="">
-					<div class="icon"><i class="fas fa-notes-medical icono" title="Historial"></i></div>
-					<div class="div-text">Historial</div>
+					<div class="icon"><i class="fas fa-notes-medical icono" title="Mis turnos"></i></div>
+					<div class="div-text">Mis turnos</div>
 				</a>
 			</div>
 			<div>

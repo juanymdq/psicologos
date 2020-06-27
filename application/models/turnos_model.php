@@ -64,9 +64,7 @@ class Turnos_model extends CI_Model {
         return $aResult->result_array();
         
     }
-
    
-
     function insert_turno_temporal($data) {
         $this->db->insert('tmp_horarios_clientes', $data);
         return $this->db->insert_id();

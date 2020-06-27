@@ -93,7 +93,7 @@ header label:hover {
 }
 
 
-@media (max-width:768px) {
+@media (max-width:768px) and (min-height:350px) {
 
     .contenedor {
         width: 90%;
@@ -103,7 +103,7 @@ header label:hover {
 
     .menu-dos {
         margin-bottom: 10px;       
-        height: 8%;
+        height: 30px;
     }
 
     header {     
@@ -114,8 +114,6 @@ header label:hover {
         z-index: 1;
         position: absolute;
         display: block;
-        
-        
     }
 
     .nav {

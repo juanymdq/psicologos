@@ -50,7 +50,7 @@ class Turnos extends MY_Controller {
             //busca el horario seleccionado y los datos del profesional           
             $datos['horario'] = $this->turnos_model->find_one_horario($id);
             //$this->render_page('turnos/turno_register_view', $datos);
-            $this->render_page('turnos/pruebaregister', $datos);
+            $this->render_page('turnos/turnos_register_view', $datos);
        
         }
     }
@@ -67,11 +67,48 @@ class Turnos extends MY_Controller {
         }
     }
 
-
-    function success_checkout() {
-        $datos['datos'] = "se guardo";
-        $this->render_page('turnos/success_checkout_view', $datos);
+    function procesar_pago(){
+        $datos['id_turno'] = $_GET['id_turno'];
+        $this->render_page('turnos/procesar-pago-ml', $datos);
+        /*
+        id_turno=63
+        &comentarios=
+        &preference_id=593026235-32b5bee8-48f3-4256-9933-6b92bb3f81ef
+        &external_reference=
+        &back_url=
+        &payment_id=27413454
+        &payment_status=pending
+        &payment_status_detail=pending_waiting_payment
+        &merchant_order_id=1550212055
+        &processing_mode=aggregator
+        &merchant_account_id=
+        */
     }
+
+    function redirectmp() {
+        if(!empty($_GET['payment_id'])){
+
+            switch($_GET['payment_status_detail']){
+                case 'acredited':
+                    $data = array(
+                        'id_cliente' => $this->session->userdata('id'),
+                        'id_horario' => $_GET['idTurno'],                        
+                    );
+                    echo "pago aprobado";
+                break;
+                case 'pending_waiting_payment':
+                    $datos['message'] = 'Pago pendiente';                    
+                break;
+                case 3:
+                    echo "pago rechazado";
+                break;
+    
+            }
+           
+            $this->render_page('turnos/estadomp', $datos);
+        }
+    }    
+
     //realiza acciones sobre los horarios, Agreagar y eliminar
     public function accion() {
         

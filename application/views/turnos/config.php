@@ -1,7 +1,9 @@
 <?php
 //----------CONFIG MERCADOPAGO--------------------------------------------------------
-define('ENV_PUBLIC_KEY','TEST-228223e9-bf5e-44e8-addc-ce07719c2ed4');
-define('ENV_ACCESS_TOKEN','TEST-4595810000936907-072214-41c06a876bf09298517b02fda5442845-11138814');
+//USER DE PRUEBAS: test_user_9596410@testuser.com
+//PASS: qatest697
+define('ENV_PUBLIC_KEY','TEST-a9ce1460-6036-4fe9-83b4-417e668d196d');
+define('ENV_ACCESS_TOKEN','TEST-4747615753113302-062610-ec6a0ed116443bcf715697849f259083-593026235');
 define('ENV_BASE_URL',base_url());
 //------------------------------------------------------------------------------------
 //--------------CONFIG PAYPAL---------------------------------------------------------
