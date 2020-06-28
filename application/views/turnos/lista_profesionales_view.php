@@ -50,9 +50,9 @@
         <div class="card-container">
             <div class="header">
                 <a href="<?=base_url('cliente/ver_horarios_de_profesional')?>?id=<?=$item['id']?>" title="Ver horarios">
-                    <img src="<?=$item["foto"]?>"/>
+                    <img src="<?=$item["pr_foto"]?>"/>
                 </a>
-                <h2>Lic.&nbsp;<?=$item['apellido'].", ".$item['nombre']?></h2>
+                <h2>Lic.&nbsp;<?=$item['pr_apellido'].", ".$item['pr_nombre']?></h2>
                 <h4>Psicologo</h4>
             </div>
             <div class="description">

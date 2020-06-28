@@ -129,8 +129,7 @@ p {
             <div>
                 <div class="row">                        
                     <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
-                            <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
-
+                            <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">                            
                             <legend class="titulo-prof" style="color: black">Datos del Cliente</legend>
                             <hr>
                             <div class="form-group"> 
@@ -172,7 +171,7 @@ p {
                                 <div class="row">  
                                     <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-edit bigicon" style="color: black"></i></span>
                                     <div class="col-md-8">
-                                        <textarea class="form-control" id="message" name="comentarios" placeholder="Podes añadir cualquier comentario de interes para el especialista (opcional)." rows="5" cols="40"></textarea>
+                                        <textarea class="form-control" id="message" name="comentarios" placeholder="Podes añadir cualquier comentario de interes para el especialista (opcional)." rows="5" cols="40" onkeyup="agrega()"></textarea>
                                     </div>
                                 </div>
                             </div>                             
@@ -191,9 +190,9 @@ p {
                     <div class="fields">
                     <hr />
                         <div class="row">                       
-                            <span class="col-md-4 text-center"><img src="<?=$item["foto"]?>" id="avatar"/></span>
+                            <span class="col-md-4 text-center"><img src="<?=$item["pr_foto"]?>" id="avatar"/></span>
                             <div class="col-md-8">
-                                <label>Lic. <?=$item["nombre"]?>&nbsp;<?=$item["apellido"]?></label>                               
+                                <label>Lic. <?=$item["pr_nombre"]?>&nbsp;<?=$item["pr_apellido"]?></label>                               
                             </div>                            
                         </div>
                         <hr />
@@ -236,9 +235,9 @@ p {
                 <div>
                     <div class="row">                          
                         <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-mpago"> 
-                        <form action="<?=base_url('turnos/redirectmp')?>" method="GET">
-                            <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">
-                            <input type="hidden" name="comentarios">
+                        <form action="<?=base_url('turnos/redirectmp')?>" method="POST">
+                            <input type="hidden" value="<?=$_GET['id']?>" name="id_horario">
+                            <input type="hidden" id="comentariosmp" name="comentariosmp">                            
                             <script
                             src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
                             data-preference-id="<?php echo $preference->id; ?>">
@@ -266,6 +265,11 @@ p {
         </div>     
     </div> <!--END CONTAINER-->
     </section>
-    
+    <script>
+        function agrega() {
+            texto = document.getElementById('message').value;
+            document.getElementById('comentariosmp').value = texto;
+        }    
+    </script>
 </body>
 </html>

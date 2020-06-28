@@ -66,37 +66,32 @@ class Turnos extends MY_Controller {
             $this->render_page('turnos/turno_register_pago_view', $datos);          
         }
     }
-
-    function procesar_pago(){
-        $datos['id_turno'] = $_GET['id_turno'];
-        $this->render_page('turnos/procesar-pago-ml', $datos);
-        /*
-        id_turno=63
-        &comentarios=
-        &preference_id=593026235-32b5bee8-48f3-4256-9933-6b92bb3f81ef
-        &external_reference=
-        &back_url=
-        &payment_id=27413454
-        &payment_status=pending
-        &payment_status_detail=pending_waiting_payment
-        &merchant_order_id=1550212055
-        &processing_mode=aggregator
-        &merchant_account_id=
-        */
-    }
-
+//se llama cuando se paga por MP o Pypal
     function redirectmp() {
-        if(!empty($_GET['payment_id'])){
+        if(!empty($_POST['payment_id'])){
+            if($_POST['payment_status_detail']=='accredited'){
+                $status = 'Pago acreditado';
+            }else if($_POST['payment_status_detail']=='pending_waiting_payment'){
+                $status = 'Pago por ticket. Pendiente de pago';
+            }
+            $data = array(
+                'id_cliente' => $this->session->userdata('id'),
+                'id_horario' => $_POST['id_horario'],     
+                'comentarios' => $_POST['comentariosmp'],
+                'id_sesion' => $this->session->session_id,
+                'payment_id' => $_POST['payment_id'],
+                'payment_status' => $status
+            );
+            switch($_POST['payment_status_detail']){
+                case 'accredited':  
 
-            switch($_GET['payment_status_detail']){
-                case 'acredited':
-                    $data = array(
-                        'id_cliente' => $this->session->userdata('id'),
-                        'id_horario' => $_GET['idTurno'],                        
-                    );
-                    echo "pago aprobado";
+                    $idTurno = $this->turnos_model->insert_turno($_POST['id_horario'], $data);   
+                    //$this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
+                    $datos['message'] = 'Pago aprobado';                    
                 break;
                 case 'pending_waiting_payment':
+                    $idTurno = $this->turnos_model->insert_turno($_POST['id_horario'], $data);   
+                    //$this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
                     $datos['message'] = 'Pago pendiente';                    
                 break;
                 case 3:
@@ -104,8 +99,10 @@ class Turnos extends MY_Controller {
                 break;
     
             }
+            $this->envia_mail($idTurno);
+            //$this->render_page('turnos/estadomp', $datos);
            
-            $this->render_page('turnos/estadomp', $datos);
+            $this->render_page('turnos/estadomp', $datos, true);
         }
     }    
 
@@ -148,6 +145,48 @@ class Turnos extends MY_Controller {
                 break;
         }
     }
+
+    function envia_mail($idTurno) {
+        $datosTurno = $this->turnos_model->find_by_cliente($idTurno);
+        $item = array_values($datosTurno)[0];
+
+        if($item['email']<>NULL){
+            //configuracion de envio mail
+            $config = Array(
+                'protocol'  => 'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_port' => '465',
+                'smtp_user' => 'juanymdq@gmail.com',
+                'smtp_pass' => 'kano0479',
+                'set_mailtype'  => 'html',
+                'set_header' => 'Content-Type', 'text/html',
+                'starttls'  => true,
+                'newline'   => "\r\n"
+            );
+            //cargamos la libreria email
+            $this->load->library('email', $config);
+        
+            $this->email->from('ejemplo@mipagina', 'Juan Fernandez');
+            $this->email->to('jifernandez04@hotmail.com');
+            
+            $this->email->subject('Prueba de envio');
+
+             //enviamos el mail
+             $this->email->send();  
+
+            $datos['item'] = $item;
+            //llamamos a la vista plantilla mail 
+            $this->email->message($this->render_page('turnos/plantilla_mail', $datos, true));                
+
+                
+        }else{
+            $aviso['error_message'] = 'El mail no se envio';
+            $this->render_page('usuarios/forgot_password', $aviso);
+        }    
+  
+    }
+
+
 
     //funcion para agregar la fecha formato string
     function fecha($fecha) {

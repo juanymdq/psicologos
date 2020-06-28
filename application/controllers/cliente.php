@@ -267,7 +267,7 @@ class Cliente extends MY_Controller
     function cambio_de_password(){
         //obtenemos el token via get
         if(isset($_GET['token'])){
-            //guardaos el yoken en una variable
+            //guardamos el token en una variable
             $token = $_GET['token'];
             //buscamos el token en la bd
             $query = $this->usuarios_model->find_by_token($token);
