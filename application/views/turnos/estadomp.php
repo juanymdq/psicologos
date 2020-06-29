@@ -69,11 +69,11 @@
 <body>
     <section>
     <?php
-    if(isset($message)){?>
+    if(isset($payment_message)){?>
         <div class="container">
             <div class="flex-container">
-                <p><?=$message?></p>              
-                <p>Se envio un mail con los detalles del turno</p>
+                <p><?=$payment_message?></p>              
+                <p><?=$message_advice?></p>
                 <p>Usted será redireccionado al panel del control en ...</p>
                 
             </div>

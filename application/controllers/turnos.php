@@ -1,5 +1,12 @@
-<?php 
+<?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+
+require 'vendor/autoload.php';
+
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 
 class Turnos extends MY_Controller {
 
@@ -87,20 +94,21 @@ class Turnos extends MY_Controller {
 
                     $idTurno = $this->turnos_model->insert_turno($_POST['id_horario'], $data);   
                     //$this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
-                    $datos['message'] = 'Pago aprobado';                    
+                    $datos['payment_message'] = 'Pago aprobado';                    
                 break;
                 case 'pending_waiting_payment':
                     $idTurno = $this->turnos_model->insert_turno($_POST['id_horario'], $data);   
                     //$this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
-                    $datos['message'] = 'Pago pendiente';                    
+                    $datos['payment_message'] = 'Pago pendiente';                    
                 break;
                 case 3:
                     echo "pago rechazado";
                 break;
     
             }
-            $this->envia_mail($idTurno);
-            //$this->render_page('turnos/estadomp', $datos);
+            ($this->envia_mail($idTurno)) ?
+            $datos['message_advice'] = "El turno se agendó correctamente. Se envio un mail con los detalles del mismo"
+            : $datos['message_advice'] = "El turno se agendó correctamente pero el mensaje no pudo ser enviado por mail";
            
             $this->render_page('turnos/estadomp', $datos, true);
         }
@@ -146,46 +154,64 @@ class Turnos extends MY_Controller {
         }
     }
 
-    function envia_mail($idTurno) {
+    
+    public function envia_mail($idTurno) {
+
+        // Load Composer's autoloader
         $datosTurno = $this->turnos_model->find_by_cliente($idTurno);
-        $item = array_values($datosTurno)[0];
-
-        if($item['email']<>NULL){
-            //configuracion de envio mail
-            $config = Array(
-                'protocol'  => 'smtp',
-                'smtp_host' => 'ssl://smtp.googlemail.com',
-                'smtp_port' => '465',
-                'smtp_user' => 'juanymdq@gmail.com',
-                'smtp_pass' => 'kano0479',
-                'set_mailtype'  => 'html',
-                'set_header' => 'Content-Type', 'text/html',
-                'starttls'  => true,
-                'newline'   => "\r\n"
-            );
-            //cargamos la libreria email
-            $this->load->library('email', $config);
         
-            $this->email->from('ejemplo@mipagina', 'Juan Fernandez');
-            $this->email->to('jifernandez04@hotmail.com');
-            
-            $this->email->subject('Prueba de envio');
+        if(!empty($datosTurno)){            
+            $item = array_values($datosTurno)[0];        
 
-             //enviamos el mail
-             $this->email->send();  
-
-            $datos['item'] = $item;
-            //llamamos a la vista plantilla mail 
-            $this->email->message($this->render_page('turnos/plantilla_mail', $datos, true));                
-
+            if($item['email']<>NULL){
                 
-        }else{
-            $aviso['error_message'] = 'El mail no se envio';
-            $this->render_page('usuarios/forgot_password', $aviso);
-        }    
-  
+                
+                $mail = new PHPMailer();
+                //Server settings 
+                    
+                $mail->isSMTP();                                            // Send using SMTP
+                $mail->Host       = 'ssl://smtp.googlemail.com';                    // Set the SMTP server to send through
+                $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+                $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+                $mail->Username   = 'juanymdq@gmail.com';                     // SMTP username
+                $mail->Password   = 'kano0479';                               // SMTP password
+                
+                //Recipients
+                $mail->Charset = PHPMailer::CHARSET_UTF8;
+                $mail->setFrom('from@example.com', 'Terapia Virtual');
+                $mail->addAddress('jifernandez04@hotmail.com', 'Juany');     // Add a recipient
+                if(!empty($datosTurno)){        
+                    $item = array_values($datosTurno)[0];
+                }else{
+                    
+                }
+                // Set email format to HTML
+                $mail->isHTML(true);
+                $asunto = 'Terapia virtual - Confirmación de turno';
+                $bodyc = "
+                <html>
+                    <head>
+                                 
+                    </head>
+                    <body>                
+                        <p>Cliente: ".$item['apellido'].", &nbsp;". $item['nombre']."</p>
+                        <p>Profesional: ".$item['pr_apellido'].", &nbsp;". $item['pr_nombre']."</p>
+                        <p>Fecha de turno: ".$item['fecha_string']."</p>
+                        <p>Estado de pago de la sesion: ".$item['payment_status']."</p>
+                        <p>El siguiente id lo necesitará para conectarse el dia del turno con el profesional por videollamada</p>
+                        <p>Id de la videollamada: ".$item['id_sesion']."</p>
+                    </body>
+                </html>";
+                $bodyCont=utf8_decode($bodyc);
+                $contenido=utf8_decode($asunto);                                 
+                $mail->Subject = $contenido;
+                $mail->Body    = $bodyCont;
+            
+                return $mail->send();             
+            }
+        }
     }
-
 
 
     //funcion para agregar la fecha formato string
