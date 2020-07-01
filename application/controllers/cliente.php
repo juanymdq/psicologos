@@ -38,7 +38,7 @@ class Cliente extends MY_Controller
            
     }
 
-
+//DIRIGE A LA VISTA DE PANEL DE CONTROL DEL CLIENTE
     public function cliente_cpanel() {
         $datos['titulo'] = "Cliente CPanel";
         $this->render_page('clientes/cliente_home_view', $datos);        
@@ -200,7 +200,7 @@ class Cliente extends MY_Controller
             $this->render_page('clientes/cliente_login_view', $data);
         }
     }
-
+//ENVIO DE MAIL PARA EL CAMBIO DE CONTRASEÑA
     public function sendMail()
     {
         $email = $this->input->post("email");  
@@ -345,6 +345,11 @@ class Cliente extends MY_Controller
             $this->usuarios_model->delete($id);
             echo 1;
         }
+    }
+
+    function ver_turnos($id) {
+        $datos['turnos'] = $this->cliente_model->find_turnos($id);
+        $this->render_page('clientes/cliente_turnos_view', $datos);
     }
    
 }

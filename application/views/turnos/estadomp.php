@@ -85,7 +85,7 @@
     
     </section>
 <script>
-    /*
+    
     const FULL_DASH_ARRAY = 283;
     const WARNING_THRESHOLD = 5;
     const ALERT_THRESHOLD = 3;
@@ -201,7 +201,7 @@
         .getElementById("base-timer-path-remaining")
         .setAttribute("stroke-dasharray", circleDasharray);
     }
-*/
+
 
 </script>
 </body>

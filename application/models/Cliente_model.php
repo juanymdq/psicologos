@@ -5,6 +5,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Cliente_model extends CI_Model {
     public $table = "cliente";
     public $table_token = 'tbl_tokens';
+    public $t_turnos = 'turnos';
     public $table_id = "id";
 
     public function __construct() {
@@ -62,6 +63,25 @@ class Cliente_model extends CI_Model {
         $query = $this->db->get($this->table_token);        
         return $query;
     }    
+
+    //buscar todos los turnos agendados para un cliente
+    function find_turnos($id) {
+        $this->db->select('*');        
+        $this->db->from('turnos as t');                
+        $this->db->join('cliente as c', 'c.id = t.id_cliente');
+        $this->db->join('horarios_profesionales as h', 'h.id = t.id_horario');
+        $this->db->join('profesional as p', 'p.id = h.id_profesional');
+        $this->db->where('c.id', $id);                
+                
+        $aResult = $this->db->get();
+
+        if(!$aResult->num_rows() == 1)
+        {
+            return false;
+        }
+        
+        return $aResult->result_array();
+    }
 
     function update($id, $data) {
             $this->db->where($this->table_id, $id);

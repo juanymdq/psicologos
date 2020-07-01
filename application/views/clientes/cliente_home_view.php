@@ -58,7 +58,13 @@
 		<section>
 		<h1>Panel de Control del cliente</h1>
 		
-		<p><?php //TODO: colocar mensaje de exito de pago - ml y paypal ?></p>
+		<p><?php //TODO: colocar mensaje de exito de pago - ml y paypal 
+		
+		if(!empty($payment_message)){
+			echo $payment_message;//pago rechazado mercadopago
+		}
+		
+		?></p>
 
 		<div class="flex-container">
 			<div>
@@ -68,19 +74,22 @@
 				</a>
 			</div>
 			<div>
+				<!-- $route['cliente/editar/(:any)'] = 'Cliente/cliente_save/$1'; -->
 				<a href="<?=base_url('cliente/editar/'.$this->session->userdata('id'))?>">
 					<div class="icon"><i class="fas fa-user-edit icono" title="Modificar datos"></i></div>
 					<div class="div-text">Modificar datos</div>
 				</a>
 			</div>
 			<div>
+				<!-- $route['cliente/listar_profesionales'] = 'Turnos'; -->
 				<a href="<?=base_url('cliente/listar_profesionales')?>">
 					<div class="icon"><i class="fas fa-calendar-alt icono" title="Pedir un turno"></i></div>
 					<div class="div-text">Pedir un turno</div>
 				</a>
 			</div>  
 			<div>
-				<a href="">
+				<!-- $route['cliente/mis_turnos/(:any)'] = 'cliente/ver_turnos/$1'; -->
+				<a href="<?=base_url('cliente/ver_turnos/'.$this->session->userdata('id'))?>">
 					<div class="icon"><i class="fas fa-notes-medical icono" title="Mis turnos"></i></div>
 					<div class="div-text">Mis turnos</div>
 				</a>

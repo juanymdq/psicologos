@@ -73,47 +73,109 @@ class Turnos extends MY_Controller {
             $this->render_page('turnos/turno_register_pago_view', $datos);          
         }
     }
-//se llama cuando se paga por MP o Pypal
+    /*
+https://www.sandbox.paypal.com/webapps/hermes?
+flow=1-P&ulReturn=true&
+token=1BU18164465484626&
+routingFromXOR=true&
+useraction=commit&
+flowType=WPS#/checkout/done
+*/
+
+    //SE LLAMA CUANDO SE PAGA POR PAYPAL
+    function redirectpaypal() {
+        if(!empty($_GET['paymentID']) && !empty($_GET['payerID']) && !empty($_GET['token']) && !empty($_GET['pid']) ){
+    
+
+            //generamos array para guardar en bd
+            $data = array(
+                'id_cliente' => $this->session->userdata('id'),
+                'id_horario' => $_GET['idh'],     
+                'comentarios' => $_GET['coments'],
+                'id_sesion' => $this->session->session_id,
+                'payment_id' => $_GET['paymentID'],
+                'payment_status' => 'Pagado',
+                'merchant_order' => '1'
+            );
+            $datos['payment_message'] = 'Pago vía Paypal aprobado';
+            $idTurno = $this->turnos_model->insert_turno($_GET['idh'], $data);
+            ($this->envia_mail($idTurno)) ?
+            $datos['message_advice'] = "El turno se agendó correctamente. Se envio un mail con los detalles del mismo"
+            : $datos['message_advice'] = "El turno se agendó correctamente pero el mensaje no pudo ser enviado por mail";
+           
+            $this->render_page('turnos/estadomp', $datos, true);
+        }else{
+            //TODO: el pago no pudo ser completado
+        }
+    }
+
+//se llama cuando se paga por MP
     function redirectmp() {
+        $idh = $_POST['id_horario'];
+        $coments = $_POST['comentariosmp'];
+        $payment_id = $_POST['payment_id'];
+        $merchant_order = $_POST['merchant_order'];
+        //verificamos que exista el payment
         if(!empty($_POST['payment_id'])){
             if($_POST['payment_status_detail']=='accredited'){
                 $status = 'Pago acreditado';
             }else if($_POST['payment_status_detail']=='pending_waiting_payment'){
                 $status = 'Pago por ticket. Pendiente de pago';
             }
+            //generamos array para guardar en bd
             $data = array(
                 'id_cliente' => $this->session->userdata('id'),
-                'id_horario' => $_POST['id_horario'],     
-                'comentarios' => $_POST['comentariosmp'],
+                'id_horario' => $idh,     
+                'comentarios' => $coments,
                 'id_sesion' => $this->session->session_id,
-                'payment_id' => $_POST['payment_id'],
-                'payment_status' => $status
+                'payment_id' => $payment_id,
+                'payment_status' => $status,
+                'merchant_order' => $merchant_order
             );
             switch($_POST['payment_status_detail']){
                 case 'accredited':  
-
-                    $idTurno = $this->turnos_model->insert_turno($_POST['id_horario'], $data);   
+                    $idTurno = $this->turnos_model->insert_turno($idh, $data);   
                     //$this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
-                    $datos['payment_message'] = 'Pago aprobado';                    
+                    $datos['payment_message'] = '¡Listo! Se acreditó tu pago. En tu resumen verás el cargo de '.$_POST['amount'].' como '.$_POST['statement_descriptor'].
+                    //$datos['payment_message'] = 'Pago vía Mercadopago aprobado';                    
+                    $this->render_page('turnos/estadomp', $datos, true);
                 break;
                 case 'pending_waiting_payment':
-                    $idTurno = $this->turnos_model->insert_turno($_POST['id_horario'], $data);   
-                    //$this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
-                    $datos['payment_message'] = 'Pago pendiente';                    
+                    $idTurno = $this->turnos_model->insert_turno($idh, $data);   
+                    $this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
+                    $datos['payment_message'] = 'Pago vía Mercadopago pendiente';
+                    //LINEA DE PRUEBA PARA PAGOS PRESENCIALES
+                    //header("location: ".base_url('turnos/ipn')."?topic=payment&id=".$payment_id);
+                    $this->render_page('turnos/estadomp', $datos, true);                    
                 break;
-                case 3:
-                    echo "pago rechazado";
+                case 'cc_rejected_call_for_authorize':
+                    $datos['payment_message'] = 'Debes autorizar ante '.$_POST['payment_method_id'].' el pago de '.$_POST['amount'];
+                    $this->render_page('cliente/cpanel', $datos, true);                    
                 break;
     
             }
             ($this->envia_mail($idTurno)) ?
             $datos['message_advice'] = "El turno se agendó correctamente. Se envio un mail con los detalles del mismo"
             : $datos['message_advice'] = "El turno se agendó correctamente pero el mensaje no pudo ser enviado por mail";
-           
-            $this->render_page('turnos/estadomp', $datos, true);
+                      
         }
     }    
 
+    //notificaciones de pago de mercadopago para pagos presenciales (rapipago)
+    function ipn() {
+        $datos['payment_message'] = 'Notificacion IPN'; 
+        //$_GET['merchant_order'] viene de ipn.php
+        if(!empty($_GET['merchant_order'])) {
+            $resultMerchant = $this->turnos_model->find_by_merchant_order($_GET['merchant_order']);
+            $item = array_values($resultMerchant)[0];
+            $data = array('status' => $_GET['status']);
+            $this->turnos_model->update_status_turno($item['id'],$data);
+            //TODO: VERIFICAR HACIA DONDE SE REDIRIGE LUEGO DE MODIFICAR EL CAMPO STATUS DE LA 
+            //TODO: TABLA TURNOS
+        }else{//redirige a la pagina ipn.php para recibir las notificaciones del pago presencial
+        $this->render_page('turnos/ipn', $datos, true);       
+        }
+    }
     //realiza acciones sobre los horarios, Agreagar y eliminar
     public function accion() {
         
@@ -200,7 +262,7 @@ class Turnos extends MY_Controller {
                         <p>Fecha de turno: ".$item['fecha_string']."</p>
                         <p>Estado de pago de la sesion: ".$item['payment_status']."</p>
                         <p>El siguiente id lo necesitará para conectarse el dia del turno con el profesional por videollamada</p>
-                        <p>Id de la videollamada: ".$item['id_sesion']."</p>
+                        <p>Id de la videollamada: <strong>".$item['id_sesion']."</strong></p>
                     </body>
                 </html>";
                 $bodyCont=utf8_decode($bodyc);

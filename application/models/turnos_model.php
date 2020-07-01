@@ -5,6 +5,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Turnos_model extends CI_Model {
     public $table = "horarios_profesional";
     public $table_token = 'tbl_tokens';
+    public $table_turnos = 'turnos';
     public $table_id = "id";
 
     public function __construct() {
@@ -86,6 +87,23 @@ class Turnos_model extends CI_Model {
         return $aResult->result_array();
         
     }
+
+    //busca el turno indexado con merchant_order - usado para pagos presenciales
+    function find_by_merchant_order($merchant) {
+        $this->db->select();
+        $this->db->from('turnos');        
+        $this->db->where('merchant_order', $merchant);        
+        
+        $aResult = $this->db->get();
+
+        if(!$aResult->num_rows() == 1)
+        {
+            return false;            
+        }
+
+        return $aResult->result_array();
+    }
+
     //inserta datos del turno. id_cliente/id_horario/comentarios/id_session/payment_id
     function insert_turno($id, $data) {
         //inserta en turnos
@@ -105,13 +123,18 @@ class Turnos_model extends CI_Model {
         $this->db->insert('horarios_profesionales', $data);
         return $this->db->insert_id();
     }
-/* TODO: sin usar
+/* //TODO: sin usar
     function modifica_disponibilidad_de_horario($id, $estado) {
         $this->db->set('estado','reservado');
         $this->db->where('id', $id);
         $this->db->update('horarios_profesionales');
     }
 */
+    //modifica el estado del pago de ticket a status = approved
+    function update_status_turno($id,$data) {
+        $this->db->where($this->table_id, $id);
+        $this->db->update($this->table_turnos, $data);
+    }
     //borra registros de la tabla horarios_profesionales
     function delete_horarios($id) {
         $this->db->where($this->table_id, $id);

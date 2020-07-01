@@ -18,6 +18,16 @@ if(!empty($_GET['paymentID']) && !empty($_GET['payerID']) && !empty($_GET['token
         </table>
     <?php   
     } else {
-        header('Location:index.php');
+        header('Location:'.base_url());
     }
+
+    /*
+REQUEST DE PAGO PAYPAL
+http://localhost/paypal/orderDetails.php
+?paymentID=PAYID-L35PTCI57L35591N8867284J
+&payerID=6GTHNUCQG96VG
+&token=EC-2A6530726S322835U
+&pid=1
+
+*/
 ?>

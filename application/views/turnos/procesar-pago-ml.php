@@ -18,12 +18,14 @@ $preference->items = array($item);
 $preference->payment_methods = array(       
     "installments" => 1
   );
-  
+/*  
 $preference->back_urls = array(
     "success" => base_url()."/turnos/redirectmp?type=1&idTurno=".$_GET['id'],
     "failure" => base_url()."/turnos/redirectmp?type=2",
     "pending" => base_url()."/turnos/redirectmp?type=3&idTurno=".$_GET['id'],
-);
+);*/
+//$preference->notification_url = base_url('turnos/ipn');
+
 //$preference->auto_return = "approved";
 $preference->save();
 
@@ -52,5 +54,24 @@ preference_id=593026235-2a0f2a10-4028-40e5-8f54-a7e537e858ba
 &merchant_order_id=1550177887
 &processing_mode=aggregator
 &merchant_account_id=
+
+//DEVOLUCION DE LLAMADA GET A MERCADOPAGO RECHAZADA POR VERIFICACION DE TARJETA
+http://localhost/psicologos/turnos/redirectmp?
+id_horario=66
+&comentariosmp=
+&preference_id=593026235-67ebe0cd-b368-4aff-a41c-0a196e81c646
+&external_reference=
+&back_url=http%3A%2F%2Flocalhost%2Fpsicologos%2F%2Fturnos%2Fredirectmp%3Ftype%3D2%26collection_id%3D27538306%26collection_status%3Drejected%26external_reference%3Dnull%26payment_type%3Dcredit_card%26merchant_order_id%3D1557397824%26preference_id%3D593026235-67ebe0cd-b368-4aff-a41c-0a196e81c646%26site_id%3DMLA%26processing_mode%3Daggregator%26merchant_account_id%3Dnull
+&payment_id=27538306
+&payment_status=rejected
+&payment_status_detail=cc_rejected_call_for_authorize
+&merchant_order_id=1557397824
+&processing_mode=aggregator
+&merchant_account_id=
+
+
 */
+
+
+
 ?>

@@ -92,7 +92,8 @@ p {
     height: 30%;
     border: 1px solid;
     border-radius: 10px;
-    background: #4E94AE;
+    /*background: #4E94AE;*/
+    box-shadow: 5px 10px #888888;
 }
 .pagos {
     display: flex;
@@ -233,6 +234,7 @@ p {
                 include('procesar-pago-ml.php');
                 ?>
                 <div>
+                    <!-- FORMULARIO DE PGO DE MERCADOPAGO-->
                     <div class="row">                          
                         <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-mpago"> 
                         <form action="<?=base_url('turnos/redirectmp')?>" method="POST">
@@ -240,24 +242,26 @@ p {
                             <input type="hidden" id="comentariosmp" name="comentariosmp">                            
                             <script
                             src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
-                            data-preference-id="<?php echo $preference->id; ?>">
+                            data-preference-id="<?php echo $preference->id; ?>"
+                            >
                             </script>
                         </form>
                     </div>
                 </div>
                 <div>
-                    <div class="paypal" id="paypal">
-                        <?php                     
-                        $productName = "Producto Demostración";
+                    <!-- FORMULARIO DE PGO DE PAYPAL-->
+                    <div class="container">                   
+                
+                    <?php                        
+                        $productName = "Producto demostración";
                         $currency = "USD";
-                        $productPrice = 100;
+                        $productPrice = 10;
                         $productId = 1;
                         $orderNumber = 1;
-                        ?>
-                        <div class="container">                            
-                            <?php include 'paypalCheckout.php'; ?>                            	
-                        </div>
-
+                        $idh = $_GET['id'];                    
+                        $com = "";
+                        include 'paypalCheckout.php';
+                    ?>
                     </div>
                 </div> 
             </div>
@@ -269,6 +273,7 @@ p {
         function agrega() {
             texto = document.getElementById('message').value;
             document.getElementById('comentariosmp').value = texto;
+            
         }    
     </script>
 </body>
