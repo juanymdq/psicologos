@@ -64,8 +64,8 @@ $route['cliente/editar/(:any)'] = 'Cliente/cliente_save/$1';
 
 //************************************************************************
 $route['cliente/listar_profesionales'] = 'Turnos';
-$route['cliente/ver_horarios_de_profesional'] = 'Turnos/ver_horarios';
-$route['cliente/datos_del_turno'] = 'Turnos/turno_cliente';
+$route['cliente/ver_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1';
+$route['cliente/datos_del_turno/(:any)'] = 'Turnos/turno_cliente/$1';
 $route['cliente/mis_turnos/(:any)'] = 'cliente/ver_turnos/$1';
 
 

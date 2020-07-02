@@ -49,7 +49,9 @@
         
         <div class="card-container">
             <div class="header">
-                <a href="<?=base_url('cliente/ver_horarios_de_profesional')?>?id=<?=$item['id']?>" title="Ver horarios">
+                <!-- $route['cliente/ver_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1'; -->
+                <a href="<?=base_url('cliente/ver_horarios_de_profesional/'.$item['id'])?>" title="Ver horarios">
+                
                     <img src="<?=$item["pr_foto"]?>"/>
                 </a>
                 <h2>Lic.&nbsp;<?=$item['pr_apellido'].", ".$item['pr_nombre']?></h2>

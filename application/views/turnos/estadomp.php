@@ -64,6 +64,9 @@
             justify-content: center;
             font-size: 48px;
         }
+        .flex-container > p {
+            
+        }
     </style>
 </head>
 <body>
@@ -138,7 +141,7 @@
 
     function onTimesUp() {
     clearInterval(timerInterval);
-    window.location.replace("");
+    window.location.replace("<?=base_url('cliente/cpanel')?>");
     }
 
     function startTimer() {

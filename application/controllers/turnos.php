@@ -31,15 +31,14 @@ class Turnos extends MY_Controller {
     }  
 
     //busca todos los horarios de un profesional y los datos del mismo
-    public function ver_horarios() {
-        if(!empty($_GET['id'])){
-            $id = $_GET['id'];
+    public function ver_horarios($id) {
+       
             //busca todos los horarios del profesional
             $datos['horarios'] = $this->turnos_model->find_by_prof($id);
             //busca el profesional segun id
             $datos['prof'] = $this->profesional_model->find($id);
             $this->render_page('turnos/horarios_view', $datos);
-        }
+      
     }
    /*
     public function ver_horarios_limit() { 
@@ -50,16 +49,15 @@ class Turnos extends MY_Controller {
         }       
     }
     */
-    public function turno_cliente()    
+    public function turno_cliente($id)    
     { 
-        if(!empty($_GET['id'])){
-            $id = $_GET['id'];            
+              
             //busca el horario seleccionado y los datos del profesional           
             $datos['horario'] = $this->turnos_model->find_one_horario($id);
             //$this->render_page('turnos/turno_register_view', $datos);
             $this->render_page('turnos/turnos_register_view', $datos);
        
-        }
+       
     }
 
     public function guardar_turno() {
@@ -84,21 +82,20 @@ flowType=WPS#/checkout/done
 
     //SE LLAMA CUANDO SE PAGA POR PAYPAL
     function redirectpaypal() {
-        if(!empty($_GET['paymentID']) && !empty($_GET['payerID']) && !empty($_GET['token']) && !empty($_GET['pid']) ){
-    
-
+        //&& (!empty($_POST['payerID'])) && (!empty($_POST['paymentToken']))
+        if(!empty($_POST['paymentID'])) {
             //generamos array para guardar en bd
             $data = array(
                 'id_cliente' => $this->session->userdata('id'),
-                'id_horario' => $_GET['idh'],     
-                'comentarios' => $_GET['coments'],
+                'id_horario' => $_POST['id_horario'],     
+                'comentarios' => $_POST['comentariospp'],
                 'id_sesion' => $this->session->session_id,
-                'payment_id' => $_GET['paymentID'],
-                'payment_status' => 'Pagado',
+                'payment_id' => $_POST['paymentID'],
+                'payment_status' => 'Pagado via Paypal',
                 'merchant_order' => '1'
             );
             $datos['payment_message'] = 'Pago vía Paypal aprobado';
-            $idTurno = $this->turnos_model->insert_turno($_GET['idh'], $data);
+            $idTurno = $this->turnos_model->insert_turno($_POST['id_horario'], $data);
             ($this->envia_mail($idTurno)) ?
             $datos['message_advice'] = "El turno se agendó correctamente. Se envio un mail con los detalles del mismo"
             : $datos['message_advice'] = "El turno se agendó correctamente pero el mensaje no pudo ser enviado por mail";

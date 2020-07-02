@@ -129,8 +129,8 @@ p {
         <div class="flex-container">
             <div>
                 <div class="row">                        
-                    <form action="<?=base_url('Turnos/guardar_turno')?>" method="post">
-                            <input type="hidden" value="<?=$_GET['id']?>" name="id_turno">                            
+                    <form action="" method="post">
+                                                       
                             <legend class="titulo-prof" style="color: black">Datos del Cliente</legend>
                             <hr>
                             <div class="form-group"> 
@@ -182,9 +182,11 @@ p {
             <!--DATOS DEL PROFESIONAL-->
             <?php   
                 if(isset($horario)){
-                $item = array_values($horario)[0]
+                $item = array_values($horario)[0];
+                $id = $item['id'];
             ?>
-            <div>                  
+            <div>   
+                <input type="hidden" value="<?=$item['id']?>" name="id_turno">                
                 <div class="row">                   
                     <legend class="titulo-prof" style="color: black">Detalle de la visita</legend>
                     <hr />
@@ -224,7 +226,7 @@ p {
                 </div>                                 
             </div>
         </div><!--END FLEX-->
-        <?php }?>
+        
         <div class="content-pagos">
             <h2>Seleccionar medio de pago</h2>
             <div class="pagos"> 
@@ -238,7 +240,7 @@ p {
                     <div class="row">                          
                         <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-mpago"> 
                         <form action="<?=base_url('turnos/redirectmp')?>" method="POST">
-                            <input type="hidden" value="<?=$_GET['id']?>" name="id_horario">
+                            <input type="hidden" value="<?=$id?>" name="id_horario">
                             <input type="hidden" id="comentariosmp" name="comentariosmp">                            
                             <script
                             src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
@@ -250,31 +252,37 @@ p {
                 </div>
                 <div>
                     <!-- FORMULARIO DE PGO DE PAYPAL-->
-                    <div class="container">                   
-                
-                    <?php                        
-                        $productName = "Producto demostración";
-                        $currency = "USD";
-                        $productPrice = 10;
-                        $productId = 1;
-                        $orderNumber = 1;
-                        $idh = $_GET['id'];                    
-                        $com = "";
-                        include 'paypalCheckout.php';
-                    ?>
+                    <div class="container">    
+                    <form action="<?=base_url('turnos/redirectpaypal')?>" method="POST" id="formpp">
+                        <input type="hidden" id="comentariospp" name="comentariospp"> 
+                        <input type="hidden" value="<?=$id?>" name="id_horario">
+                        <input type="hidden" name="paymentID" id="paymentID">
+                        <input type="hidden" name="payerID" id="payerID">
+                        <input type="hidden"name="paymentToken" id="paymentToken">
+                        <?php                        
+                            $productName = "Producto demostración";
+                            $currency = "USD";
+                            $productPrice = 10;
+                            $productId = 1;
+                            $orderNumber = 1;
+                            $idh = $id ?>
+                            
+                            <?php include 'paypalCheckout.php';
+                        ?>
+                    </form>               
                     </div>
                 </div> 
             </div>
-
+            <?php }?>
         </div>     
     </div> <!--END CONTAINER-->
     </section>
     <script>
         function agrega() {
             texto = document.getElementById('message').value;
-            document.getElementById('comentariosmp').value = texto;
-            
-        }    
+            document.getElementById('comentariosmp').value = texto;           
+            document.getElementById('comentariospp').value = texto; 
+        }  
     </script>
 </body>
 </html>

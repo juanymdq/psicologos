@@ -96,7 +96,9 @@
         
                 if(!$_GET['pagina']){
                     //header('Location:'.base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=1'));
-                    header('Location:'.base_url('cliente/ver_horarios_de_profesional?id='.$_GET['id'].'&pagina=1'));
+
+                    //$route['cliente/ver_horarios_de_profesional'] = 'Turnos/ver_horarios';                    
+                    header('Location:'.base_url('cliente/ver_horarios_de_profesional/'.$id.'?pagina=1'));
                 }  
 
                 ?>
@@ -106,7 +108,8 @@
                     $item = array_values($horarios)[$i]
                     ?>
                 <div class="alert alert-primary" role="alert">
-                    <a href="<?=base_url('cliente/datos_del_turno')?>?id=<?=$item['id']?>"><?=$item['fecha_string']?>hs.</a>
+                    <!-- $route['cliente/datos_del_turno/(:any)'] = 'Turnos/turno_cliente/$1'; -->
+                    <a href="<?=base_url('cliente/datos_del_turno/'.$item['id'])?>"><?=$item['fecha_string']?>hs.</a>
                 </div>
                 <?php $i++;
                 } ?>
@@ -115,21 +118,21 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item <?=$_GET['pagina'] <= 1 ? 'disabled' : ''?>">
-                                <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$_GET['pagina']-1?>">
+                                <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$id.'&pagina=')?><?=$_GET['pagina']-1?>">
                                     Anterior
                                 </a>
                             </li>
 
                             <?php for($i=0;$i<$paginas;$i++):?>
                             <li class="page-item <?=($_GET['pagina']==$i+1) ? 'active' : '' ?>">
-                                <a class="page-link" href='<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$i+1?>'>
+                                <a class="page-link" href='<?=base_url('turnos/ver_horarios?id='.$id.'&pagina=')?><?=$i+1?>'>
                                     <?=$i+1?>
                                 </a>
                             </li>
                             <?php endfor?>
 
                             <li class="page-item <?=$_GET['pagina'] >= $paginas ? 'disabled' : ''?>">
-                                <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=')?><?=$_GET['pagina']+1?>">
+                                <a class="page-link" href="<?=base_url('turnos/ver_horarios?id='.$id.'&pagina=')?><?=$_GET['pagina']+1?>">
                                     Siguiente
                                 </a>
                             </li>
