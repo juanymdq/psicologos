@@ -1,41 +1,37 @@
 
 /*********************PAGINA DE INICIO**********************************/
-body {
-   /* background: #323A46;
-    background: -webkit-linear-gradient(right, #323A46, #323A46);
-    background: -moz-linear-gradient(right, #323A46, #323A46);
-    background: -o-linear-gradient(right, #323A46, #323A46);
-    background: linear-gradient(to left, #323A46, #323A46); 
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;      
-    
-    background-color: gray;*/
+body {   
     font-family: 'Numito';
   }
 
 .contenedor {
-    width: 90%;
-    margin: 0 auto;   
-    overflow: hidden;      
+    width: 100%;
+  
 }
 .container {
-    width: 90%;
-    margin: 0 auto;
-    overflow: hidden;    
+    width: 100%;
+    
+       
 }
 header {   
-    background: #4E94AE;    
-}
-/*IMAGEN DE INICIO*/
-.wallpaper {    
-    width: 100%;
-    height: 80%;
+    
+    /*background: #4E94AE;    */
 }
 
-.imgHeader {
-    width: 100%;
-    max-width: 1500px;
-    height: 90%;
+
+#img {
+    width: 80%;
+    opacity: 0.8;
+    Overflow: hidden;
+    height: 70%;
+    -webkit-mask-image:-webkit-gradient(linear, right bottom, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+}
+.texto {
+    font-size: 40px;				
+    position: absolute;    
+    top: 10%;
+    left: 8%;
+    color: #787878;
 }
 /*+++++++++++++++++++++++++++++++++++++++++*/
 .menu {
@@ -46,7 +42,62 @@ header {
     overflow: hidden;    
 }
 .menu-uno {
-    border-bottom: 1px solid #fff;
+    background: #4E94AE;
+    border-bottom: 1px solid #D5D5D6;
+    display: flex;    
+    flex-direction: row;
+    border: 1px solid;
+    height: 7%;
+}
+/*----------------------------------------------------*/
+.menu-uno > div > a {   
+    color: #fff;    
+    text-decoration: none;     
+}
+.menu-uno > div > a:hover {  
+    cursor: pointer;
+    background: rgb(117, 125, 163);
+    border: 1px solid;
+    border-radius: 15px;
+}
+.menu-uno > .usuario > a {
+    padding: 15px 15px 15px 15px;
+}
+
+/*---------------------------------------------------*/
+
+.menu-uno > .logins {
+    display: flex;    
+    flex-direction: row;    
+    margin-left: auto;
+}
+.menu-uno > .logins > div {    
+    width: 100px;
+    height: 65%;
+    margin: 10px;
+    text-align: center;
+}
+.menu-uno > .logins > .divisor {    
+    width: auto;
+    color: #fff;    
+}
+.menu-uno > .logins > div > a{
+    text-decoration: none;
+    color: #fff;
+}
+.menu-uno > .logins > div:hover{
+    cursor: pointer;
+    background: rgb(117, 125, 163);
+    border: 1px solid;
+    border-radius: 15px;
+}
+
+.menu-uno > .logins > .login-cliente, .menu-uno > .logins > .login-psicologo {    
+    color: #fff;    
+    width: auto;    
+}
+.menu-uno > .logins >.login-cliente >  a, .login-psicologo > a{ 
+    padding: 15px 15px 15px 15px;
 }
 
 .menu-uno-message {
@@ -55,67 +106,105 @@ header {
     float: left;    
     text-align: right;    
 }
+/*----------------------------------------------------------------------------*/
+.menu-dos-toggle {
+    display: none;
+}
+
+.menu-dos{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    
+}
+.terapia {    
+    padding: 5px;
+   
+}
+.terapia > a{
+    text-decoration: none;
+    font-size: 20px;
+    letter-spacing: 0.2em;
+}
+.menu-dos-flex{
+    background: #fff;    
+    display: flex;    
+    flex-direction: row-reverse;    
+    margin-left: auto;
+    height: 7%;    
+}
+.menu-dos-flex > div {
+    padding: 10px;    
+}
+.menu-dos-flex > div > a{
+    text-decoration: none;
+    color: black;
+}
+.menu-dos-flex > div > a:hover{
+    font-weight: 600;
+}
+
 
 #btn-menu{
     display: none;    
+   
 }
 header label {
     display: none;
     width: 30px;
     height: 30px; 
     border-right: 1px solid #fff;
+    z-index: 100;
 }
 header label:hover {
     cursor: pointer;
     background: rgba(0, 0, 0, 0.3);
 }
 
-.nav ul, .uno ul {
-    margin: 0;
-    list-style: none;
-    padding: 0;
-    display: flex;     
-}
 
 
-.logins {
-    margin-left: auto;
-}
 
-.nav li:hover, .uno li:hover{
-    background: rgba(0, 0, 0, 0.3);
-}
-.nav li a, .uno li a {
-    display: block;
-    padding: 15px 20px;
-    color: #fff;
-    text-decoration: none;
-}
 
 
 @media (max-width:768px) and (min-height:350px) {
 
+    .menu-uno {
+        display: none;
+    }
+
     .contenedor {
         width: 90%;
         margin: 0 auto;
-        overflow: hidden;
+        
     }
-
+    #btn-menu {
+        -webkit-filter: grayscale(1);
+        filter: grayscale(1);
+      }
     .menu-dos {
+        display: none;
         margin-bottom: 10px;       
-        height: 30px;
+        height: 30px;        
     }
 
-    header {     
-        background: #4E94AE;        
-    }
-
-    header label {
-        z-index: 1;
+    header label {       
         position: absolute;
         display: block;
+        color: #787878;
     }
 
+    .toggle-menu {
+        display: flex;
+        flex-direction: column;
+        padding-top: 40px;
+        position: absolute;        
+        background: #fff ;
+        width: 30%;
+        margin-left: -70%;
+        transition: all 0.5s;
+        z-index: 80;
+    }
+/*
     .nav {
         padding-top: 40px;
         position: absolute;        
@@ -123,6 +212,7 @@ header label:hover {
         width: 30%;
         margin-left: -70%;
         transition: all 0.5s;
+        z-index: 80;
     }
 
     .nav ul {        
@@ -132,9 +222,11 @@ header label:hover {
     .nav li {
         border-top: 1px solid #fff;
     }
-
+*/
     #btn-menu:checked ~ .nav {
         margin: 0;
+        
+        
     }
 }
 

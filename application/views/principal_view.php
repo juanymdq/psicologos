@@ -2,22 +2,79 @@
 <html>
     <head>
 		<title>Terapiavirtual</title>
-	
+		<style>
+			
+			h1 {
+				font-weight: 800;
+				text-align: center;
+				margin-bottom: 40px;
+			}
+			
+		</style>
     </head>
 <body>
-	<div class="container">
-		
-			<div class="div_message">		
-            <?php 
-                if($this->session->userdata('aviso_message')) {
-                    echo "<p class='aviso_message'>".$this->session->userdata('aviso_message')."</p>";
-                }			
-            ?>
-            </div>
-            <div class="wallpaper">
-                <img src="<?=base_url()?>application/assets/img/psico1.jpg" class="imgHeader"/>
-            </div>
-		
+	<div class="container">		
+			
+		<section class="carousel">
+			
+
+				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>						
+						<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+						<li data-target="#carouselExampleIndicators" data-slide-to="7"></li>						
+						
+					</ol>
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<img src="<?=base_url()?>application/assets/img/online.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Psicología Online</div>
+						</div>
+						<div class="carousel-item">
+							<img src="<?=base_url()?>application/assets/img/pareja.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Terapia de Pareja</div>
+						</div>
+						<div class="carousel-item">
+							<img src="<?=base_url()?>application/assets/img/alcoholismo.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Alcoholismo</div>
+						</div>
+						<div class="carousel-item">
+							<img src="<?=base_url()?>application/assets/img/ansiedad.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Ansiedad</div>
+						</div>						
+						<div class="carousel-item">
+							<img src="<?=base_url()?>application/assets/img/conductual.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Terapia Conductual</div>
+						</div>
+						<div class="carousel-item">
+							<img src="<?=base_url()?>application/assets/img/estres.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Estrés</div>
+						</div>
+						<div class="carousel-item">
+							<img src="<?=base_url()?>application/assets/img/familiar.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Terapia Familiar</div>
+						</div>
+						<div class="carousel-item">
+							<img src="<?=base_url()?>application/assets/img/panico.jpg" id="img" class="d-block w-100" alt="...">
+							<div class="texto">Pánico</div>
+						</div>
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			
+		</section>
 		<section class="main">
 
 		<h1>Red de psicologos online</h1>

@@ -19,48 +19,114 @@
         <div class="container">
             <div class="menu">
                 <header>                    
-                    <div class="menu-uno">                         
-                                                                 
-                            <nav class="uno">
-                                <ul>
-                                    <li class="usuario">                                        
-                                        <?php if($this->session->userdata('nombre') != null) {
-                                            switch($this->session->userdata('perfil')){
-                                                case 'administrador':?>
-                                                    <a href="<?=base_url('administrador')?>"> <?="Administrador: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
-                                                <?php break;
-                                                case 'profesional':?>
-                                                    <a href="<?=base_url('profesional/home_profesionales')?>"> <?="Profesional logueado: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
-                                                <?php break;
-                                                case 'cliente':?>
-                                                    <a href="<?=base_url('cliente/cpanel')?>"> <?="Cliente logueado: ". $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
-                                                <?php break;
-                                            } 
-                                        }?>
-                                    </li>       
-                                    <?php if($this->session->userdata('nombre') == null) {?>                                
-                                        <li class="logins"><a href="<?=base_url('cliente/login')?>?var=0">CLIENTES&nbsp;&nbsp;&nbsp;|</a></li>
-                                        <li><a href="<?=base_url('profesional')?>">INICIAR SESIÓN PSICOLOGOS</a></li>
-                                    <?php }?>
-                                </ul>
-                            </nav>
-                          
-                        
-                    </div>
+                    <div class="menu-uno">                                                 
+                        <div class="usuario">
+                            <?php if($this->session->userdata('nombre') != null) {
+                                switch($this->session->userdata('perfil')){
+                                    case 'administrador':?>
+                                        <a href="<?=base_url('administrador')?>"> <span><i class="fas fa-user-shield"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                    <?php break;
+                                    case 'profesional':?>
+                                        <a href="<?=base_url('profesional/home_profesionales')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                    <?php break;
+                                    case 'cliente':?>
+                                        <a href="<?=base_url('cliente/cpanel')?>"> <span><i class="fas fa-user"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                    <?php break;
+                                } 
+                            }?>
+                        </div>
+                        <?php if($this->session->userdata('nombre') == null) {?> 
+                        <div class="logins">
+                            <div class="login-cliente">                            
+                                <a href="<?=base_url('cliente/login')?>?var=0">
+                                    <span><i class="fas fa-user"></i></span>
+                                    Iniciar sesión clientes
+                                </a>
+                            </div>
+                            <div class="divisor">|</div>
+                            <div class="login-psicologo">                            
+                                <a href="<?=base_url('profesional')?>">
+                                    <span><i class="fas fa-briefcase"></i></span>
+                                    Iniciar sesión psicólogos
+                                </a>
+                            </div>
+                        </div>
+                        <?php }?>
+                    </div> 
+
                     <div class="menu-dos">
-                        
-                            <input type="checkbox" id="btn-menu">
-                            <label for="btn-menu"><img id="img" src="<?=base_url()?>application/assets/img/menu.png" alt=""></label>
-                       
-                        <nav class="nav">
-                            <ul>
-                                <li><a href="<?=base_url('principal')?>" class="menu-dos-link-text">INICIO</a></li>
-                                <li><a href="" class="menu-dos-link-text">NOSOTROS</a></li>
-                                <li><a href="<?=base_url('webcam')?>" class="">WEBCAM</a></li>
-                                <li><a href="" class="menu-dos-link-text">INICIO</a></li>
-                            </ul>
-                        </nav>
-                    </div>            
+                        <div class="terapia">
+                            <span><img src="<?=base_url()?>application/assets/img/icono-terapia.png" width="35px" height="30px" alt=""></span>
+                            <a href="<?=base_url('principal')?>" class="menu-dos-link-text">
+                                 Terapia<strong>Virtual</strong>
+                            </a>
+                        </div>
+                        <div class="menu-dos-flex">
+                            <div>
+                                <a href="" class="menu-dos-link-text">                                
+                                    Nuestro Staff
+                                </a>
+                            </div>
+                            <div>
+                                <a href="" class="menu-dos-link-text">                               
+                                    Preguntas frecuentes
+                                </a>
+                            </div>
+                            <div>
+                                <a href="" class="menu-dos-link-text">                               
+                                    Quiénes somos
+                                </a>
+                            </div>                            
+                        </div>
+                    </div>
+
+                    <div class="menu-dos-toggle">
+                        <div class="toggle-menu">
+                            <div>
+                                <input type="checkbox" id="btn-menu">
+                                <label for="btn-menu"><img id="img" src="<?=base_url()?>application/assets/img/menu.png" alt=""></label>
+                            </div>
+                            <div class="toggle-usuario">
+                                <?php if($this->session->userdata('nombre') != null) {
+                                    switch($this->session->userdata('perfil')){
+                                        case 'administrador':?>
+                                            <a href="<?=base_url('administrador')?>"> <span><i class="fas fa-user-shield"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                        <?php break;
+                                        case 'profesional':?>
+                                            <a href="<?=base_url('profesional/home_profesionales')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                        <?php break;
+                                        case 'cliente':?>
+                                            <a href="<?=base_url('cliente/cpanel')?>"> <span><i class="fas fa-user"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                        <?php break;
+                                    } 
+                                }?>
+                            </div>
+                            <div>
+                                <a href="<?=base_url('principal')?>" class="menu-dos-link-text">
+                                    <span><i class="fas fa-home"></i></span>
+                                    Inicio
+                                </a>
+                            </div>
+                            <div>
+                                <a href="" class="menu-dos-link-text">
+                                    <span><i class="fas fa-info-circle"></i></span>
+                                    Quienes somos
+                                </a>
+                            </div>
+                            <div class="toggle-cliente">
+                                <a href="<?=base_url('cliente/login')?>?var=0">
+                                    <span><i class="fas fa-user"></i></span>
+                                    Iniciar sesión clientes
+                                </a>
+                            </div>
+                            <div class="toggle-psicologo">
+                                <a href="<?=base_url('profesional')?>">
+                                    <span><i class="fas fa-briefcase"></i></span>
+                                    Iniciar sesión psicólogos
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </header>
             </div> 
         </div>

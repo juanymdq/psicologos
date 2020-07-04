@@ -59,6 +59,7 @@ $route['cliente/login'] = 'Cliente';
 $route['cliente/log_in'] = 'Cliente/login_cliente';
 $route['cliente/cpanel'] = 'Cliente/cliente_cpanel';
 $route['cliente/crear'] = 'Cliente';
+$route['cliente/restablecer_password'] = 'cliente/forgot_password';
 //lo que se muestra en la URL    = Ruta del controlador interno
 $route['cliente/editar/(:any)'] = 'Cliente/cliente_save/$1';
 

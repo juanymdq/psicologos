@@ -335,6 +335,11 @@ class Cliente extends MY_Controller
         }          
     }
 
+    function forgot_password() {
+        $datos['titulo'] = "Restablecer Contraseña";
+        $this->render_page('usuarios/forgot_password', $datos);
+    }
+
     public function view_all_clients() {
         $datos['query'] = $this->usuarios_model->findAll();
         $this->render_page('clientes/clientes_view_all', $datos);
