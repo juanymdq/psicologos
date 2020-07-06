@@ -24,7 +24,9 @@ header {
     opacity: 0.8;
     Overflow: hidden;
     height: 70%;
-    -webkit-mask-image:-webkit-gradient(linear, right bottom, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+    -webkit-linear-gradient(left, white, black);
+    /*-webkit-mask-image:-webkit-gradient(linear, right bottom, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+    */
 }
 .texto {
     font-size: 40px;				
@@ -60,8 +62,18 @@ header {
     border: 1px solid;
     border-radius: 15px;
 }
+.menu-uno > .usuario {
+    font-size: 20px;
+    padding: 5px;    
+    width: auto;
+    margin-top: 2px;
+   
+}
 .menu-uno > .usuario > a {
-    padding: 15px 15px 15px 15px;
+    padding: 10px;    
+}
+.menu-uno > .usuario > a > span {
+    margin-right: 5px;
 }
 
 /*---------------------------------------------------*/
@@ -107,15 +119,18 @@ header {
     text-align: right;    
 }
 /*----------------------------------------------------------------------------*/
-.menu-dos-toggle {
-    display: none;
+header > nav {
+    background-color: #fff;
 }
-
-.menu-dos{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    
+.navbar-nav {
+    font-size: 20px;
+    margin-left: 42%;    
+}
+.navbar-nav > a > span{
+    margin-right: 5px;
+}
+.navbar-nav > div > a > span{
+    margin-right: 5px;
 }
 .terapia {    
     padding: 5px;
@@ -126,120 +141,40 @@ header {
     font-size: 20px;
     letter-spacing: 0.2em;
 }
-.menu-dos-flex{
-    background: #fff;    
-    display: flex;    
-    flex-direction: row-reverse;    
-    margin-left: auto;
-    height: 7%;    
+
+.ruta-relativa {   
+    float: left;
+    margin-top: 5px;
+    margin-left: 2px;   
+    height: 5%;    
 }
-.menu-dos-flex > div {
-    padding: 10px;    
+.ruta-relativa > p {
+    font-size: 14px;
+    font-family: 'Numito';
 }
-.menu-dos-flex > div > a{
+.ruta-relativa > p > a {
     text-decoration: none;
-    color: black;
+    font-size: 14px;
+    font-family: 'Numito';
 }
-.menu-dos-flex > div > a:hover{
-    font-weight: 600;
-}
-
-
-#btn-menu{
-    display: none;    
-   
-}
-header label {
-    display: none;
-    width: 30px;
-    height: 30px; 
-    border-right: 1px solid #fff;
-    z-index: 100;
-}
-header label:hover {
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-
-
-
-
-
-@media (max-width:768px) and (min-height:350px) {
+@media screen and (max-width:600px) {
 
     .menu-uno {
         display: none;
     }
-
-    .contenedor {
-        width: 90%;
+ 
+    .terapia {
         margin: 0 auto;
-        
-    }
-    #btn-menu {
-        -webkit-filter: grayscale(1);
-        filter: grayscale(1);
-      }
-    .menu-dos {
-        display: none;
-        margin-bottom: 10px;       
-        height: 30px;        
+        width: 55%;        
+    } 
+
+    .navbar-nav {
+    margin: 0;
     }
 
-    header label {       
-        position: absolute;
-        display: block;
-        color: #787878;
-    }
-
-    .toggle-menu {
-        display: flex;
-        flex-direction: column;
-        padding-top: 40px;
-        position: absolute;        
-        background: #fff ;
-        width: 30%;
-        margin-left: -70%;
-        transition: all 0.5s;
-        z-index: 80;
-    }
-/*
-    .nav {
-        padding-top: 40px;
-        position: absolute;        
-        background: #4E94AE ;
-        width: 30%;
-        margin-left: -70%;
-        transition: all 0.5s;
-        z-index: 80;
-    }
-
-    .nav ul {        
-        flex-direction: column;
-    }
-
-    .nav li {
-        border-top: 1px solid #fff;
-    }
-*/
-    #btn-menu:checked ~ .nav {
-        margin: 0;
-        
-        
-    }
 }
 
-
-
-
-
-
-
-
 /*************************************************************************/
-
-
 
 
 .aviso_message {

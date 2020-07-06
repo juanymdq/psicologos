@@ -36,10 +36,8 @@
 	color: #4E94AE;
 	height: 40%;
 }
-.message {
-	margin-left: 300px;		
-	text-align: center;
-	width: 700px;
+.message {	
+	width: auto;
 }
 .message p {		
 	color: red;
@@ -48,23 +46,26 @@
 </style>
 <body>
 	<div class="container">
-		<div class="message">
-				<?php 
-				if(isset($message)){
-                	echo "<p>".$message."</p>"; 
-				}
-					?>	
-		</div>
+		
 		<section>
 		<h1>Panel de Control del cliente</h1>
+		<div class="message">
+			<?php 
+			if(isset($message)){
+				echo "<p>".$message."</p>"; 
+			}
+				?>
+			<p><?php //TODO: colocar mensaje de exito de pago - ml y paypal 
 		
-		<p><?php //TODO: colocar mensaje de exito de pago - ml y paypal 
+			if(!empty($payment_message)){
+				echo $payment_message;//pago rechazado mercadopago
+			}
+			if(!empty($this->session->userdata('aviso_message'))){
+				echo $this->session->userdata('aviso_message');
+			}
+			?></p>	
+		</div>
 		
-		if(!empty($payment_message)){
-			echo $payment_message;//pago rechazado mercadopago
-		}
-		
-		?></p>
 
 		<div class="flex-container">
 			<div>
@@ -115,7 +116,7 @@
 		
 		</div>
 
-		<p>Try resizing the browser window.</p>
+		<p></p>
 
 
 		</section>

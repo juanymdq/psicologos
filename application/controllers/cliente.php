@@ -1,4 +1,8 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'vendor/autoload.php';
+
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
 class Cliente extends MY_Controller
@@ -41,6 +45,7 @@ class Cliente extends MY_Controller
 //DIRIGE A LA VISTA DE PANEL DE CONTROL DEL CLIENTE
     public function cliente_cpanel() {
         $datos['titulo'] = "Cliente CPanel";
+        $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Cliente</p>";
         $this->render_page('clientes/cliente_home_view', $datos);        
     }
     
@@ -171,6 +176,11 @@ class Cliente extends MY_Controller
                     //$datos['error_message'] = validation_errors();
                     $datos['actualiza'] = true;
                     $datos['false'] = false;
+                    $datos['ruta_relativa'] = "<p>
+                    <a href='".base_url('principal')."'>Inicio</a> > 
+                    <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+                    editar
+                    </p>";
                     $this->render_page('clientes/cliente_login_view', $datos);
                 }    
             }        
@@ -196,7 +206,11 @@ class Cliente extends MY_Controller
                 $data['registra'] = true;
                 
             }
-
+            $data['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+            editar
+            </p>";
             $this->render_page('clientes/cliente_login_view', $data);
         }
     }
@@ -204,48 +218,58 @@ class Cliente extends MY_Controller
     public function sendMail()
     {
         $email = $this->input->post("email");  
-        $token = $this->usuarios_model->obtener_token();
+        $token = $this->cliente_model->obtener_token();
 
         if ($this->input->server('REQUEST_METHOD') == "POST") {
             //busco el id del usuario para guardarlo en la bd
-            $id_user = $this->usuarios_model->find_id_by_email($email);
+            $id_user = $this->cliente_model->find_id_by_email($email);
             //guarda el token en la bd para cotejarlo luego
             $id = $this->save_token($email, $token, $id_user);
             
             if($id<>NULL){
                 //configuracion de envio mail
-                $config = Array(
-                    'protocol'  => 'smtp',
-                    'smtp_host' => 'ssl://smtp.googlemail.com',
-                    'smtp_port' => '465',
-                    'smtp_user' => 'juanymdq@gmail.com',
-                    'smtp_pass' => 'kano0479',
-                    'set_mailtype'  => 'html',
-                    'set_header' => 'Content-Type', 'text/html',
-                    'starttls'  => true,
-                    'newline'   => "\r\n"
-                );
-                //cargamos la libreria email
-                $this->load->library('email', $config);
-            
-                $this->email->from('ejemplo@mipagina', 'Juan Fernandez');
-                $this->email->to('jifernandez04@hotmail.com');
                 
-                $this->email->subject('Prueba de envio');
-                $datos = array('token' => $token);
-                //llamamos a la vista plantilla mail que contiene el enlace para restablecer la 
-                //contraseña
-                $this->email->message($this->render_page('usuarios/plantilla_mail', $datos, true));                
-
+                $mail = new PHPMailer();
+                //Server settings 
+                    
+                $mail->isSMTP();                                            // Send using SMTP
+                $mail->Host       = 'ssl://smtp.googlemail.com';                    // Set the SMTP server to send through
+                $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+                $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+                $mail->Username   = 'juanymdq@gmail.com';                     // SMTP username
+                $mail->Password   = 'Jifernandez1979';                               // SMTP password
+                
+                //Recipients
+                $mail->Charset = PHPMailer::CHARSET_UTF8;
+                $mail->setFrom('from@example.com', 'Terapia Virtual');
+                $mail->addAddress('jifernandez04@hotmail.com', 'Juany');     // Add a recipient              
+                // Set email format to HTML
+                $mail->isHTML(true);
+                $asunto = 'Cambio de contraseña';
+                $bodyc = "
+                <html>
+                    <head>                                 
+                    </head>
+                    <body>                
+                        <p><a href='".base_url('cliente/cambio_de_password')."?".$token."'>Acceda a este link para restablecer su contraseña</a></p>                        
+                    </body>
+                </html>";
+                $bodyCont=utf8_decode($bodyc);
+                $contenido=utf8_decode($asunto);                                 
+                $mail->Subject = $contenido;
+                $mail->Body    = $bodyCont;
+            
+                //return $mail->send();             
                 //enviamos el mail
-                if($this->email->send()){
+                if($mail->send()){
                     //redirecciona a la pagina principal
                     $msg = 'Se envio email con enlace para restablecer la contraseña. 
                     Por favor revise el correo no deseado';
                     $this->session->set_userdata('aviso_message', $msg);
-                    return redirect(base_url('Welcome'));
+                    return redirect(base_url('cliente/cpanel'));
                 }else{
-                    $this->email->print_debugger();
+                    $datos['error_message'] = "El mail no se envió";
                 }
             }else{
                 $aviso['error_message'] = 'No se pudo guardar el token. El mail no se envio';
@@ -261,7 +285,7 @@ class Cliente extends MY_Controller
     //guarda el token en la tabla temporal tbl_tokens para realizar el cambio de pass
     function save_token($e, $t, $id_u) {
         $data = array('id_user' => $id_u, 'token' => $t, 'correo' => $e);
-        return $this->usuarios_model->insertar_token($data);
+        return $this->cliente_model->insertar_token($data);
     }
 
     function cambio_de_password(){
@@ -270,7 +294,7 @@ class Cliente extends MY_Controller
             //guardamos el token en una variable
             $token = $_GET['token'];
             //buscamos el token en la bd
-            $query = $this->usuarios_model->find_by_token($token);
+            $query = $this->cliente_model->find_by_token($token);
             //seteamos en true para verificar si cambia la pss desde el link mail o
             //desde dentro de la pagina
             $this->session->set_userdata('modif_by_email', true);
@@ -284,7 +308,7 @@ class Cliente extends MY_Controller
             //vaciamos la variable token para permitir el cambio de password
             unset($_GET['token']);
             //eliminamos el token de la bd temporal tbl_tokens
-            $this->usuarios_model->delete_token($id_token);
+            $this->cliente_model->delete_token($id_token);
             //invocamos la vista de cambio de password
             $this->render_page('usuarios/restablecer_contraseña', $datos);
         }else{
@@ -306,7 +330,7 @@ class Cliente extends MY_Controller
                     if ($this->form_validation->run()) {                                    
                             //si las validaciones de pass son correctas actualizamos la misma
                             $pass = array('password' => sha1($pass));
-                            $this->usuarios_model->update($id_user, $pass);              
+                            $this->cliente_model->update($id_user, $pass);              
                             //mandamos un mensaje de exito
                             $datos['aviso_message'] = "Modificación de password exitosa!!!";
                             //derivamos a la vista de login                    
@@ -335,10 +359,11 @@ class Cliente extends MY_Controller
         }          
     }
 
+    //Accede al formulario para cambiar pass. Pide email
     function forgot_password() {
         $datos['titulo'] = "Restablecer Contraseña";
         $this->render_page('usuarios/forgot_password', $datos);
-    }
+    }   
 
     public function view_all_clients() {
         $datos['query'] = $this->usuarios_model->findAll();
@@ -354,6 +379,11 @@ class Cliente extends MY_Controller
 
     function ver_turnos($id) {
         $datos['turnos'] = $this->cliente_model->find_turnos($id);
+        $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+            Mis turnos
+            </p>";
         $this->render_page('clientes/cliente_turnos_view', $datos);
     }
    

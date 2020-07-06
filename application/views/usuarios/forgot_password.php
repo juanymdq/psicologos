@@ -11,18 +11,16 @@
 	
   	<section>
         <div class="login-page">
-			<div class="form">
-
-			<form  class="login-form" action="<?=base_url('cliente/log_in')?>" method="post">                
-                    <div class="title">Restaurar contraseña</div>
-                    <input name="perfil" type="hidden" value="<?=$this->session->userdata('perfil')?>"/>
-                    <input type="text" placeholder="@Email" name="email" class="form-control"/>
-                    <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span> 
-                    
-                    <button type="submit">Restaurar contraseña</button>
-			</form>
-			</div>
-		</div>
+          <div class="form">
+            <form  class="login-form" action="<?=base_url('cliente/sendMail')?>" method="post">                
+                <div class="title">Restaurar contraseña</div>
+                <input name="perfil" type="hidden" value="<?=$this->session->userdata('perfil')?>"/>
+                <input value="jifernandez04@hotmail.com" type="text" placeholder="@Email" name="email" class="form-control"/>
+                <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span>                 
+                <button type="submit">Restaurar contraseña</button>
+            </form>
+          </div>
+		    </div>
 	</section>
   </body>
 </html>

@@ -22,6 +22,7 @@
 		</div>
 	</header>
 	<section>
+		//TODO: dar formato a todo el formulario
 		<div class="container">		
 			<div class="login-form">
 				<div class="form-header">

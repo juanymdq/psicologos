@@ -24,7 +24,11 @@ class Turnos extends MY_Controller {
 
     //busca todos los profesionales aceptados
     public function index()
-    {   
+    {   $datos['ruta_relativa'] = "<p>
+        <a href='".base_url('principal')."'>Inicio</a> > 
+        <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+        Lista de Profesionales
+        </p>";
         $datos['profesionales'] = $this->profesional_model->findAll();     
         $this->render_page('turnos/lista_profesionales_view',$datos);
       
@@ -50,14 +54,11 @@ class Turnos extends MY_Controller {
     }
     */
     public function turno_cliente($id)    
-    { 
-              
-            //busca el horario seleccionado y los datos del profesional           
-            $datos['horario'] = $this->turnos_model->find_one_horario($id);
-            //$this->render_page('turnos/turno_register_view', $datos);
-            $this->render_page('turnos/turnos_register_view', $datos);
-       
-       
+    {               
+        //busca el horario seleccionado y los datos del profesional           
+        $datos['horario'] = $this->turnos_model->find_one_horario($id);
+        //$this->render_page('turnos/turno_register_view', $datos);
+        $this->render_page('turnos/turnos_register_view', $datos);
     }
 
     public function guardar_turno() {
