@@ -134,9 +134,10 @@ class Cliente extends MY_Controller
                             'apellido' => $this->input->post("apellido"), 
                             'perfil' => $this->input->post('perfil'), 
                             'email' => $this->input->post("email"),                             
-                            'telefono' => $this->input->post("telefono"),                                                     
-                            'password' => $this->input->post("password")
-                            //'password' => sha1($this->input->post("password"))                           
+                            'telefono' => $this->input->post("telefono"), 
+                            //TODO. cambiar linea de guardado de pass como SHA1
+                            //'password' => sha1($this->input->post("password")),    
+                            'password' => $this->input->post("password")                                                 
                         );  
                         $id = $this->cliente_model->insert($save); 
                         $datos['id'] = $id;
@@ -243,7 +244,8 @@ class Cliente extends MY_Controller
                 //Recipients
                 $mail->Charset = PHPMailer::CHARSET_UTF8;
                 $mail->setFrom('from@example.com', 'Terapia Virtual');
-                $mail->addAddress('jifernandez04@hotmail.com', 'Juany');     // Add a recipient              
+                //$mail->addAddress('jifernandez04@hotmail.com', 'Juany');     // Add a recipient              
+                $mail->addAddress($email, 'Juany');     // Add a recipient
                 // Set email format to HTML
                 $mail->isHTML(true);
                 $asunto = 'Cambio de contraseña';
@@ -252,7 +254,7 @@ class Cliente extends MY_Controller
                     <head>                                 
                     </head>
                     <body>                
-                        <p><a href='".base_url('cliente/cambio_de_password')."?".$token."'>Acceda a este link para restablecer su contraseña</a></p>                        
+                        <p><a href='".base_url('cliente/cambio_de_password')."?token=".$token."'>Acceda a este link para restablecer su contraseña</a></p>                        
                     </body>
                 </html>";
                 $bodyCont=utf8_decode($bodyc);
@@ -263,11 +265,8 @@ class Cliente extends MY_Controller
                 //return $mail->send();             
                 //enviamos el mail
                 if($mail->send()){
-                    //redirecciona a la pagina principal
-                    $msg = 'Se envio email con enlace para restablecer la contraseña. 
-                    Por favor revise el correo no deseado';
-                    $this->session->set_userdata('aviso_message', $msg);
-                    return redirect(base_url('cliente/cpanel'));
+                    //redirecciona a la pagina de mensajes   
+                    return redirect(base_url('cliente/mensaje/1'));
                 }else{
                     $datos['error_message'] = "El mail no se envió";
                 }
@@ -282,35 +281,66 @@ class Cliente extends MY_Controller
         }
     }
 
+    function mensajes_cliente($num) {
+        switch($num){
+            case 1:
+                $datos['message'] = 'Se envio email con enlace para restablecer la contraseña. 
+                Por favor revise el correo no deseado';               
+            break;
+            case 2:
+                $datos['message'] = 'El token expiró. Por favor dirijase a la opción <strong>Olvide mi contraseña</strong> en <strong>Iniciar sesión</strong> para realizar el cambio.';               
+            break;
+            case 3:
+                $datos['message'] = "Modificación de password exitosa!!!";
+        }
+        $this->render_page('mensajes/mensajes_cliente_view', $datos);
+    }
+
     //guarda el token en la tabla temporal tbl_tokens para realizar el cambio de pass
     function save_token($e, $t, $id_u) {
         $data = array('id_user' => $id_u, 'token' => $t, 'correo' => $e);
         return $this->cliente_model->insertar_token($data);
     }
 
+    function getDeleteToken($token) {                   
+            //buscamos el token en la bd
+            $query = $this->cliente_model->find_by_token($token);
+            //si no encuentra el token. significa que ingreso nuevamente al link y le mismo
+            //fue borrado anteriormente
+            if(!$query) {
+                return 0;
+            }else{
+                //seteamos en true para verificar si cambia la pss desde el link mail o
+                //desde dentro de la pagina
+                $this->session->set_userdata('modif_by_email', true);
+                //buscamos los datos id_usuario + email segun token
+                foreach($query->result() as $row){
+                    //guardamos id usuario en variable para poder updetear
+                    $id_user = $row->id_user;
+                    //traemos tmb el token para eliminarlo posteriormente
+                    $id_token = $row->id;
+                }
+                //vaciamos la variable token para permitir el cambio de password
+                unset($token);           
+                //eliminamos el token de la bd temporal tbl_tokens
+                $this->cliente_model->delete_token($id_token);          
+                //Retorno el id del usuario
+                return $id_user;
+            }
+    }
+
     function cambio_de_password(){
         //obtenemos el token via get
         if(isset($_GET['token'])){
-            //guardamos el token en una variable
-            $token = $_GET['token'];
-            //buscamos el token en la bd
-            $query = $this->cliente_model->find_by_token($token);
-            //seteamos en true para verificar si cambia la pss desde el link mail o
-            //desde dentro de la pagina
-            $this->session->set_userdata('modif_by_email', true);
-            //buscamos los datos id_usuario + email segun token
-            foreach($query->result() as $row){
-                //guardamos id usuario en variable para poder updetear
-                $datos['id_user'] = $row->id_user;
-                //traemos tmb el token para eliminarlo posteriormente
-                $id_token = $row->id;
-            }
-            //vaciamos la variable token para permitir el cambio de password
+            $id = $this->getDeleteToken($_GET['token']);
             unset($_GET['token']);
-            //eliminamos el token de la bd temporal tbl_tokens
-            $this->cliente_model->delete_token($id_token);
-            //invocamos la vista de cambio de password
-            $this->render_page('usuarios/restablecer_contraseña', $datos);
+            $datos['id_user'] = $id;
+            if($id == 0){
+                return redirect(base_url('cliente/mensaje/2'));
+            }else{   
+                                 
+                $this->render_page('usuarios/restablecer_contraseña', $datos);
+            }
         }else{
             //si se realizo post en el form restablecer contraseña
             if ($this->input->server('REQUEST_METHOD') == "POST") {
@@ -329,12 +359,15 @@ class Cliente extends MY_Controller
                     //validamos
                     if ($this->form_validation->run()) {                                    
                             //si las validaciones de pass son correctas actualizamos la misma
-                            $pass = array('password' => sha1($pass));
-                            $this->cliente_model->update($id_user, $pass);              
+                            //TODO: cambiar la linea de pass para que guarde como SHA1
+                            //$pass = array('password' => sha1($pass));
+                            $pass = array('password' => $pass);
+                            $this->cliente_model->update($id_user, $pass);                            
                             //mandamos un mensaje de exito
-                            $datos['aviso_message'] = "Modificación de password exitosa!!!";
+                            //$datos['aviso_message'] = "Modificación de password exitosa!!!";
+                            return redirect(base_url('cliente/mensaje/3'));
                             //derivamos a la vista de login                    
-                            if($this->session->userdata('modif_by_email')){
+                            if($this->session->userdata('modif_by_email')){                               
                                 $this->render_page("login_view", $datos);
                             }else{                        
                                 $this->render_page("administrador/administrador_home_view", $datos);

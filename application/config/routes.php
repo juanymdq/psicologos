@@ -62,7 +62,7 @@ $route['cliente/crear'] = 'Cliente';
 $route['cliente/restablecer_password'] = 'cliente/forgot_password';
 //lo que se muestra en la URL    = Ruta del controlador interno
 $route['cliente/editar/(:any)'] = 'Cliente/cliente_save/$1';
-
+$route['cliente/mensaje/(:any)'] = 'Cliente/mensajes_cliente/$1';
 //************************************************************************
 $route['cliente/listar_profesionales'] = 'Turnos';
 $route['cliente/ver_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1';

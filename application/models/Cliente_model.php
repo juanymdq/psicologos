@@ -60,8 +60,15 @@ class Cliente_model extends CI_Model {
     //busca el registro por el campo email
     function find_by_token($token) {
         $this->db->like('token', $token);
-        $query = $this->db->get($this->table_token);        
+        $query = $this->db->get($this->table_token); 
+        
+        if(!$query->num_rows() == 1)
+        {
+            return false;
+        }
+        
         return $query;
+        
     }    
 
     //buscar todos los turnos agendados para un cliente

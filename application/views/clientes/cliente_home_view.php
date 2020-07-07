@@ -48,24 +48,7 @@
 	<div class="container">
 		
 		<section>
-		<h1>Panel de Control del cliente</h1>
-		<div class="message">
-			<?php 
-			if(isset($message)){
-				echo "<p>".$message."</p>"; 
-			}
-				?>
-			<p><?php //TODO: colocar mensaje de exito de pago - ml y paypal 
-		
-			if(!empty($payment_message)){
-				echo $payment_message;//pago rechazado mercadopago
-			}
-			if(!empty($this->session->userdata('aviso_message'))){
-				echo $this->session->userdata('aviso_message');
-			}
-			?></p>	
-		</div>
-		
+		<h1>Panel de Control del cliente</h1>			
 
 		<div class="flex-container">
 			<div>

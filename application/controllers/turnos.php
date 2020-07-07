@@ -35,12 +35,17 @@ class Turnos extends MY_Controller {
     }  
 
     //busca todos los horarios de un profesional y los datos del mismo
-    public function ver_horarios($id) {
-       
+    public function ver_horarios($id) {       
             //busca todos los horarios del profesional
             $datos['horarios'] = $this->turnos_model->find_by_prof($id);
             //busca el profesional segun id
             $datos['prof'] = $this->profesional_model->find($id);
+            $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+            <a href='".base_url('cliente/listar_profesionales')."'>Lista de Profesionales</a> >
+            Horarios de profesional
+            </p>";
             $this->render_page('turnos/horarios_view', $datos);
       
     }
@@ -56,8 +61,18 @@ class Turnos extends MY_Controller {
     public function turno_cliente($id)    
     {               
         //busca el horario seleccionado y los datos del profesional           
-        $datos['horario'] = $this->turnos_model->find_one_horario($id);
+        $turnos = $this->turnos_model->find_one_horario($id);
+        $datos['horario'] = $turnos;
+        $item = array_values($turnos)[0];
+        $id = $item['id'];
         //$this->render_page('turnos/turno_register_view', $datos);
+        $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+            <a href='".base_url('cliente/listar_profesionales')."'>Lista de Profesionales</a> >
+            <a href='".base_url('cliente/ver_horarios_de_profesional/'.$id)."'>Horarios de profesional</a> >
+            Datos del turno
+            </p>";
         $this->render_page('turnos/turnos_register_view', $datos);
     }
 

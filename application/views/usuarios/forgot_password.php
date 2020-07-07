@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Olvidé mi contraseña</title>
-	<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_nuevo.css"/>
+	  <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_nuevo.css"/>
   </head>
   <body>
 	
@@ -15,7 +15,7 @@
             <form  class="login-form" action="<?=base_url('cliente/sendMail')?>" method="post">                
                 <div class="title">Restaurar contraseña</div>
                 <input name="perfil" type="hidden" value="<?=$this->session->userdata('perfil')?>"/>
-                <input value="jifernandez04@hotmail.com" type="text" placeholder="@Email" name="email" class="form-control"/>
+                <input value="" type="text" placeholder="@Email" name="email" class="form-control"/>
                 <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span>                 
                 <button type="submit">Restaurar contraseña</button>
             </form>
