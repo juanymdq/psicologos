@@ -5,7 +5,9 @@
 	  <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/solid.css">
-
+        <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+        
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
         
@@ -27,7 +29,8 @@
                                         <a href="<?=base_url('administrador')?>"> <span><i class="fas fa-user-shield"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
                                     <?php break;
                                     case 'profesional':?>
-                                        <a href="<?=base_url('profesional/home_profesionales')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                        <!-- $route['profesional/cpanel'] = 'Profesional/cliente_cpanel'; -->
+                                        <a href="<?=base_url('profesional/cpanel')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
                                     <?php break;
                                     case 'cliente':?>
                                         <a href="<?=base_url('cliente/cpanel')?>"> <span><i class="fas fa-user"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>

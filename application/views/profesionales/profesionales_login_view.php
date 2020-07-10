@@ -142,9 +142,9 @@
                     <input type="password" placeholder="Password" name="password" class="form-control"/>                                        
                     <span class="help-block"><?php echo form_error('password', '<div class="text-danger">', '</div>') ?></span> 
                     <button type="submit">Ingresar </button>
-                    <!-- $route['cliente/crear'] = 'Cliente'; -->
+                    <!-- $route['profesional/crear'] = 'Profesional'; -->
                     <p class="message">¿No estás registrado? <a href="<?=base_url('profesional/crear')?>?var=1">Crear una cuenta</a></p>
-                    <!-- $route['cliente/restablecer_contraseña'] = 'cliente/forgot_password'; -->
+                    <!-- $route['profesional/restablecer_contraseña'] = 'profesional/forgot_password'; -->
                     <p class="message"><a href="<?=base_url('profesional/restablecer_password')?>">¿Olvidaste tu constraseña?</a></p>
                 </form>
             </div>

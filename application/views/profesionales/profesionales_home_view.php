@@ -44,7 +44,7 @@
 	<div class="container">
 		
 		<section>
-		<h1>Panel de Control delProfesional</h1>			
+		<h1>Panel de Control del Profesional</h1>			
 
 		<div class="flex-container">
 			<div>
@@ -68,8 +68,8 @@
 				</a>
 			</div>  
 			<div>
-				<!--  -->
-				<a href="<?=base_url('profesional/find_all_eventos?prof='.$this->session->userdata('id').'&accion=0')?>">
+				<!-- $route['profesional/crear_horarios_de_atencion/(:any)'] = 'profesional/find_all_eventos/$1'; -->
+				<a href="<?=base_url('profesional/crear_horarios_de_atencion/'.$this->session->userdata('id'))?>">
 					<div class="icon"><i class="fas fa-notes-medical icono" title="Horarios"></i></div>
 					<div class="div-text">Cargar horarios de atención</div>
 				</a>

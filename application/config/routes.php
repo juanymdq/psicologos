@@ -66,16 +66,19 @@ $route['cliente/mensaje/(:any)'] = 'Cliente/mensajes_cliente/$1';
 //************************************************************************
 $route['cliente/listar_profesionales'] = 'Turnos';
 $route['cliente/ver_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1';
+$route['profesional/crear_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1';
 $route['cliente/datos_del_turno/(:any)'] = 'Turnos/turno_cliente/$1';
 $route['cliente/mis_turnos/(:any)'] = 'cliente/ver_turnos/$1';
 //*************************************************************************
 $route['profesional/login'] = 'Profesional';
 $route['profesional/log_in'] = 'Profesional/login_profesionales';
-$route['profesional/cpanel'] = 'Profesional/cliente_cpanel';
+$route['profesional/cpanel'] = 'Profesional/profesional_cpanel';
 $route['profesional/crear'] = 'Profesional';
 $route['profesional/guardar'] = 'Profesional/profesional_save';
 $route['profesional/restablecer_password'] = 'Profesional/forgot_password';
+$route['profesional/crear_horarios_de_atencion/(:any)'] = 'profesional/find_all_eventos/$1';
 
+$route['profesional/agregar_horario/(:any)'] = 'Turnos/accion/$1';
 $route['profesional/editar/(:any)'] = 'Profesional/profesional_save/$1';
 $route['profesional/mensaje/(:any)'] = 'Profesional/mensajes_profesional/$1';
 

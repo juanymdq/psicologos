@@ -35,24 +35,21 @@ class Profesional extends MY_Controller {
        
     }
     //vista de creacion de horarios
-    public function horarios() {
+   /* public function horarios() {
         $this->load->view('profesionales/crear_horarios_view');
-    }
+    }*/
     
 
     public function guardar_foto() {
         $datos['imagen_guardada'] = $this->profesional_model->save_picture();
-        $this->load->view('profesionales/profesionales_modificar_view',$datos);
+        $this->render_page('profesionales/profesionales_modificar_view',$datos);
 
     }
     //busca todos los horarios cargado por el profesional
     //y redirige a la vista de crear horarios
-    public function find_all_eventos() {       
-        if(isset($_GET['prof'])){
-            $id = $_GET['prof'];
-            $datos['horarios'] = $this->turnos_model->find_by_prof($id);
-            $this->load->view('profesionales/crear_horarios_view', $datos);            
-        }
+    public function find_all_eventos($id) {
+        $datos['horarios'] = $this->turnos_model->find_by_prof($id);
+        $this->render_page('profesionales/crear_horarios_view', $datos);
     }
 
     public function find_horarios() { 
@@ -237,7 +234,11 @@ class Profesional extends MY_Controller {
         }
     }
 
-
+    //Accede al formulario para cambiar pass. Pide email
+    function forgot_password() {
+        $datos['titulo'] = "Restablecer Contraseña";
+        $this->render_page('usuarios/forgot_password', $datos);
+    }  
 
     //muestra todos los clientes de ese profesional
     public function view_all_clients() {

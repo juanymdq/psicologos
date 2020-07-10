@@ -34,7 +34,32 @@ class Turnos extends MY_Controller {
       
     }  
 
+     //busca todos los horarios de un profesional y los datos del mismo
+     public function ver_horarios($id) {       
+        //busca todos los horarios del profesional
+        $datos['horarios'] = $this->turnos_model->find_by_prof($id);
+        //busca el profesional segun id
+        $datos['prof'] = $this->profesional_model->find($id);
+        if($_GET['var'] == 1) {//1 indica que viene desde la creacion de horarios del profesional
+            $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('profesional/cpanel')."'>Profesional</a> >            
+            Alta de horarios de atención
+            </p>";
+            $this->render_page('profesionales/crear_horarios_view', $datos);
+        }else if($_GET['var'] == 0){//si es 0 indica que el cliente esta viendo los horarios
+            $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+            <a href='".base_url('cliente/listar_profesionales')."'>Lista de Profesionales</a> >
+            Horarios de profesional
+            </p>";
+            $this->render_page('turnos/horarios_view', $datos);
+        }
+}
+
     //busca todos los horarios de un profesional y los datos del mismo
+    /*
     public function ver_horarios($id) {       
             //busca todos los horarios del profesional
             $datos['horarios'] = $this->turnos_model->find_by_prof($id);
@@ -48,7 +73,7 @@ class Turnos extends MY_Controller {
             </p>";
             $this->render_page('turnos/horarios_view', $datos);
       
-    }
+    }*/
    /*
     public function ver_horarios_limit() { 
         if(!empty($_GET['id'])){
@@ -190,9 +215,9 @@ flowType=WPS#/checkout/done
         }
     }
     //realiza acciones sobre los horarios, Agreagar y eliminar
-    public function accion() {
+    public function accion($accion) {
         
-        $accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'Leer' ;
+        //$accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'Leer' ;
 
         switch($accion){
             case 'agregar':
@@ -207,7 +232,7 @@ flowType=WPS#/checkout/done
                 );
                 if($this->turnos_model->insert_fecha($data) != null){
                     $datos['horarios'] = $this->turnos_model->find_by_prof($id_prof);
-                    $this->load->view('profesionales/crear_horarios_view', $datos);     
+                    $this->render_page('profesionales/crear_horarios_view', $datos);     
                 }
                 break;
             case 'eliminar':
@@ -220,11 +245,11 @@ flowType=WPS#/checkout/done
                 }else{
                     $datos['error_message'] = "No se pudo eliminar el registro";
                 }
-                $this->load->view('profesionales/crear_horarios_view', $datos);     
+                $this->render_page('profesionales/crear_horarios_view', $datos);     
                 break;            
             default:
                 $datos['eventos'] = $this->profesional_model->findAll();
-                $this->load->view('profesionales/crear_horarios_view', $datos);
+                $this->render_page('profesionales/crear_horarios_view', $datos);
                 break;
         }
     }

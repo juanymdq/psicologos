@@ -17,7 +17,7 @@ class Profesional_model extends CI_Model {
     public function login_prof($email,$password)
     {
         //error_reporting(0);
-        $this->db->where('email',$email);
+        $this->db->where('pr_email',$email);
         $this->db->where('password',$password);
         $query = $this->db->get('profesional')->row();
         return $query;
