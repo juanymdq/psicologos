@@ -23,8 +23,7 @@ class Cliente extends MY_Controller
     }
 
     public function index() {         
-        $datos['titulo'] = "Cliente";
-        
+        $datos['titulo'] = "Cliente";        
         if(isset($_GET['var'])){
             if($_GET['var']==0){//si va a hacer login
                 $datos['registra'] = false;
@@ -38,11 +37,12 @@ class Cliente extends MY_Controller
             $datos['actualiza'] = false;
         }
         //$datos['registra'] = false;
+        $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Acceso Clientes</p>";                       
         $this->render_page('clientes/cliente_login_view',$datos);
            
     }
 
-//DIRIGE A LA VISTA DE PANEL DE CONTROL DEL CLIENTE
+    //DIRIGE A LA VISTA DE PANEL DE CONTROL DEL CLIENTE
     public function cliente_cpanel() {
         $datos['titulo'] = "Cliente CPanel";
         $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Cliente</p>";
@@ -171,12 +171,13 @@ class Cliente extends MY_Controller
                     $this->cliente_model->update($id, $save);
                     $datos['id'] = $id;
                     $datos['message'] = "Los datos se modificaron correctamente".
-                    $this->session->set_userdata($datos);                    
+                    $this->session->set_userdata($datos);
+                    $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Cliente</p>";           
                     $this->render_page('clientes/cliente_home_view', $datos); 
                 }else{ //VALIDATION ERRORS
                     //$datos['error_message'] = validation_errors();
                     $datos['actualiza'] = true;
-                    $datos['false'] = false;
+                    $datos['registra'] = false;
                     $datos['ruta_relativa'] = "<p>
                     <a href='".base_url('principal')."'>Inicio</a> > 
                     <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
@@ -204,7 +205,7 @@ class Cliente extends MY_Controller
                 $data['telefono'] = $cli->telefono; 
                 $data['email'] = $cli->email;                
                 $data['actualiza'] = true;
-                $data['registra'] = true;
+                $data['registra'] = false;
                 
             }
             $data['ruta_relativa'] = "<p>

@@ -63,10 +63,11 @@ header {
     border-radius: 15px;
 }
 .menu-uno > .usuario {
-    font-size: 20px;
-    padding: 5px;    
+    font-size: 12px;
+    padding: 3px;    
     width: auto;
-    margin-top: 2px;
+    
+    margin-top: 8px;
    
 }
 .menu-uno > .usuario > a {
@@ -157,7 +158,7 @@ header > nav {
     font-size: 14px;
     font-family: 'Numito';
 }
-@media screen and (max-width:600px) {
+@media screen and (max-width:991px) {
 
     .menu-uno {
         display: none;

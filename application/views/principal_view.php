@@ -13,11 +13,8 @@
 		</style>
     </head>
 <body>
-	<div class="container">		
-			
+	<div class="container">			
 		<section class="carousel">
-			
-
 				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
 						<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -27,8 +24,7 @@
 						<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
 						<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
 						<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="7"></li>						
-						
+						<li data-target="#carouselExampleIndicators" data-slide-to="7"></li>
 					</ol>
 					<div class="carousel-inner">
 						<div class="carousel-item active">

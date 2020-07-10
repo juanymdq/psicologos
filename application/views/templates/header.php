@@ -21,7 +21,7 @@
                 <header>                    
                     <div class="menu-uno">                                                 
                         <div class="usuario">
-                            <?php if($this->session->userdata('nombre') != null) {
+                            <?php if($this->session->userdata('nombre') != null || $this->session->userdata('pr_nombre') != null) {
                                 switch($this->session->userdata('perfil')){
                                     case 'administrador':?>
                                         <a href="<?=base_url('administrador')?>"> <span><i class="fas fa-user-shield"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>

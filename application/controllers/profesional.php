@@ -15,7 +15,21 @@ class Profesional extends MY_Controller {
 
     public function index()
     { 
-        $datos['titulo'] = "Porfesional";
+        $datos['titulo'] = "Profesional";        
+        if(isset($_GET['var'])){
+            if($_GET['var']==0){//si va a hacer login
+                $datos['registra'] = false;
+                $datos['actualiza'] = false;
+            }else{//si se va a registrar
+                $datos['registra'] = true;
+                $datos['actualiza'] = false;
+            }
+        }else{
+            $datos['registra'] = false;
+            $datos['actualiza'] = false;
+        }
+        //$datos['registra'] = false;
+        $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Acceso Profesional</p>";                       
         $this->render_page('profesionales/profesionales_login_view',$datos);
        
        
@@ -49,45 +63,60 @@ class Profesional extends MY_Controller {
             $this->load->view('turnos/lista_profesionales_view', $datos);           
         }
     }
+
+    //DIRIGE A LA VISTA DE PANEL DE CONTROL DEL CLIENTE
+    public function profesional_cpanel() {
+        $datos['titulo'] = "Profesional CPanel";
+        $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Profesional</p>";
+        $this->render_page('profesionales/profesionales_home_view', $datos);        
+    }
+
     //login de profesionales
     public function login_profesionales()
     {
-        $this->form_validation->set_rules('email', 'email', 'required|valid_email');           
-        $this->form_validation->set_rules('password', 'password', 'required');
+        //si ya esta logueado, redirige al panel de control
+        if($this->session->userdata("pr_nombre")!=null){
+            $datos['titulo'] = "Profesional CPanel";
+            $this->render_page('profesionales/profesionales_home_view', $datos);        
+        }else{
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email');           
+            $this->form_validation->set_rules('password', 'password', 'required');
 
-        if($this->form_validation->run() == FALSE)
-         {
-            $this->acceso_profesionales();
-         }
-         else
-         {
-            $email = $this->input->post('email');
-            $password = $this->input->post('password');      
-            //$perfil = $this->input->post('perfil');
-            $prof = $this->profesional_model->login_prof($email,$password);
-            if($prof!=null){
-                $data = array(
-                    'is_logued_in' => TRUE,
-                    'id' => $prof->id,              
-                    'email' => $prof->email,
-                    'nombre' => $prof->nombre,
-                    'apellido' => $prof->apellido,
-                    'matricula' => $prof->matricula,
-                    'telefono' => $prof->telefono,
-                    'resenia' => $prof->resenia,
-                    'perfil' => $prof->perfil,
-                    'autorizado' => $prof->autorizado
-                );
-                $this->session->set_userdata($data);  
-                            
-                $this->home_profesionales();
-            }else{
-                $datos['error_message'] = "Datos Incorrectos - intente nuevamente";
-                $this->load->view('profesionales/profesionales_login_view', $datos);
+            if($this->form_validation->run() == FALSE)
+            {
+                $this->index();
             }
-            
-         }
-
+            else
+            {
+                $email = $this->input->post('email');
+                $password = $this->input->post('password');      
+                //carga todos los datos del profesional un un asesion
+                $prof = $this->profesional_model->login_prof($email,$password);
+                if($prof!=null){
+                    $data = array(
+                        'is_logued_in' => TRUE,
+                        'id' => $prof->id,              
+                        'email' => $prof->pr_email,
+                        'nombre' => $prof->pr_nombre,
+                        'apellido' => $prof->pr_apellido,
+                        'matricula' => $prof->pr_matricula,
+                        'telefono' => $prof->pr_telefono,
+                        'resenia' => $prof->pr_resenia,
+                        'perfil' => $prof->pr_perfil,
+                        'autorizado' => $prof->pr_autorizado,
+                        'foto' => $prof->pr_foto
+                    );
+                    $this->session->set_userdata($data);  
+                    
+                    $this->profesional_cpanel();                    
+                }else{                    
+                    $data['message'] = 'Error en los datos. Por favor, inente nuevamente';
+                    $this->session->set_userdata($data);
+                    $this->index();                
+                }
+                
+            }
+        }
     }
 
     public function logout()
@@ -96,13 +125,6 @@ class Profesional extends MY_Controller {
         return redirect(base_url(),'refresh');
     } 
     
-    //c panel de profesionales
-    public function home_profesionales()
-    { 
-        $this->load->view('profesionales/profesionales_home_view');
-       
-    }
-
     //ABM profesionales
     public function profesional_save($id = null) {
 
@@ -114,47 +136,69 @@ class Profesional extends MY_Controller {
             $this->form_validation->set_rules('email', 'email', 'required|valid_email');           
             $this->form_validation->set_rules('telefono', 'Telefono', 'required|numeric|min_length[1]|max_length[20]');            
             $this->form_validation->set_rules('resenia', 'Resenia', 'required');
-            
+            /*if($id==null){//si esta registrando   
+                $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[100]');
+                $this->form_validation->set_rules('confirm_password', 'Confirmar Password', 'required|min_length[6]|max_length[100]');              
+            }*/
             $datos = array(     
-                'matricula' => $this->input->post("matricula"),                                      
-                'nombre' => $this->input->post("nombre"),
-                'apellido' => $this->input->post("apellido"),
-                'telefono' => $this->input->post("telefono"),
-                'email' => $this->input->post("email"),         
-                'resenia' => $this->input->post("resenia"),
-                'foto' => $this->input->post('foto'),
-                'perfil' => 'profesional',                
-                'autorizado' => 'false'
-                //perfil' => $perfil
+                'pr_matricula' => $this->input->post("matricula"),                                      
+                'pr_nombre' => $this->input->post("nombre"),
+                'pr_apellido' => $this->input->post("apellido"),
+                'pr_telefono' => $this->input->post("telefono"),
+                'pr_email' => $this->input->post("email"),         
+                'pr_resenia' => $this->input->post("resenia"),                
+                'pr_perfil' => 'profesional',                
+                'pr_autorizado' => 'false',
+                'pr_calificacion' => 0             
             ); 
-                       
-            if ($this->form_validation->run()) {
-                // nuestro form es valido
-                if($id==null){           
-                    $id = $this->profesional_model->insert($datos);  
-                    $vista = 'profesionales/success_register_view';                                           
-                }else{
-                    $this->profesional_model->update($id, $datos);
-                    $datos['aviso_message'] = "El perfil ha sido modificado";
-                    $vista = 'profesionales/profesionales_home_view';
-                }                   
-                //cargamos datos a la sesion de usuario junato al id
-                $datos['id'] = $id;
-                //$this->session->set_userdata($datos);
-                $this->load->view($vista, $datos);
+            if($id == null){
+                $datos['pr_foto'] = '';
+            }else{
+                $datos['pr_foto'] = $this->input->post("foto");
+            }
 
-            }else{ //VALIDATION ERRORS                
-                if($this->input->post("registra")){
+            if($id==null){//id==null: registro de cliente - id<>null: modificacion cliente 
+                //verificacion de passwords iguales               
+                if ($this->form_validation->run()) {// nuestro form es valido                       
+                    //si registra   
+                    //Agregamos la pass al array $datos para guardar                       
+                    //$datos['password'] = $this->input->post("password");                       
+                    //TODO. cambiar linea de guardado de pass como SHA1
+                    //$datos['password'] = sha1($this->input->post("password"));
+                    $id = $this->profesional_model->insert($datos); 
+                    $datos['id'] = $id;
+                    $datos['message'] = "Bienvenido a nuestro sitio de terapia virtual.".
+                    $this->session->set_userdata($datos);     
+                    $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Resgistro Exitoso</p>";              
+                    $this->render_page('profesionales/success_register_view', $datos);  
+                }else{ //VALIDATION ERRORS
+                    //$datos['error_message'] = validation_errors();
                     $datos['registra'] = true;
-                    $this->load->view('profesionales/profesionales_login_view', $datos);
-                }else{
+                    $datos['actualiza'] = false; 
+                    $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Acceso Profesional</p>";                       
+                    $this->render_page('profesionales/profesionales_login_view', $datos);
+                }                             
+            }else{//MODIFICACION DE DATOS
+                if ($this->form_validation->run()) {// nuestro form es valido    
+                    //si modifica                
+                    $this->profesional_model->update($id, $datos);
+                    $datos['id'] = $id;
+                    $datos['message'] = "Los datos se modificaron correctamente".
+                    $this->session->set_userdata($datos);
+                    $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Profesional</p>";           
+                    $this->render_page('profesionales/profesionales_home_view', $datos); 
+                }else{ //VALIDATION ERRORS
+                    //$datos['error_message'] = validation_errors();
+                    $datos['actualiza'] = true;
                     $datos['registra'] = false;
-                    $this->load->view('profesionales/profesionales_modificar_view', $datos);
-                }
-                
-                
-            }               
-         
+                    $datos['ruta_relativa'] = "<p>
+                    <a href='".base_url('principal')."'>Inicio</a> > 
+                    <a href='".base_url('profesional/cpanel')."'>Profesional</a> >
+                    editar
+                    </p>";
+                    $this->render_page('profesionales/profesionales_login_view', $datos);
+                }    
+            }        
         }else{ //SI NO SE REALIZO POST
 
             if ($id == null) {
@@ -174,20 +218,26 @@ class Profesional extends MY_Controller {
                 $profesional = $this->profesional_model->find($id);
                 
                 $data['matricula'] = $profesional->matricula; 
-                $data['nombre'] = $profesional->nombre;
-                $data['apellido'] = $profesional->apellido;                
-                $data['telefono'] = $profesional->telefono; 
-                $data['email'] = $profesional->email;                
-                $data['foto'] = $profesional->foto;  
-                $data['resenia'] = $profesional->resenia;
-                $data['autorizado'] = $profesional->autorizado;
+                $data['nombre'] = $profesional->pr_nombre;
+                $data['apellido'] = $profesional->pr_apellido;                
+                $data['telefono'] = $profesional->pr_telefono; 
+                $data['email'] = $profesional->pr_email;                
+                $data['foto'] = $profesional->pr_foto;  
+                $data['resenia'] = $profesional->pr_resenia;
+                $data['autorizado'] = $profesional->pr_autorizado;
                 $data['registra'] = false;
                 $this->load->view('profesionales/profesionales_modificar_view', $data);
             }
-
-           
+            $data['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Profesional</a> >
+            editar
+            </p>";
+            $this->render_page('profesionales/profesionales_login_view', $data);
         }
     }
+
+
 
     //muestra todos los clientes de ese profesional
     public function view_all_clients() {

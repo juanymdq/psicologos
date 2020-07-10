@@ -15,12 +15,15 @@ class Turnos_model extends CI_Model {
     }    
 //busca los horarios de un profesional en particular
     function find_by_prof($id) { 
-       
+        //comprueba que la fecha de turnos sea mayo o igual al dia actual
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+	    $fechaActual = date('Y-m-d H:i:s');
         $this->db->select('*');        
         $this->db->from('profesional as p');        
         $this->db->join('horarios_profesionales as h', 'p.id = h.id_profesional');
         $this->db->where('h.id_profesional', $id);
         $this->db->where('estado', 'disponible');
+        $this->db->where('fecha >=', $fechaActual);
         //$this->db->group_by('p.id');// add group_by
         $this->db->order_by('fecha', 'ASC'); 
                 

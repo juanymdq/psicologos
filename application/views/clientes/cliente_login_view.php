@@ -73,7 +73,7 @@
                             <span class="col-md-1 text-center"><i class="fa fa-asterisk" style="color:red; font-size:12px"></i></span>
                         </div>
                     </div>
-                    <!--TELEFONO-->
+                    <!--EMAIL-->
                     <div class="form-group">
                         <div class="row">  
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope bigicon" style="color: black"></i></span>
@@ -129,7 +129,7 @@
                 </form>
                 <form style="display: <?php 
                                         if(isset($registra)){ 
-                                            if($registra){
+                                            if($registra || $actualiza){
                                                 echo 'none';
                                             }else{
                                                 echo 'block';

@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .container {
-            
-            border: 1px solid;
-        }
-        table {
-            
+    <style>        
+        .cuerpo {
+            height: 350px;
         }
 
         table > thead {
@@ -25,25 +21,9 @@
             table {
                 width:100%;                
             }
-            /*
-            tr:nth-of-type(2n) {
-                background-color: inherit;
+            table > thead {
+                vertical-align: text-top;
             }
-            tr td:first-child {
-                background: #f0f0f0;
-                font-weight:bold;
-                font-size:1.3em;
-            }
-            tbody td {
-                display: block;
-                text-align:center;
-            }
-            tbody td:before {
-                content: attr(data-th);
-                display: block;
-                text-align:center;
-            }
-            */
         }
 
     </style>
@@ -51,39 +31,37 @@
 <body>
     <section>
     <div class="container">
-
-        <H1>MIS TURNOS</H1>
-
-        
-        <table class="table table-responsive">
-            <thead>
-                <tr>                        
-                    <th scope="col">Profesional</th>
-                    <th scope="col">Fecha del turno</th>
-                    <th scope="col">Id Videollamada</th>
-                    <th scope="col">Estado del pago del turno</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <?php
-                if(!empty($turnos)){ 
-                    $idF = 1;
-                    foreach($turnos as $item){                        
-                        echo "<td>".$item['pr_nombre']."".$item['pr_apellido']."</td>";
-                        echo "<td>".$item['fecha_string']."</td>";
-                        echo "<td><a href=''>".$item['id_sesion']."</td></a>";
-                        echo "<td>".$item['payment_status']."</td>";?>
-                        <input type="text" class="id" id="<?=$idF?>" value="<?=$item['fecha']?>">
-                        <?php $idF++;
-                    }
+        <div class="cuerpo">
+            <H1>MIS TURNOS</H1>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>                        
+                        <th scope="col">Profesional</th>
+                        <th scope="col">Fecha del turno</th>
+                        <th scope="col">Id Videollamada</th>
+                        <th scope="col">Estado del pago del turno</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <?php
+                    if(!empty($turnos)){ 
+                        $idF = 1;
+                        foreach($turnos as $item){                        
+                            echo "<td>".$item['pr_nombre']."".$item['pr_apellido']."</td>";
+                            echo "<td>".$item['fecha_string']."</td>";
+                            echo "<td><a href=''>".$item['id_sesion']."</td></a>";
+                            echo "<td>".$item['payment_status']."</td>";?>
+                            <input type="text" class="id" id="<?=$idF?>" value="<?=$item['fecha']?>">
+                            <?php $idF++;
+                        }
+                        
+                    }?>                
                     
-                }?>                
-                 
-                </tr>
-            </tbody>
-        </table>
-        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     </section>
     <script>
@@ -91,9 +69,7 @@
             console.log('entra');            
             $(".id").each(function() {
         		console.log($(".id").attr('id'));
-                console.log($(".id").val());
-
-                
+                console.log($(".id").val());                
             });
         });
 
