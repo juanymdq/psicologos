@@ -36,8 +36,14 @@ class Turnos extends MY_Controller {
 
      //busca todos los horarios de un profesional y los datos del mismo
      public function ver_horarios($id) {       
-        //busca todos los horarios del profesional
-        $datos['horarios'] = $this->turnos_model->find_by_prof($id);
+        //busca todos los horarios del profesional  
+        if(!isset($_GET['pagina'])){
+            $inicio=0;
+        }else{
+            $inicio = ($_GET['pagina']-1) * 7; 
+        }
+        $datos['allHorarios'] =  $this->turnos_model->find_all_horarios_by_prof($id);       
+        $datos['horarios'] = $this->turnos_model->find_by_prof($id,$inicio);
         //busca el profesional segun id
         $datos['prof'] = $this->profesional_model->find($id);
         if($_GET['var'] == 1) {//1 indica que viene desde la creacion de horarios del profesional
@@ -230,9 +236,9 @@ flowType=WPS#/checkout/done
                     'fecha_string' => $fecha,
                     'estado' => 'disponible'          
                 );
-                if($this->turnos_model->insert_fecha($data) != null){
-                    $datos['horarios'] = $this->turnos_model->find_by_prof($id_prof);
-                    $this->render_page('profesionales/crear_horarios_view', $datos);     
+                if($this->turnos_model->insert_fecha($data) != null){                    
+                    //$route['profesional/crear_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1'; 
+                    header('Location:'.base_url('profesional/crear_horarios_de_profesional/'.$id_prof.'?var=1&pagina=1'));                     
                 }
                 break;
             case 'eliminar':

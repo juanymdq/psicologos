@@ -92,96 +92,72 @@
         <div class="horarios">
         <?php
         //filas que queremos por pagina
-        $filas = 7;
+        $filas_x_pagina = 7;
         //cantidad de fechas en BD
         $cont=0;
-        if(!empty($horarios)){
-            foreach($horarios as $item){
-                $cont++;
-            }
-
-            $id = $item['id_profesional'];   
-            //cantidad de botones a dibujar
-            if($cont<=$filas){
-                $paginas = 1;
-                $filas_x_pagina = $cont;
-            }else{
-                $filas_x_pagina = $filas;
-                $paginas = ceil($cont/$filas_x_pagina);
-            }
+        //cuenta todos los horarios para calcular la cantidad de paginas
+        foreach($allHorarios as $items){
+            $cont += 1;
         }
-
-        
-        
+        if(!empty($horarios)){    
+            $item = array_values($horarios)[0];        
+            $id = $item['id_profesional'];
+        }
         ?>
     
         <h2>Horarios de atención</h2>
         <?php 
-            if($cont==0){
+            if(empty($horarios)){
                 echo "<p>El profesional no posee horarios disponibles de atención</p>";
             }else{
         
-                if(!$_GET['pagina']){
-                    //header('Location:'.base_url('turnos/ver_horarios?id='.$_GET['id'].'&pagina=1'));
-
+                if(!$_GET['pagina']){    
                     //$route['profesional/crear_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1';                
-                    header('Location:'.base_url('profesional/crear_horarios_de_profesional/'.$id.'?var=1&pagina=1'));
-                }  
+                    header('Location:'.base_url('profesional/crear_horarios_de_profesional/'.$id.'/0?var=1&pagina=1'));
+                } 
+                $paginas = ceil($cont/$filas_x_pagina); 
+                ?>  
+                <div class="nav">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item <?=$_GET['pagina'] <= 1 ? 'disabled' : ''?>">
+                        <!-- $route['profesional/crear_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1'; -->
+                            <a class="page-link" href="<?=base_url('profesional/crear_horarios_de_profesional/'.$id.'?var=1&pagina=')?><?=$_GET['pagina']-1?>">
+                                Anterior
+                            </a>
+                        </li>
 
-                ?>
+                        <?php for($i=0;$i<$paginas;$i++):?>
+                        <li class="page-item <?=($_GET['pagina']==$i+1) ? 'active' : '' ?>">
+                            <a class="page-link" href='<?=base_url('profesional/crear_horarios_de_profesional/'.$id.'?var=1&pagina=')?><?=$i+1?>'>
+                                <?=$i+1?>
+                            </a>
+                        </li>
+                        <?php endfor?>
+
+                        <li class="page-item <?=$_GET['pagina'] >= $paginas ? 'disabled' : ''?>">
+                            <a class="page-link" href="<?=base_url('profesional/crear_horarios_de_profesional/'.$id.'?var=1&pagina=')?><?=$_GET['pagina']+1?>">
+                                Siguiente
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+               
                 <?php
-                /*
-                $cont - $filas_x_pagina = $dif
-                12 - 7 = 5
-
-                */
-                    //$dif = $cont - $filas_x_pagina;//8-7=1
-                    $pagina = $_GET['pagina'];
-                    $i = ($pagina-1) * $filas_x_pagina;
-                    //$fin = ($pagina-1) * $dif; 
-                    if($cont<=$filas_x_pagina) {
-                        $fin = 0;
-                    }else{
-                        $a = $pagina * $filas_x_pagina;
-                        $fin =  $i + ($cont - $filas_x_pagina);
-                    }
-                    //$fin = ($pagina-1) * ($filas_x_pagina + ($cont -(($pagina-1) * $filas_x_pagina)));
-                while($i < $filas_x_pagina + $fin) { 
-                    $item = array_values($horarios)[$i]
+                //cantidad de botones a dibujar   
+               
+                //$inicio = ($_GET['pagina']-1) * $filas_x_pagina; 
+                foreach($horarios as $item){
+                    //$item = array_values($horarios)[$i]
                     ?>
-                <div class="alert alert-primary" role="alert">
-                    <!-- $route['cliente/datos_del_turno/(:any)'] = 'Turnos/turno_cliente/$1'; -->
+                <div class="alert alert-primary" role="alert">                    
                     <?=$item['fecha_string']?>hs.
                 </div>
-                <?php $i++;
+                <?php 
                 } ?>
             
-                <div class="nav">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item <?=$_GET['pagina'] <= 1 ? 'disabled' : ''?>">
-                            <!-- $route['profesional/crear_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1'; -->
-                                <a class="page-link" href="<?=base_url('profesional/crear_horarios_de_profesional/'.$id.'?var=1&pagina=')?><?=$_GET['pagina']-1?>">
-                                    Anterior
-                                </a>
-                            </li>
-
-                            <?php for($i=0;$i<$paginas;$i++):?>
-                            <li class="page-item <?=($_GET['pagina']==$i+1) ? 'active' : '' ?>">
-                                <a class="page-link" href='<?=base_url('profesional/crear_horarios_de_profesional/'.$id.'?var=1&pagina=')?><?=$i+1?>'>
-                                    <?=$i+1?>
-                                </a>
-                            </li>
-                            <?php endfor?>
-
-                            <li class="page-item <?=$_GET['pagina'] >= $paginas ? 'disabled' : ''?>">
-                                <a class="page-link" href="<?=base_url('profesional/crear_horarios_de_profesional/'.$id.'?var=1&pagina=')?><?=$_GET['pagina']+1?>">
-                                    Siguiente
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                
         <?php }?>
     </div><!--horarios-->           
 

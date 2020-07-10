@@ -48,7 +48,8 @@ class Profesional extends MY_Controller {
     //busca todos los horarios cargado por el profesional
     //y redirige a la vista de crear horarios
     public function find_all_eventos($id) {
-        $datos['horarios'] = $this->turnos_model->find_by_prof($id);
+        
+        $datos['horarios'] = $this->turnos_model->find_by_prof($id,0,7);
         $this->render_page('profesionales/crear_horarios_view', $datos);
     }
 
