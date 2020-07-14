@@ -3,11 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	
 	<title>Profesionales</title>
-	<meta name="description" content="The small framework with powerful features">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
 
     
     <script
@@ -41,85 +38,70 @@
         }
         /*COLOREA LAS FECHA PASADAS*/
         .fc-past {
+            
         background-color: #c94b4b;
         }
-        body {
-            margin: 0;
-            margin-bottom: 40px;
+ 
+        .modal-body {
+            overflow: scroll;
+            height: 400px;
+           
+            
         }
-        
-        .container {
-            margin-top: -3em;
-            width: 1100px;
-        }
-
-        .imgLogo {
-            margin-bottom: 3px;
-            width: 70px;
-            height: 50px;
+   
+        #txtFecha{
+            border: 1px solid;
+            text-align: center;
         }
 
-        .textLogo {
-            text-align: left;
-            width: 250px;
-            margin-top: 0.4em;
-            margin-left: 1em;
-        }
-        .datos-usuario {
-            margin-top: 1em; 
-        }
     </style>
+  
 
 </head>
 <body>
-<header>
-		<div class="menu">
-			<ul>
-				<li class="logo">
-					<div class="divLogo">
-						<a href="<?=base_url('cliente/home_clientes')?>"><img src="<?=base_url()?>application/assets/img/divan.png" class="imgLogo" /></a>
-					</div>
-					<div class="textLogo">
-						<p>TerapiaVirtual</p>
-					</div>
-                </li>
-                <div class="datos-usuario">
-                    <li class="item-user">Bienvenido</li>                    
-                    <li class="item-user"><?php echo $this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></li>
-                </div>
-			</ul>
-		</div>
-	</header>
-    <div class="container">          
+
+    <div class="container"> 
+    <?php
+    if(isset($data)){
+        
+        /*foreach($data as $clave=>$valor) {
+            foreach($valor as $key=>$value){
+                echo $value;
+            }
+                
+        } */          
+        
+       // echo var_dump($data);
+       print_r(array_values($data));
+       $registro = array_values($data);
+       foreach($registro as $array){
+           foreach($array as $item){
+                $res = $item." ";             
+               
+           }   
+           $temp = explode(" " , $res);
+           echo $temp[1];        
+       }
+    }else{
+        echo "data no esta seteado";
+    }
+    ?>         
         <div class="row">
             <div class="col"></div>
             <div class="col-7"><br/><br/><div id="CalendarioWeb"></div></div>
             <div class="col"></div>
         </div>
     </div>    
-    <footer>	
-	<div class="copyrights">
-		<div class="container_footer">
-			<div class="col_full">
-				<div class="copyrights-menu">
-					<a href="/">Inicio</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/acerca-de/">Acerca de</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="<?=base_url('Welcome/privacidad')?>">Política de Privacidad</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="/ayuda/">Ayuda</a>
-				</div>
-				<div class="copyrights-text">
-				Copyrights &copy; <?= date('Y') ?> Todos los derechos reservados.
-				</div>
-			</div>
-		</div>
-	</div>
-    </footer>
+
     <script>
         $(document).ready(function(){
            
             $('#CalendarioWeb').fullCalendar({
                 header: {
                     left: 'today,prev,next',
-                    center: 'title',
-                    //right: 'month,basicWeek,basicDay,agendaWeek,agendaDay'
-                },
+                    center: 'title',                    
+                },               
+               
                
                 dayClick: function(date, jsEvent, view){                       
                     var myDate = new Date();                    
@@ -147,7 +129,7 @@
                    
                 },
 
-                events: <?=$eventos?>,                
+                events: <?=$eventos?>,       
 
                 eventClick:function(callEvent,jsEvent,view){
 
@@ -200,6 +182,143 @@
     <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
         <div class="modal-dialog">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Seleccionar horarios</h5>               
+                
+               
+                    <input type="hidden" id="txtIDuser" name="txtIDuser"/>
+                    <input type="text" id="txtFecha" name="txtFecha" disabled="true"/>
+               
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                       
+                            <?php for($i=8;$i<20;$i+=0.5){
+
+                                list($entero, $decimal) = sscanf($i, '%d.%d');
+                                
+                                if($decimal == 5){
+                                    $min = '30';
+                                }else{
+                                    $min = '00';
+                                }
+                                if($i<10){
+                                    $hora = '0'.$entero.':'.$min;
+                                }else{
+                                    $hora = $entero.':'.$min;
+                                }
+                                ?>
+                            
+                                <div>
+                                    <input type="checkbox" id="chkHora" name="chkHora" value="<?=$hora?>">
+                                    <label for="chkHora"><?=$hora?></label>
+                                </div>
+                                
+                            <?php }?>
+                      
+                    </div>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
+                    <button type="button" id="btnModificar" class="btn btn-success">Modificar</button>
+                    <button type="button" id="btnEliminar" class="btn btn-danger">Borrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var NuevoEvento;
+
+        $('#btnAgregar').click(function(){                       
+            NuevoEvento = obtener_datos();
+            
+            EnviarInformacion('agregar', NuevoEvento);            
+        });
+
+        $('#btnEliminar').click(function(){ 
+            RecolectarDatosGUI();
+            EnviarInformacion('eliminar', NuevoEvento);
+            
+        });
+
+        $('#btnModificar').click(function(){ 
+            RecolectarDatosGUI();
+            EnviarInformacion('modificar', NuevoEvento);            
+        });
+        //obtiene el id, la feha y las horas seleccionadas y las envia en un array de objetos
+        function obtener_datos(){            
+            var registros= [];
+            let obj = {};
+            $("input[name=chkHora]").each(function (index) {  
+                if($(this).is(':checked')){
+                    obj = {
+                        'id': $('#txtIDuser').val(),
+                        'fecha': $('#txtFecha').val(),
+                        'hora': $(this).val()
+                    }
+                    registros.push(obj);          
+                }
+            });
+           /*
+           console.log(registros);
+           for(key in registros){
+               console.log(key+": "+registros[key].id);
+               console.log(key+": "+registros[key].fecha);
+               console.log(key+": "+registros[key].hora);
+           }*/
+            return registros;
+        }
+
+       /* function RecolectarDatosGUI() {          
+            NuevoEvento = {
+                id_user: $('#txtIDuser').val(),              
+                fecha: $('#txtFecha').val(),
+                horas: obtener_horas()
+            };
+            console.log(NuevoEvento);
+        }
+*/
+        function EnviarInformacion(accion, objEvento, modal) {
+            
+            var url = '<?=base_url()?>calendar/accion?accion='+accion;
+           
+            $.ajax({
+                type:'post',
+                url: url,
+                data: {data: objEvento}
+            });
+            console.log(objEvento);
+            if(!modal){
+                $('#ModalEventos').modal('toggle');           
+            }
+            //$route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1';
+           
+                              
+        }
+
+        function limpiarFormulario() {
+            $('#tituloEvento').html('');
+            $('#txtID').val('');
+            $('#txtIDuser').val('');
+            $('#txtTitulo').val('');
+            $('#txtColor').val('');
+            $('#txtHora').val('');
+            $('#txtDescripcion').val('');
+        }
+    </script>
+</body>
+</html>
+
+
+
+<!--
+
+  
+  <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
+        <div class="modal-dialog">
+            <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tituloEvento"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -208,7 +327,7 @@
             </div>
             <div class="modal-body">       
 
-                <input type="hidden" id="txtID" name="txtID"/>
+                <input type="text" id="txtID" name="txtID"/>
                 <input type="text" id="txtIDuser" name="txtIDuser"/>
                 <input type="text" id="txtFecha" name="txtFecha"/>
 
@@ -249,64 +368,7 @@
             </div>
         </div>
     </div>
-    <script>
-        var NuevoEvento;
 
-        $('#btnAgregar').click(function(){ 
-            RecolectarDatosGUI();
-            EnviarInformacion('agregar', NuevoEvento);
-            
-        });
 
-        $('#btnEliminar').click(function(){ 
-            RecolectarDatosGUI();
-            EnviarInformacion('eliminar', NuevoEvento);
-            
-        });
 
-        $('#btnModificar').click(function(){ 
-            RecolectarDatosGUI();
-            EnviarInformacion('modificar', NuevoEvento);
-            
-        });
-
-        function RecolectarDatosGUI() {
-            NuevoEvento = {                
-                id: $('#txtID').val(),
-                id_user: $('#txtIDuser').val(),
-                title: $('#txtTitulo').val(),
-                start: $('#txtFecha').val()+ " " +$('#txtHora').val(),
-                color: $('#txtColor').val(),
-                descripcion: $('#txtDescripcion').val(),
-                textColor: '#FFFFFF',
-                end: $('#txtFecha').val()+ " " +$('#txtHora').val(),
-            };
-        }
-
-        function EnviarInformacion(accion, objEvento, modal) {
-            
-            var url = '<?=base_url()?>calendar/accion?accion='+accion;
-            
-            $.ajax({
-                type:'post',
-                url: url,
-                data: objEvento
-            });
-            if(!modal){
-                $('#ModalEventos').modal('toggle');           
-            }
-            window.location.href = '<?=base_url('calendar/find_all_eventos?user='.$this->session->userdata('id'))?>';                   
-        }
-
-        function limpiarFormulario() {
-            $('#tituloEvento').html('');
-            $('#txtID').val('');
-            $('#txtIDuser').val('');
-            $('#txtTitulo').val('');
-            $('#txtColor').val('');
-            $('#txtHora').val('');
-            $('#txtDescripcion').val('');
-        }
-    </script>
-</body>
-</html>
+    -->

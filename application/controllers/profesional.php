@@ -35,9 +35,10 @@ class Profesional extends MY_Controller {
        
     }
     //vista de creacion de horarios
-   /* public function horarios() {
-        $this->load->view('profesionales/crear_horarios_view');
-    }*/
+    public function calendario() {
+        $datos['titulo'] = 'Calendario';
+        $this->load->view('calendar/calendar_view',$datos);
+    }
     
 
     public function guardar_foto() {

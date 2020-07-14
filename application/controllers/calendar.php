@@ -1,7 +1,7 @@
 <?php 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Calendar extends CI_Controller {
+class Calendar extends MY_Controller {
 
     public function __construct()
     {
@@ -12,34 +12,35 @@ class Calendar extends CI_Controller {
     }
 
     public function index() { 
-        $this->load->view('calendar/calendar_view');
+        $datos['titulo'] = 'Calendario';
+        $this->render_page('calendar/calendar_view', $datos);
        
     }
 
-    public function find_all_eventos() {
-        if(isset($_GET['user'])){
-            $id = $_GET['user'];
-            $datos['eventos'] = $this->calendar_model->find_by_user($id);
-            $this->load->view('calendar/calendar_view', $datos);
-        }
+    public function find_all_eventos($id) {       
+        $datos['eventos'] = $this->calendar_model->find_by_user($id);
+        $this->render_page('calendar/calendar_view', $datos);       
     }
 
     public function accion() {
         
         $accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'Leer' ;
-
+       
         switch($accion){
             case 'agregar':
-                $data = array(
-                    'id_user' => $this->input->post('idUser'),
-                    'title' => $this->input->post('title'),
-                    'descripcion' => $this->input->post('descripcion'),
-                    'color' => $this->input->post('color'),
-                    'textColor' => $this->input->post('textColor'),
-                    'start' => $this->input->post('start'),
-                    'end' => $this->input->post('end')
-                );
-                $this->calendar_model->insert($data);               
+
+               
+                $datos['data'] = $this->input->post('data');
+                $this->render_page('calendar/calendar_view', $datos);
+               
+               /* $data = array(
+                    'id_user' => $this->input->post('id_user'),
+                    'fecha' => $this->input->post('fecha'),
+                    
+                );*/
+
+               
+                //$this->calendar_model->insert($data);               
                 break;
             case 'eliminar':
                 if($this->input->post('id') != null){
@@ -61,8 +62,8 @@ class Calendar extends CI_Controller {
                 $this->calendar_model->update($id, $data);
                 break;
             default:
-                $datos['eventos'] = $this->calendar_model->findAll();
-                $this->load->view('calendar/calendar_view', $datos);
+                //$datos['eventos'] = $this->calendar_model->findAll();               
+                //$this->render_page('calendar/calendar_view', $datos);
                 break;
         }
     }

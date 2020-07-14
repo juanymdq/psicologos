@@ -77,6 +77,8 @@ $route['profesional/crear'] = 'Profesional';
 $route['profesional/guardar'] = 'Profesional/profesional_save';
 $route['profesional/restablecer_password'] = 'Profesional/forgot_password';
 $route['profesional/crear_horarios_de_atencion/(:any)'] = 'profesional/find_all_eventos/$1';
+//ingresda al calendario para cargar horarios
+$route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1';
 
 $route['profesional/agregar_horario/(:any)'] = 'Turnos/accion/$1';
 $route['profesional/editar/(:any)'] = 'Profesional/profesional_save/$1';

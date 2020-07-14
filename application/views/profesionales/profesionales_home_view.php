@@ -75,9 +75,10 @@
 				</a>
 			</div>
 			<div>
-				<a href="">
+			<!-- $route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1'; -->				
+				<a href="<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>">
 					<div class="icon"><i class="fas fa-credit-card icono" title="Pagos"></i></div>
-					<div class="div-text">Pagos</div>					
+					<div class="div-text">Calendario</div>					
 				</a>
 			</div>
 			<div>
