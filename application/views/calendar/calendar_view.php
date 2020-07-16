@@ -41,19 +41,24 @@
             
         background-color: #c94b4b;
         }
+        .modal-dialog {
+    
+    width: 400px;   
+}
  
         .modal-body {
-            overflow: scroll;
-            height: 400px;
-           
-            
-        }
+    overflow: scroll;
+    height: 400px;
+   
+}
    
         #txtFecha{
             border: 1px solid;
             text-align: center;
         }
-
+        .flex-container{
+            
+        }
     </style>
   
 
@@ -62,34 +67,21 @@
 
     <div class="container"> 
     <?php
-    if(isset($data)){
+    if(isset($horas)){             
+           //var_dump($eventos);
+           /*var_dump($horarios);
+           foreach($horarios as $item){
+               print_r($item['start']);
+           }*/
         
-        /*foreach($data as $clave=>$valor) {
-            foreach($valor as $key=>$value){
-                echo $value;
-            }
-                
-        } */          
-        
-       // echo var_dump($data);
-       print_r(array_values($data));
-       $registro = array_values($data);
-       foreach($registro as $array){
-           foreach($array as $item){
-                $res = $item." ";             
-               
-           }   
-           $temp = explode(" " , $res);
-           echo $temp[1];        
-       }
-    }else{
-        echo "data no esta seteado";
     }
-    ?>         
-        <div class="row">
-            <div class="col"></div>
-            <div class="col-7"><br/><br/><div id="CalendarioWeb"></div></div>
-            <div class="col"></div>
+    ?>  
+        <div class="flex-container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-7"><br/><br/><div id="CalendarioWeb"></div></div>
+                <div class="col"></div>
+            </div>
         </div>
     </div>    
 
@@ -115,13 +107,14 @@
                     } 
                     else 
                     {
+                        console.log('ingreso vacio')
                         $('#btnAgregar').prop('disabled',false);
                         $('#btnModificar').prop('disabled',true);
-                        $('#btnEliminar').prop('disabled',true);
-                        
-                        limpiarFormulario();
+                        $('#btnEliminar').prop('disabled',true);                        
+                       
                         $('#txtFecha').val(date.format());
                         $('#txtIDuser').val(<?=$this->session->userdata('id')?>);
+                       
                         $('#ModalEventos').modal();
                     }
 
@@ -129,48 +122,50 @@
                    
                 },
 
-                events: <?=$eventos?>,       
-
+                events: <?=$horarios?>,
+                
                 eventClick:function(callEvent,jsEvent,view){
-
-                    $('#btnAgregar').prop('disabled',true);
-                    $('#btnModificar').prop('disabled',false);
-                    $('#btnEliminar').prop('disabled',false);
-
-                    //H2
-                    $('#tituloEvento').html(callEvent.title);
-                    //Mostrar la informaciond el evento en los inputs
-                    $('#txtDescripcion').val(callEvent.descripcion);
-                    $('#txtID').val(callEvent.id);
+                    //descheckeo todos los check
+                    limpiarcheck();
+                    //traigo fecha formateada
+                    $('#txtFecha').val(callEvent.start.format());
+                    var fecha = $('#txtFecha').val();
+                    //treamos id usuario
                     $('#txtIDuser').val(callEvent.id_user);
-                    $('#txtTitulo').val(callEvent.title);
-                    $('#txtColor').val(callEvent.color);
+                    //traemos todos los horarios mostrados en calendario
+                    var json = callEvent.source.rawEventDefs;
+                    console.log(json);
+                    // recorremos los horarios
+                    json.forEach((e) => {
+                        for(var p in e){
+                            //cuando encuentre la fecha que se clickeo
+                            if(fecha==e[p]){
+                                //iteramos por todos los checkbox buscando las horas del dia guardadas
+                                $('input[type=checkbox]').each(function(){
+                                    //colocamos la hora en variable cb
+                                    var cb = $(this).val();
+                                    //colocamos el elemento check
+                                    var elem = $(this);
+                                    //traemos la hora de la bd para comparar
+                                    var ch = e['hora'];
+                                    //le sacamos los ultimos 0 para que coincida perfecta la hora
+                                    var tmp = ch.substr(0,5);
+                                    //buscamos en los cheks la hora
+                                    if(cb == tmp){
+                                        //chekeamos si encuentra la hora
+                                        elem.attr('checked', true);
+                                    }
+                                });
 
-                    FechaHora = callEvent.start._i.split(" ");
-                    $('#txtFecha').val(FechaHora[0]);
-                    $('#txtHora').val(FechaHora[1]);
-
-
+                            }
+                          
+                        }
+                    });
+                    
                     $('#ModalEventos').modal();
                 },
 
-                editable: true,
-
-                eventDrop: function(callEvent){
-                    $('#txtID').val(callEvent.id);
-                    $('#txtIDuser').val(callEvent.id_user);
-                    $('#txtTitulo').val(callEvent.title);
-                    $('#txtcolor').val(callEvent.color);
-                    $('#txtDescripcion').val(callEvent.descripcion);
-
-                    var fechaHora = callEvent.start.format().split("T");
-                    $('#txtFecha').val(fechaHora[0]);
-                    $('#txtHora').val(fechaHora[1]);
-
-                    RecolectarDatosGUI();
-                    EnviarInformacion('modificar', NuevoEvento, true);
-                }
-               
+                editable: false,
             });
 
             
@@ -191,30 +186,35 @@
                
                 </div>
                 <div class="modal-body">
-                    <div class="form-row">
+                    <div class="">
                        
-                            <?php for($i=8;$i<20;$i+=0.5){
+                        <?php for($i=8;$i<20;$i+=0.5){
 
-                                list($entero, $decimal) = sscanf($i, '%d.%d');
-                                
-                                if($decimal == 5){
-                                    $min = '30';
-                                }else{
-                                    $min = '00';
-                                }
-                                if($i<10){
-                                    $hora = '0'.$entero.':'.$min;
-                                }else{
-                                    $hora = $entero.':'.$min;
-                                }
-                                ?>
+                            list($entero, $decimal) = sscanf($i, '%d.%d');
                             
-                                <div>
-                                    <input type="checkbox" id="chkHora" name="chkHora" value="<?=$hora?>">
-                                    <label for="chkHora"><?=$hora?></label>
-                                </div>
-                                
-                            <?php }?>
+                            if($decimal == 5){
+                                $min = '30';
+                            }else{
+                                $min = '00';
+                            }
+                            if($i<10){
+                                $hora = '0'.$entero.':'.$min;
+                            }else{
+                                $hora = $entero.':'.$min;
+                            }
+
+                            if(isset($horas)){
+                                var_dump($horas);
+                            }
+                            ?>
+
+                            <div>
+                                <input type="checkbox" id="chkHora" name="chkHora" value="<?=$hora?>">
+                                <label for="chkHora"><?=$hora?></label>
+                                <hr>
+                            </div>
+                            
+                        <?php }?>
                       
                     </div>
                 
@@ -232,9 +232,9 @@
         var NuevoEvento;
 
         $('#btnAgregar').click(function(){                       
-            NuevoEvento = obtener_datos();
-            
-            EnviarInformacion('agregar', NuevoEvento);            
+            buscar();
+            //NuevoEvento = obtener_datos();            
+            //EnviarInformacion('agregar', NuevoEvento);            
         });
 
         $('#btnEliminar').click(function(){ 
@@ -244,7 +244,7 @@
         });
 
         $('#btnModificar').click(function(){ 
-            RecolectarDatosGUI();
+            NuevoEvento = obtener_datos();
             EnviarInformacion('modificar', NuevoEvento);            
         });
         //obtiene el id, la feha y las horas seleccionadas y las envia en un array de objetos
@@ -271,15 +271,52 @@
             return registros;
         }
 
-       /* function RecolectarDatosGUI() {          
-            NuevoEvento = {
-                id_user: $('#txtIDuser').val(),              
-                fecha: $('#txtFecha').val(),
-                horas: obtener_horas()
-            };
-            console.log(NuevoEvento);
+        function buscar(){
+            var url = '<?=base_url()?>calendar/accion?accion=buscar';
+           
+            $.ajax({
+                type:'post',
+                url: url,
+                data: {fecha: $('#txtFecha').val()}                                
+            }).done(function(res){
+                
+                             
+                    var json = res;
+                    console.log(json);
+
+                    $('input[type=checkbox]').each(function(){
+                        //colocamos la hora en variable cb
+                        var cb = $(this).val();
+                        //colocamos el elemento check
+                        var elem = $(this);
+                        if(elem.attr('checked') ) {
+                            var encontro = false;
+                            while(p in res && !encontro){
+                            //for(let p in res){
+                                //console.log(res[p].hora);
+                                var hora = res[p].hora; 
+                                //traemos la hora de la bd para comparar                                
+                                //le sacamos los ultimos 0 para que coincida perfecta la hora
+                                var tmp = hora.substr(0,5);
+                                //buscamos en los cheks la hora
+                                if(cb == tmp){
+                                    //chekeamos si encuentra la hora
+                                    encontro =true
+                                }                   
+                            }
+                            if(!encontro){
+                                //TODO: no encontro la hora guardad en bd. Deberia guardarse
+                            }
+                        }
+
+                    });
+                }
+                
+                
+            });
+            
         }
-*/
+
         function EnviarInformacion(accion, objEvento, modal) {
             
             var url = '<?=base_url()?>calendar/accion?accion='+accion;
@@ -294,19 +331,16 @@
                 $('#ModalEventos').modal('toggle');           
             }
             //$route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1';
-           
+            window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>';
                               
         }
 
-        function limpiarFormulario() {
-            $('#tituloEvento').html('');
-            $('#txtID').val('');
-            $('#txtIDuser').val('');
-            $('#txtTitulo').val('');
-            $('#txtColor').val('');
-            $('#txtHora').val('');
-            $('#txtDescripcion').val('');
+        function limpiarcheck() {           
+            $('input[type=checkbox]').each(function(){
+                $(this).attr('checked', false);            
+            });
         }
+     
     </script>
 </body>
 </html>

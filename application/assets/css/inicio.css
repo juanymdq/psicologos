@@ -1,5 +1,15 @@
 
-
+.flex-container{
+    display: flex;
+}
+.modal-content {
+    
+    width: 200px;   
+}
+.modal-dialog {
+    
+    width: 200px;   
+}
 /*********************PAGINA DE INICIO**********************************/
 
 body {   
