@@ -1,5 +1,3 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,41 +39,40 @@
             
         background-color: #c94b4b;
         }
-        .modal-dialog {
-    
-    width: 400px;   
-}
- 
+        
+        .modal-content{
+            width: 300px;
+        }
+        .modal-content > h5{
+            text-align: center;
+        }
         .modal-body {
-    overflow: scroll;
-    height: 400px;
-   
-}
+            overflow: scroll;
+            height: 400px;
+        }
+        .modal-header{
+            float: left;
+            text-align: center;
+        }
    
         #txtFecha{
             border: 1px solid;
             text-align: center;
-        }
-        .flex-container{
             
         }
+        .flex-container{
+            display: flex;
+        }
+        #CalendarioWeb {
+            margin-bottom: 100px
+        }
     </style>
-  
+ 
 
 </head>
 <body>
 
-    <div class="container"> 
-    <?php
-    if(isset($horas)){             
-           //var_dump($eventos);
-           /*var_dump($horarios);
-           foreach($horarios as $item){
-               print_r($item['start']);
-           }*/
-        
-    }
-    ?>  
+    <div class="container">   
         <div class="flex-container">
             <div class="row">
                 <div class="col"></div>
@@ -86,6 +83,7 @@
     </div>    
 
     <script>
+    var json;
         $(document).ready(function(){
            
             $('#CalendarioWeb').fullCalendar({
@@ -107,24 +105,18 @@
                     } 
                     else 
                     {
-                        console.log('ingreso vacio')
-                        $('#btnAgregar').prop('disabled',false);
-                        $('#btnModificar').prop('disabled',true);
-                        $('#btnEliminar').prop('disabled',true);                        
+                        console.log('ingreso vacio')                                         
                        
                         $('#txtFecha').val(date.format());
                         $('#txtIDuser').val(<?=$this->session->userdata('id')?>);
                        
                         $('#ModalEventos').modal();
-                    }
-
-                    
-                   
+                    }                   
                 },
 
                 events: <?=$horarios?>,
-                
-                eventClick:function(callEvent,jsEvent,view){
+             
+                eventClick:function(callEvent,jsEvent,view){                    
                     //descheckeo todos los check
                     limpiarcheck();
                     //traigo fecha formateada
@@ -133,7 +125,7 @@
                     //treamos id usuario
                     $('#txtIDuser').val(callEvent.id_user);
                     //traemos todos los horarios mostrados en calendario
-                    var json = callEvent.source.rawEventDefs;
+                    json = callEvent.source.rawEventDefs;
                     console.log(json);
                     // recorremos los horarios
                     json.forEach((e) => {
@@ -166,24 +158,22 @@
                 },
 
                 editable: false,
+                
             });
 
             
         });
 
     </script>
-
+    <div class="flex-container">
     <!-- Modal PARA AGREGAR MODIFICAR Y ELIMINAR-->
     <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5>Seleccionar horarios</h5>               
-                
-               
+            <h5>Seleccionar horarios</h5>
+                <div class="modal-header">                    
                     <input type="hidden" id="txtIDuser" name="txtIDuser"/>
                     <input type="text" id="txtFecha" name="txtFecha" disabled="true"/>
-               
                 </div>
                 <div class="modal-body">
                     <div class="">
@@ -220,102 +210,51 @@
                 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
-                    <button type="button" id="btnModificar" class="btn btn-success">Modificar</button>
-                    <button type="button" id="btnEliminar" class="btn btn-danger">Borrar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnCerrar" class="btn btn-success">Cerrar</button>
+                   
                 </div>
             </div>
         </div>
     </div>
+    </div>
     <script>
-        var NuevoEvento;
+        
 
-        $('#btnAgregar').click(function(){                       
-            buscar();
-            //NuevoEvento = obtener_datos();            
-            //EnviarInformacion('agregar', NuevoEvento);            
-        });
-
-        $('#btnEliminar').click(function(){ 
-            RecolectarDatosGUI();
-            EnviarInformacion('eliminar', NuevoEvento);
-            
-        });
-
-        $('#btnModificar').click(function(){ 
-            NuevoEvento = obtener_datos();
-            EnviarInformacion('modificar', NuevoEvento);            
-        });
-        //obtiene el id, la feha y las horas seleccionadas y las envia en un array de objetos
-        function obtener_datos(){            
-            var registros= [];
-            let obj = {};
-            $("input[name=chkHora]").each(function (index) {  
-                if($(this).is(':checked')){
-                    obj = {
-                        'id': $('#txtIDuser').val(),
-                        'fecha': $('#txtFecha').val(),
-                        'hora': $(this).val()
-                    }
-                    registros.push(obj);          
-                }
-            });
-           /*
-           console.log(registros);
-           for(key in registros){
-               console.log(key+": "+registros[key].id);
-               console.log(key+": "+registros[key].fecha);
-               console.log(key+": "+registros[key].hora);
-           }*/
-            return registros;
-        }
-
-        function buscar(){
-            var url = '<?=base_url()?>calendar/accion?accion=buscar';
-           
-            $.ajax({
-                type:'post',
-                url: url,
-                data: {fecha: $('#txtFecha').val()}                                
-            }).done(function(res){
-                
-                             
-                    var json = res;
-                    console.log(json);
-
-                    $('input[type=checkbox]').each(function(){
-                        //colocamos la hora en variable cb
-                        var cb = $(this).val();
-                        //colocamos el elemento check
-                        var elem = $(this);
-                        if(elem.attr('checked') ) {
-                            var encontro = false;
-                            while(p in res && !encontro){
-                            //for(let p in res){
-                                //console.log(res[p].hora);
-                                var hora = res[p].hora; 
-                                //traemos la hora de la bd para comparar                                
-                                //le sacamos los ultimos 0 para que coincida perfecta la hora
-                                var tmp = hora.substr(0,5);
-                                //buscamos en los cheks la hora
-                                if(cb == tmp){
-                                    //chekeamos si encuentra la hora
-                                    encontro =true
-                                }                   
-                            }
-                            if(!encontro){
-                                //TODO: no encontro la hora guardad en bd. Deberia guardarse
-                            }
+        $("input[name=chkHora]").change(function(){
+             
+            if($(this).is(':checked')){//agregar horas
+                console.log('checked');
+                color = getRandomColor();
+                obj = {
+                    'id': $('#txtIDuser').val(),
+                    'fecha': $('#txtFecha').val(),
+                    'hora': $(this).val(),
+                    'display': 'background',
+                    'color': color
+                }     
+                EnviarInformacion('agregar', obj);          
+            }else{//borrar horas               
+                fecha = $('#txtFecha').val();               
+                hora = $(this).val();                
+                json.forEach((e) => {
+                    for(var p in e){
+                        var ch = e['hora'];                        
+                        //le sacamos los ultimos 0 para que coincida perfecta la hora
+                        var tmp = ch.substr(0,5);                    
+                        //cuando encuentre la fecha que se clickeo
+                        if(fecha==e['start'] && hora==tmp){                           
+                            obj = {'id': e['id']}
+                            EnviarInformacion('eliminar', obj); 
                         }
+                    }
+                });               
+            }
+        })
 
-                    });
-                }
-                
-                
-            });
-            
-        }
+        $('#btnCerrar').click(function(){                       
+            $('#ModalEventos').modal('toggle');
+            window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>';
+        });    
 
         function EnviarInformacion(accion, objEvento, modal) {
             
@@ -324,14 +263,10 @@
             $.ajax({
                 type:'post',
                 url: url,
-                data: {data: objEvento}
-            });
-            console.log(objEvento);
-            if(!modal){
-                $('#ModalEventos').modal('toggle');           
-            }
-            //$route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1';
-            window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>';
+                data: objEvento
+            }).done(function(res){
+                console.log('guardado');               
+            });        
                               
         }
 
@@ -340,69 +275,18 @@
                 $(this).attr('checked', false);            
             });
         }
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
      
     </script>
 </body>
 </html>
 
 
-
-<!--
-
-  
-  <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tituloEvento"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">       
-
-                <input type="text" id="txtID" name="txtID"/>
-                <input type="text" id="txtIDuser" name="txtIDuser"/>
-                <input type="text" id="txtFecha" name="txtFecha"/>
-
-                <div class="form-row">
-                    <div class="form-group col-md-8">
-                        <label>Título:</label>
-                        <input type="text" id="txtTitulo" class="form-control" placeholder="Título del evento"/>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label>Hora del evento:</label>
-                        <div class="input-group clockpicker" data-autoclose="true">
-                            <input id="txtHora" type="text" class="form-control" value="">                            
-                            <span class="glyphicon glyphicon-time"></span>   
-                        </div>
-                        <script type="text/javascript">
-                        $('.clockpicker').clockpicker();
-                        </script>
-                    </div>                    
-                </div>
-                <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="txtDescripcion" rows="3" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Color:</label>
-                    <input type="color" id="txtColor" value="#ff0000" class="form-control" style="height:36px"/>
-                </div>
-            </div>
-            <div class="modal-footer">
-
-                <button type="button" id="btnAgregar" class="btn btn-success">Agregar</button>
-                <button type="button" id="btnModificar" class="btn btn-success">Modificar</button>
-                <button type="button" id="btnEliminar" class="btn btn-danger">Borrar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                
-
-            </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    -->

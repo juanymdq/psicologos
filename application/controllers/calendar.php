@@ -28,41 +28,25 @@ class Calendar extends MY_Controller {
         $accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'Leer' ;
        
         switch($accion){
-            case 'agregar':
-                //recolecta el array de horarios
-                $regs = $this->input->post('data');
-                //recorre el array para guardar en la bd
-                foreach($regs as $registros){
+            case 'agregar':            
                     $data = array(
-                        'id_user' => $registros['id'],
-                        'title' => 'Horarios',
-                        'start' => $registros['fecha'],
-                        'hora' => $registros['hora']
+                        'id_user' => $this->input->post('id'),
+                        'title' => $this->input->post('hora'),
+                        'start' => $this->input->post('fecha'),
+                        'hora' => $this->input->post('hora'),
+                        'display' => $this->input->post('display'),
+                        'color' => $this->input->post('color')
                     );
                     //guarda en la bd
-                    $this->calendar_model->insert($data); 
-                 
-                }
+                    $this->calendar_model->insert($data);                  
+                
                 break;
             case 'eliminar':
                 if($this->input->post('id') != null){
                     $id = $this->input->post('id');
                     $this->calendar_model->delete($id);
                 }
-                break;
-            case 'modificar':
-                $id = $this->input->post('id');
-                $data = array(
-                    //'id_user' => $this->input->post('idUser'),                  
-                    'title' => $this->input->post('title'),
-                    'descripcion' => $this->input->post('descripcion'),
-                    'color' => $this->input->post('color'),
-                    'textColor' => $this->input->post('textColor'),
-                    'start' => $this->input->post('start'),
-                    'end' => $this->input->post('end')
-                );
-                $this->calendar_model->update($id, $data);
-                break;
+                break;           
             case 'buscar':
                 $fecha = $this->input->post('fecha');
                 

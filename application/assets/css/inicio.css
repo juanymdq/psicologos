@@ -1,35 +1,20 @@
-
-.flex-container{
-    display: flex;
-}
-.modal-content {
-    
-    width: 200px;   
-}
-.modal-dialog {
-    
-    width: 200px;   
-}
 /*********************PAGINA DE INICIO**********************************/
 
-body {   
-    font-family: 'Numito';    
-  }
+body {
+    font-family: 'Numito';
+}
 
 .contenedor {
     width: 100%;
-  
-}
-.container {
-    width: 100%;
-    
-       
-}
-header {   
-    
-    /*background: #4E94AE;    */
 }
 
+.container {
+    width: 100%;
+}
+
+header {
+    /*background: #4E94AE;    */
+}
 
 #img {
     width: 80%;
@@ -40,155 +25,190 @@ header {
     /*-webkit-mask-image:-webkit-gradient(linear, right bottom, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
     */
 }
+
 .texto {
-    font-size: 40px;				
-    position: absolute;    
+    font-size: 40px;
+    position: absolute;
     top: 10%;
     left: 8%;
     color: #787878;
 }
+
+
 /*+++++++++++++++++++++++++++++++++++++++++*/
+
 .menu {
     width: 100%;
     padding-top: 10px;
-    padding-bottom: 5px; 
+    padding-bottom: 5px;
     margin: 0 auto;
-    overflow: hidden;    
+    overflow: hidden;
 }
+
 .menu-uno {
     background: #4E94AE;
     border-bottom: 1px solid #D5D5D6;
-    display: flex;    
+    display: flex;
     flex-direction: row;
     border: 1px solid;
     height: 7%;
 }
+
+
 /*----------------------------------------------------*/
-.menu-uno > div > a {   
-    color: #fff;    
-    text-decoration: none;     
+
+.menu-uno>div>a {
+    color: #fff;
+    text-decoration: none;
 }
-.menu-uno > div > a:hover {  
+
+.menu-uno>div>a:hover {
     cursor: pointer;
     background: rgb(117, 125, 163);
     border: 1px solid;
     border-radius: 15px;
 }
-.menu-uno > .usuario {
+
+.menu-uno>.usuario {
     font-size: 12px;
-    padding: 3px;    
+    padding: 3px;
     width: auto;
-    
     margin-top: 8px;
-   
 }
-.menu-uno > .usuario > a {
-    padding: 10px;    
+
+.menu-uno>.usuario>a {
+    padding: 10px;
 }
-.menu-uno > .usuario > a > span {
+
+.menu-uno>.usuario>a>span {
     margin-right: 5px;
 }
 
+
 /*---------------------------------------------------*/
 
-.menu-uno > .logins {
-    display: flex;    
-    flex-direction: row;    
+.menu-uno>.logins {
+    display: flex;
+    flex-direction: row;
     margin-left: auto;
 }
-.menu-uno > .logins > div {    
+
+.menu-uno>.logins>div {
     width: 100px;
     height: 65%;
     margin: 10px;
     text-align: center;
 }
-.menu-uno > .logins > .divisor {    
+
+.menu-uno>.logins>.divisor {
     width: auto;
-    color: #fff;    
+    color: #fff;
 }
-.menu-uno > .logins > div > a{
+
+.menu-uno>.logins>div>a {
     text-decoration: none;
     color: #fff;
 }
-.menu-uno > .logins > div:hover{
+
+.menu-uno>.logins>div:hover {
     cursor: pointer;
     background: rgb(117, 125, 163);
     border: 1px solid;
     border-radius: 15px;
 }
 
-.menu-uno > .logins > .login-cliente, .menu-uno > .logins > .login-psicologo {    
-    color: #fff;    
-    width: auto;    
+.menu-uno>.logins>.login-cliente,
+.menu-uno>.logins>.login-psicologo {
+    color: #fff;
+    width: auto;
 }
-.menu-uno > .logins >.login-cliente >  a, .login-psicologo > a{ 
+
+.menu-uno>.logins>.login-cliente>a,
+.login-psicologo>a {
     padding: 15px 15px 15px 15px;
 }
 
 .menu-uno-message {
-    color: red;    
-    margin-top: 10px;		
-    float: left;    
-    text-align: right;    
+    color: red;
+    margin-top: 10px;
+    float: left;
+    text-align: right;
 }
+
+
 /*----------------------------------------------------------------------------*/
-header > nav {
+
+header>nav {
     background-color: #fff;
 }
+
 .navbar-nav {
     font-size: 20px;
-    margin-left: 42%;    
+    margin-left: 42%;
 }
-.navbar-nav > a > span{
+
+.navbar-nav>a>span {
     margin-right: 5px;
 }
-.navbar-nav > div > a > span{
+
+.navbar-nav>div>a>span {
     margin-right: 5px;
 }
-.terapia {    
+
+.terapia {
     padding: 5px;
-   
 }
-.terapia > a{
+
+.terapia>a {
     text-decoration: none;
     font-size: 20px;
     letter-spacing: 0.2em;
 }
 
-.ruta-relativa {   
+.ruta-contacto {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid;
+}
+
+.ruta-relativa {
     float: left;
     margin-top: 5px;
-    margin-left: 2px;   
-    height: 5%;    
+    margin-left: 2px;
+    height: 5%;
 }
-.ruta-relativa > p {
+
+.ruta-relativa>p {
     font-size: 14px;
     font-family: 'Numito';
 }
-.ruta-relativa > p > a {
+
+.ruta-relativa>p>a {
     text-decoration: none;
     font-size: 14px;
     font-family: 'Numito';
 }
-@media screen and (max-width:991px) {
 
+.contacto {
+    align-content: flex-end;
+    border: 1px solid;
+}
+
+@media screen and (max-width:991px) {
     .menu-uno {
         display: none;
     }
- 
     .terapia {
         margin: 0 auto;
-        width: 55%;        
-    } 
-
-    .navbar-nav {
-    margin: 0;
+        width: 55%;
     }
-
+    .navbar-nav {
+        margin: 0;
+    }
 }
 
-/*************************************************************************/
 
+/*************************************************************************/
 
 .aviso_message {
     color: red;
@@ -205,16 +225,20 @@ header > nav {
     text-align: center;
 }
 
+
 /*----------ESTILO DE TITULOS DE REGISTRO PROFESIONALES*/
-.encabezado{            
+
+.encabezado {
     margin-top: -1em;
-    margin-bottom: 25px;          
+    margin-bottom: 25px;
 }
+
 .enc-titulo {
     font-size: 30px;
     margin-bottom: 15px;
     text-align: center;
 }
+
 .enc-cuerpo {
     font-size: 12px;
     text-align: left;

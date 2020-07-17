@@ -5,7 +5,8 @@
 	  <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/solid.css">
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/solid.css">-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
         
         
@@ -84,7 +85,7 @@
                                 </a>
                                 <a class="nav-item nav-link" href="#">
                                     <span class="d-lg-none"><i class="fa fa-indent" aria-hidden="true"></i></i></span>
-                                    Noticias
+                                    Contacto
                                 </a> 
                                 <div class="d-lg-none">
                                     <a class="nav-item nav-link" href="<?=base_url('cliente/login')?>?var=0" >
@@ -116,12 +117,17 @@
                             </div>
                         </div>
                     </nav>
-                    <div class="ruta-relativa">
-                        <?php
-                        if(isset($ruta_relativa)) echo $ruta_relativa
-                        ?>
+                    <div class="ruta-contacto">
+                        <div class="ruta-relativa">
+                            <?php
+                            if(isset($ruta_relativa)) echo $ruta_relativa
+                            ?>
+                        </div>
+                        <div class="contacto">
+                            <img src="<?=base_url()?>application/assets/img/whatsapp.jpg" width="30px" height="30px"  alt="">
+                            <a href="https://wa.me/543345836761?text=Me%20gustaría%20saber%20el%20precio%20del%20coche">Contactanos por consultas</a>                           
+                        </div>
                     </div>
-                   
                 </header>
             </div> 
         </div>

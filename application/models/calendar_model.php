@@ -21,7 +21,7 @@ class Calendar_model extends CI_Model {
 
     function find_by_user($id) {
         //$this->db->select('* , COUNT(*) as count');        
-        $this->db->select('id,id_user,title,start,hora');      
+        $this->db->select('id,id_user,title,start,hora,display,color');      
         $this->db->from($this->table);
         $this->db->where('id_user', $id);
         $this->db->group_by('start');
@@ -40,22 +40,6 @@ class Calendar_model extends CI_Model {
         return json_encode($res);
     }
 
-/*
-    function find_horarios_by_user($id) {
-        //$this->db->select('* , COUNT(*) as count');        
-        $this->db->select();      
-        $this->db->from($this->table);
-        $this->db->where('id_user', $id);        
-        $aResult = $this->db->get();
-
-        if(!$aResult->num_rows() == 1)
-        {
-            return false;
-        }
-        
-        return $aResult->result_array();
-    }
-*/
     function find_horas_by_fecha($fecha) {
         
         $this->db->select('hora');      
@@ -68,7 +52,8 @@ class Calendar_model extends CI_Model {
 
     //insercion de datos en tabla
     function insert($data) {
-        $this->db->insert($this->table, $data);       
+        $this->db->insert($this->table, $data);   
+        echo $this->db->insert_id(); 
     }
 
      //borra el registro seleccionado

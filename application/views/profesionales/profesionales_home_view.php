@@ -18,6 +18,7 @@
 
 	.icon{	
 		margin: 10px;
+		
 	}
 
 	.icono {
