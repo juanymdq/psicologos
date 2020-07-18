@@ -172,7 +172,6 @@ header>nav {
 }
 
 .ruta-relativa {
-    float: left;
     margin-top: 5px;
     margin-left: 2px;
     height: 5%;
@@ -190,8 +189,11 @@ header>nav {
 }
 
 .contacto {
-    align-content: flex-end;
     border: 1px solid;
+}
+
+.contacto>a {
+    text-decoration: none;
 }
 
 @media screen and (max-width:991px) {

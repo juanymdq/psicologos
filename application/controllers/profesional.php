@@ -51,6 +51,7 @@ class Profesional extends MY_Controller {
     public function find_all_eventos($id) {
         
         $datos['horarios'] = $this->turnos_model->find_by_prof($id,0,7);
+        $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Profesional</p>";
         $this->render_page('profesionales/crear_horarios_view', $datos);
     }
 

@@ -22,12 +22,12 @@
     <!-- BOOTSTRAP-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     
-    <link rel="stylesheet" href="http://weareoutman.github.io/clockpicker/dist/bootstrap-clockpicker.min.css">
+   <!-- <link rel="stylesheet" href="http://weareoutman.github.io/clockpicker/dist/bootstrap-clockpicker.min.css">-->
     
     <!-- FULL CALENDAR-->
     <link rel="stylesheet" href="<?=base_url()?>application/assets/css/calendar/fullcalendar.min.css" />
     
-    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>
+  
     <style>
         .fc th {
             padding: 10px 0px;
@@ -35,13 +35,13 @@
             background-color: #F2F2F2;
         }
         /*COLOREA LAS FECHA PASADAS*/
-        .fc-past {
-            
-        background-color: #c94b4b;
+        .fc-past {            
+            background-color: #FFDBD4;
         }
         
         .modal-content{
             width: 300px;
+            
         }
         .modal-content > h5{
             text-align: center;
@@ -50,13 +50,18 @@
             overflow: scroll;
             height: 400px;
         }
-        .modal-header{
-            float: left;
-            text-align: center;
+        .modal-header{            
+            text-align: center;            
+            display: flex;
+            flex-direction: column;
+           
         }
-   
-        #txtFecha{
-            border: 1px solid;
+        .diaSemana {
+            
+            
+        }
+     
+        #txtFechaView{           
             text-align: center;
             
         }
@@ -94,7 +99,12 @@
                
                
                 dayClick: function(date, jsEvent, view){                       
-                    var myDate = new Date();                    
+                    var myDate = new Date();                     
+                    //Trae la fecha en milisegundos
+                    d = new Date(date._i);         
+                    //le suma un dia ya que 0=domingo
+                    //debemos preguntar si d == 7. debido a que el domingo es igual a 0           
+                    ((d.getDay() + 1)==7) ? dd = 0 : dd=d.getDay() + 1;
                     //Cuantos días se agregarán desde hoy?
                     var diasAdicionales = 0;
                     myDate.setDate(myDate.getDate() + diasAdicionales);
@@ -105,20 +115,29 @@
                     } 
                     else 
                     {
-                        console.log('ingreso vacio')                                         
-                       
+                        console.log('ingreso vacio');
+                        $('#txtFechaView').val(date.format('DD/MM/YYYY'));
                         $('#txtFecha').val(date.format());
                         $('#txtIDuser').val(<?=$this->session->userdata('id')?>);
-                       
+                        //obtenemos la descripcion del dia
+                        $('.diaSemana').text(date._locale._config.weekdays[dd]);
                         $('#ModalEventos').modal();
                     }                   
                 },
 
                 events: <?=$horarios?>,
              
-                eventClick:function(callEvent,jsEvent,view){                    
+                eventClick:function(callEvent,jsEvent,view){ 
+                    //Trae la fecha en milisegundos
+                    d = new Date(callEvent.start._d);
+                    //le suma un dia ya que 0=domingo
+                    //debemos preguntar si d == 7. debido a que el domingo es igual a 0  
+                    ((d.getDay() + 1)==7) ? dd = 0 : dd=d.getDay() + 1;                   
                     //descheckeo todos los check
                     limpiarcheck();
+                    //obtenemos la descripcion del dia
+                    $('.diaSemana').text(view.calendar.localeData._weekdays[dd]);
+                    $('#txtFechaView').val(callEvent.start.format('DD/MM/YYYY'));
                     //traigo fecha formateada
                     $('#txtFecha').val(callEvent.start.format());
                     var fecha = $('#txtFecha').val();
@@ -165,15 +184,19 @@
         });
 
     </script>
-    <div class="flex-container">
+   
     <!-- Modal PARA AGREGAR MODIFICAR Y ELIMINAR-->
     <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
         <div class="modal-dialog">
             <div class="modal-content">
-            <h5>Seleccionar horarios</h5>
-                <div class="modal-header">                    
-                    <input type="hidden" id="txtIDuser" name="txtIDuser"/>
-                    <input type="text" id="txtFecha" name="txtFecha" disabled="true"/>
+            <h5>Seleccionar horarios</h5>                
+                <div class="modal-header">
+                    <div class="diaSemana"></div>                  
+                    <div class="fch"><input type="text" id="txtFechaView" disabled="true"/></div> 
+                    <div class="hidd">
+                        <input type="hidden" id="txtIDuser" name="txtIDuser"/>
+                        <input type="hidden" id="txtFecha" name="txtFecha" disabled="true"/>                  
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="">
@@ -216,7 +239,7 @@
             </div>
         </div>
     </div>
-    </div>
+    
     <script>
         
 
@@ -234,7 +257,8 @@
                 }     
                 EnviarInformacion('agregar', obj);          
             }else{//borrar horas               
-                fecha = $('#txtFecha').val();               
+                fecha = $('#txtFecha').val();   
+                console.log(fecha)            ;
                 hora = $(this).val();                
                 json.forEach((e) => {
                     for(var p in e){
@@ -265,7 +289,11 @@
                 url: url,
                 data: objEvento
             }).done(function(res){
-                console.log('guardado');               
+                if(accion=='agregar'){
+                    console.log('guardado');
+                }else{
+                    console.log('eliminado');               
+                }
             });        
                               
         }
