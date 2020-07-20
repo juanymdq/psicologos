@@ -96,15 +96,15 @@ class Profesional extends MY_Controller {
                     $data = array(
                         'is_logued_in' => TRUE,
                         'id' => $prof->id,              
-                        'email' => $prof->pr_email,
-                        'nombre' => $prof->pr_nombre,
-                        'apellido' => $prof->pr_apellido,
-                        'matricula' => $prof->pr_matricula,
-                        'telefono' => $prof->pr_telefono,
-                        'resenia' => $prof->pr_resenia,
+                        'pr_email' => $prof->pr_email,
+                        'pr_nombre' => $prof->pr_nombre,
+                        'pr_apellido' => $prof->pr_apellido,
+                        'pr_matricula' => $prof->pr_matricula,
+                        'pr_telefono' => $prof->pr_telefono,
+                        'pr_resenia' => $prof->pr_resenia,
                         'perfil' => $prof->pr_perfil,
-                        'autorizado' => $prof->pr_autorizado,
-                        'foto' => $prof->pr_foto
+                        'pr_autorizado' => $prof->pr_autorizado,
+                        'pr_foto' => $prof->pr_foto
                     );
                     $this->session->set_userdata($data);  
                     
@@ -211,29 +211,34 @@ class Profesional extends MY_Controller {
                 $data['telefono'] = "";
                 $data['resenia'] = "";
                 $data['registra'] = true;
-                $this->load->view('profesionales/profesionales_login_view', $data);
+                $this->render_page('profesionales/profesionales_login_view', $data);
                
             } else {
                 // edicion usuario
                 $profesional = $this->profesional_model->find($id);
-                
-                $data['matricula'] = $profesional->matricula; 
-                $data['nombre'] = $profesional->pr_nombre;
-                $data['apellido'] = $profesional->pr_apellido;                
-                $data['telefono'] = $profesional->pr_telefono; 
-                $data['email'] = $profesional->pr_email;                
-                $data['foto'] = $profesional->pr_foto;  
-                $data['resenia'] = $profesional->pr_resenia;
-                $data['autorizado'] = $profesional->pr_autorizado;
-                $data['registra'] = false;
-                $this->load->view('profesionales/profesionales_modificar_view', $data);
+                $item = array_values($profesional)[0];
+                $data['matricula'] = $item->pr_matricula; 
+                $data['nombre'] = $item->pr_nombre;
+                $data['apellido'] = $item->pr_apellido;                
+                $data['telefono'] = $item->pr_telefono; 
+                $data['email'] = $item->pr_email;                
+                $data['foto'] = $item->pr_foto;  
+                $data['resenia'] = $item->pr_resenia;
+                $data['autorizado'] = $item->pr_autorizado;
+                $data['registra'] = false;$data['ruta_relativa'] = "<p>
+                <a href='".base_url('principal')."'>Inicio</a> > 
+                <a href='".base_url('profesional/cpanel')."'>Profesional</a> >
+                editar
+                </p>";
+                $this->render_page('profesionales/profesionales_modificar_view', $data);
             }
+            /*
             $data['ruta_relativa'] = "<p>
             <a href='".base_url('principal')."'>Inicio</a> > 
             <a href='".base_url('cliente/cpanel')."'>Profesional</a> >
             editar
             </p>";
-            $this->render_page('profesionales/profesionales_login_view', $data);
+            $this->render_page('profesionales/profesionales_login_view', $data);*/
         }
     }
 

@@ -17,10 +17,27 @@ class Calendar extends MY_Controller {
        
     }
 
-    public function find_all_eventos($id) {       
-        $datos['eventos'] = $this->calendar_model->find_by_user($id);
+    public function find_all_eventos($id,$opcion) {               
+        //$datos['eventos'] = $this->calendar_model->find_by_user($id);
         $datos['horarios'] = $this->calendar_model->find_horarios_by_user($id);
-        $this->render_page('calendar/calendar_view', $datos);       
+       
+        if($opcion == 1) {//1 indica que viene desde la creacion de horarios del profesional 
+            $datos['perfil'] = 'profesional';          
+            $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('profesional/cpanel')."'>Profesional</a> >
+            Calendario de Horarios</p>";              
+        }else if($opcion == 0){//si es 0 indica que el cliente esta viendo los horarios
+            $datos['perfil'] = 'cliente';   
+            $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+            <a href='".base_url('cliente/listar_profesionales')."'>Lista de Profesionales</a> >
+            Horarios de profesional
+            </p>";
+           
+        }
+        $this->render_page('calendar/calendar_view', $datos);
     }
 
     public function accion() {

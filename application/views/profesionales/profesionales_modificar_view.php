@@ -2,10 +2,11 @@
 <html>
 <head>
     <title>Login</title>
+    
     <!--JQUERY-->
    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-   
+    
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/login_nuevo.css"/>
     <style>
         label {
             text-align: left;
@@ -22,14 +23,11 @@
     </style>
 </head>
 <body>
-  
-    <section>
-        <div class="title">Mi Perfil </div>
+
+    <section>        
         <div class="login-page">            
-            <div class="form">
-                    
-                    <div class="enc-titulo">Mi Perfil</div>                        
-                               
+            <div class="form">                    
+                    <div class="enc-titulo">Mi Perfil</div>                                                       
 
                      <!--************************TOMAR FOTO DE WEBCAM -->
                      <!—Aquí el video embebido de la webcam -->
@@ -54,14 +52,16 @@
                     ?>
                     <div class="foto_perfil">Foto de perfil</div>
                     <canvas id="canvas" width="316" height="259"></canvas> 
+                    <img src="<?=$foto?>" alt="">
                     <input type="hidden" id="foto" name="foto" value="" />
                     <hr/>
 
-                    <input type="hidden" name="registra" value="<?=$registra?>"/>                   
+                    <input type="hidden" name="registra" value="<?=$registra?>"/>  
+                    <div class="form-group">
                     <label>Matricula</label>
                     <input value="<?=$matricula?>" name="matricula" id="matricula" type="text" placeholder="Matricula">                     
                     <span class="help-block"><?php echo form_error('matricula', '<div class="text-danger">', '</div>') ?></span>                    
-
+                    </div>                 
                     <label>Nombre</label>
                     <input value="<?=$nombre?>" name="nombre" id="nombre" type="text" placeholder="Nombre">                     
                     <span class="help-block"><?php echo form_error('nombre', '<div class="text-danger">', '</div>') ?></span> 
@@ -79,9 +79,10 @@
                     <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span>                     
                     
                     <label>Biografía</label>
-                    <textarea name="resenia" id="resenia" cols="50" rows="10" placeholder="Ingrese su biografía"><?=$resenia?></textarea>                     
+                    <textarea name="resenia" id="resenia" cols="43" rows="9" placeholder="Ingrese su biografía"><?=$resenia?></textarea>                     
                     <span class="help-block"><?php echo form_error('resenia', '<div class="text-danger">', '</div>') ?></span> 
-
+                    <br>
+                    <br>
                     <button type="submit">Actualizar datos</button>
     
                 </form>              
@@ -89,7 +90,7 @@
         </div>
 
     </section>
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script>
 
         'use strict';
@@ -100,20 +101,20 @@
         const errorMsgElement = document.querySelector('span#errorMsg');
 
         const constraints = {
-        audio: false,
-        video: {
-        width: 316, height: 259
-        }
+            audio: false,
+            video: {
+                width: 316, height: 259
+            }
         };
 
         // Acceso a la webcam
         async function init() {
         try {
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        handleSuccess(stream);
-        } catch (e) {
-        errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
-        }
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            handleSuccess(stream);
+            } catch (e) {
+                //errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+            }
         }
         // Correcto!
         function handleSuccess(stream) {

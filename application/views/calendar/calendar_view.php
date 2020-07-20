@@ -20,7 +20,7 @@
     <script src="<?=base_url()?>application/assets/js/calendar/fullcalendar.min.js"></script>
     <script src="<?=base_url()?>application/assets/js/calendar/es.js"></script>
     <!-- BOOTSTRAP-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+   
     
    <!-- <link rel="stylesheet" href="http://weareoutman.github.io/clockpicker/dist/bootstrap-clockpicker.min.css">-->
     
@@ -199,6 +199,9 @@
                     </div>
                 </div>
                 <div class="modal-body">
+                    <?php
+                    if($perfil == 'profesional'){
+                    ?>
                     <div class="">
                        
                         <?php for($i=8;$i<20;$i+=0.5){
@@ -230,7 +233,21 @@
                         <?php }?>
                       
                     </div>
-                
+                    <?php }else{?>
+                        <div class="">
+                            <div>
+                            <?php 
+                            var_dump($horarios);
+                            ?>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="chkHora" name="chkHora" value="<?=$hora?>">
+                                <label for="chkHora"><?=$hora?></label>
+                                <hr>
+                            </div>
+                        </div>
+                        
+                    <?php }?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btnCerrar" class="btn btn-success">Cerrar</button>

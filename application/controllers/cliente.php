@@ -62,7 +62,9 @@ class Cliente extends MY_Controller
 
             if($this->form_validation->run() == FALSE)
             {
-                $this->index();
+                $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Acceso Clientes</p>";                       
+                $datos['message'] = 'Datos incorrectos';
+                $this->render_page('clientes/cliente_login_view',$datos);
             }
             else
             {
@@ -83,10 +85,13 @@ class Cliente extends MY_Controller
                     
                     $this->cliente_cpanel();                    
                 }else{                    
-                    $data['message'] = 'Error en los datos. Por favor, inente nuevamente';
-                    $this->session->set_userdata($data);
-                    $this->index();
-                    //$this->render_page('clientes/clientes_login_view', $datos);                
+                    $datos['message'] = 'Error en los datos. Por favor, inente nuevamente';
+                    $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Acceso Clientes</p>";                       
+                    $datos['registra'] = false;
+                    $datos['actualiza'] = false;
+                   // $this->session->set_userdata($data);
+                   // $this->index();
+                    $this->render_page('clientes/cliente_login_view', $datos);                
                 }
                 
             }

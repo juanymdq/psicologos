@@ -52,8 +52,8 @@ class Profesional_model extends CI_Model {
             {
                 return false;
             }
-
-            return $aResult->result_array();
+            return $aResult->result_object();
+            //return $aResult->result_array();
     }
 
    

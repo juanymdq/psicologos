@@ -19,7 +19,7 @@
 
         <link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
         <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/inicio.css"/>        
-        <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/footer.css"/>
+                <link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/footer.css"/>
         <div class="container">
             <div class="menu">
                 <header>                    
@@ -32,7 +32,7 @@
                                     <?php break;
                                     case 'profesional':?>
                                         <!-- $route['profesional/cpanel'] = 'Profesional/cliente_cpanel'; -->
-                                        <a href="<?=base_url('profesional/cpanel')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                        <a href="<?=base_url('profesional/cpanel')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('pr_nombre') . " " . $this->session->userdata('pr_apellido');?></a>
                                     <?php break;
                                     case 'cliente':?>
                                         <a href="<?=base_url('cliente/cpanel')?>"> <span><i class="fas fa-user"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
@@ -123,10 +123,7 @@
                             if(isset($ruta_relativa)) echo $ruta_relativa
                             ?>
                         </div>
-                        <div class="contacto">
-                            <img src="<?=base_url()?>application/assets/img/whatsapp.jpg" width="30px" height="30px"  alt="">
-                            <a href="https://wa.me/543345836761?text=Me%20gustaría%20saber%20el%20precio%20del%20coche">Contactanos por consultas</a>                           
-                        </div>
+                       
                     </div>
                 </header>
             </div> 

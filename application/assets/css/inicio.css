@@ -168,7 +168,6 @@ header>nav {
 .ruta-contacto {
     display: flex;
     flex-direction: row;
-    border: 1px solid;
 }
 
 .ruta-relativa {
@@ -186,14 +185,6 @@ header>nav {
     text-decoration: none;
     font-size: 14px;
     font-family: 'Numito';
-}
-
-.contacto {
-    border: 1px solid;
-}
-
-.contacto>a {
-    text-decoration: none;
 }
 
 @media screen and (max-width:991px) {
