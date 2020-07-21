@@ -88,17 +88,62 @@
     </div>    
 
     <script>
-    var json;
+        var json;
+        var id_prof;
         $(document).ready(function(){
            
             $('#CalendarioWeb').fullCalendar({
                 header: {
                     left: 'today,prev,next',
                     center: 'title',                    
-                },               
+                },       
+
+                viewRender: function(view){
+                    var j = view.options.events;
+                    //console.log(j[0].hora);
+                    console.log(Date.parse(view.dayGrid.cellEls[0].dataset.date));
+                    //console.log(view.dayGrid.cellEls.length);
+                    //console.log(view.dayGrid.cellEls);*/
+                    view.dayGrid.cellEls[6].style.backgroundColor = 'red';
+                    if($('#txtPerfil').val() == 'cliente'){
+                        console.log('vista cliente');
+                       
+                        var k = 0;
+                        while(k <= view.dayGrid.cellEls.length - 1){
+                            fchCalendar = Date.parse(view.dayGrid.cellEls[k].dataset.date);
+                            var i=0;
+                            var encontro = false;
+                            while(i <= j.length-1 && !encontro){
+                                fchDB = Date.parse(j[i].start);
+                                //console.log(fechaInicio.getTime());
+                                if(fchDB == fchCalendar) {
+                                    encontro = true  
+                                    //console.log(fchCal)                                      
+                                }
+                                //console.log(j[i].start);
+                                i++;
+                            }                        
+                            if(!encontro) {
+                               console.log(view.dayGrid.cellEls[k].dataset.date)
+                               view.dayGrid.cellEls[k].style.backgroundColor = 'FB9864';
+                            }else{
+                                view.dayGrid.cellEls[k].style.backgroundColor = 'D7FBFD';
+                            }
+                            
+                            k++;
+                           
+                           
+                        }
+
+                    }
+                },
+
+                dayRender: function(date, cell){
+                   
+                },
                
-               
-                dayClick: function(date, jsEvent, view){                       
+                dayClick: function(date, jsEvent, view){  
+                    
                     var myDate = new Date();                     
                     //Trae la fecha en milisegundos
                     d = new Date(date._i);         
@@ -118,7 +163,8 @@
                         console.log('ingreso vacio');
                         $('#txtFechaView').val(date.format('DD/MM/YYYY'));
                         $('#txtFecha').val(date.format());
-                        $('#txtIDuser').val(<?=$this->session->userdata('id')?>);
+                        $('#txtIDuser').val();
+                       // $('#txtPerfil').val(<?=$this->session->userdata('perfil')?>)
                         //obtenemos la descripcion del dia
                         $('.diaSemana').text(date._locale._config.weekdays[dd]);
                         $('#ModalEventos').modal();
@@ -143,35 +189,54 @@
                     var fecha = $('#txtFecha').val();
                     //treamos id usuario
                     $('#txtIDuser').val(callEvent.id_user);
+                    id_prof = callEvent.id_user;
                     //traemos todos los horarios mostrados en calendario
                     json = callEvent.source.rawEventDefs;
-                    console.log(json);
+                    //console.log(json);
                     // recorremos los horarios
-                    json.forEach((e) => {
-                        for(var p in e){
-                            //cuando encuentre la fecha que se clickeo
-                            if(fecha==e[p]){
-                                //iteramos por todos los checkbox buscando las horas del dia guardadas
-                                $('input[type=checkbox]').each(function(){
-                                    //colocamos la hora en variable cb
-                                    var cb = $(this).val();
-                                    //colocamos el elemento check
-                                    var elem = $(this);
-                                    //traemos la hora de la bd para comparar
-                                    var ch = e['hora'];
-                                    //le sacamos los ultimos 0 para que coincida perfecta la hora
-                                    var tmp = ch.substr(0,5);
-                                    //buscamos en los cheks la hora
-                                    if(cb == tmp){
-                                        //chekeamos si encuentra la hora
-                                        elem.attr('checked', true);
-                                    }
-                                });
-
+                    var perfil = $('#txtPerfil').val();
+                    console.log(perfil);
+                   if(perfil=='profesional'){
+                        json.forEach((e) => {
+                            for(var p in e){
+                                //cuando encuentre la fecha que se clickeo
+                                if(fecha==e[p]){                               
+                                    console.log('pantalla de profesional');
+                                    //iteramos por todos los checkbox buscando las horas del dia guardadas
+                                    $('input[type=checkbox]').each(function(){
+                                        //colocamos la hora en variable cb
+                                        var cb = $(this).val();
+                                        //colocamos el elemento check
+                                        var elem = $(this);
+                                        //traemos la hora de la bd para comparar
+                                        var ch = e['hora'];
+                                        //le sacamos los ultimos 0 para que coincida perfecta la hora
+                                        var tmp = ch.substr(0,5);
+                                        //buscamos en los cheks la hora
+                                        if(cb == tmp){
+                                            //chekeamos si encuentra la hora
+                                            elem.attr('checked', true);
+                                        }
+                                    });
+                                }
+                            
                             }
-                          
-                        }
-                    });
+                        });
+                    }else if(perfil == 'cliente'){
+                       
+                        console.log('pantalla de cliente');
+                        jQuery ( "#divCliente" ) .append("<form>")
+                        json.forEach((e) => {
+                            for(var p in e){
+                                //cuando encuentre la fecha que se clickeo
+                                if(fecha==e[p]){
+                                    jQuery ( "#divCliente" ) .append(
+                                        "<input type='radio' name='hora' value='prueba'><br>");
+                                }
+                            }
+                        });
+                        jQuery ( "#divCliente" ) .append("</form>")
+                    }
                     
                     $('#ModalEventos').modal();
                 },
@@ -194,7 +259,8 @@
                     <div class="diaSemana"></div>                  
                     <div class="fch"><input type="text" id="txtFechaView" disabled="true"/></div> 
                     <div class="hidd">
-                        <input type="hidden" id="txtIDuser" name="txtIDuser"/>
+                        <input type="text" id="txtIDuser" name="txtIDuser"/>
+                        <input type="text" id="txtPerfil" name="txtPerfil" value="<?=$this->session->userdata('perfil')?>"/>
                         <input type="hidden" id="txtFecha" name="txtFecha" disabled="true"/>                  
                     </div>
                 </div>
@@ -218,10 +284,7 @@
                             }else{
                                 $hora = $entero.':'.$min;
                             }
-
-                            if(isset($horas)){
-                                var_dump($horas);
-                            }
+                         
                             ?>
 
                             <div>
@@ -234,17 +297,8 @@
                       
                     </div>
                     <?php }else{?>
-                        <div class="">
-                            <div>
-                            <?php 
-                            var_dump($horarios);
-                            ?>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="chkHora" name="chkHora" value="<?=$hora?>">
-                                <label for="chkHora"><?=$hora?></label>
-                                <hr>
-                            </div>
+                        <div id="divCliente">
+                          
                         </div>
                         
                     <?php }?>
@@ -263,7 +317,7 @@
         $("input[name=chkHora]").change(function(){
              
             if($(this).is(':checked')){//agregar horas
-                console.log('checked');
+                //console.log('checked');
                 color = getRandomColor();
                 obj = {
                     'id': $('#txtIDuser').val(),
@@ -275,7 +329,7 @@
                 EnviarInformacion('agregar', obj);          
             }else{//borrar horas               
                 fecha = $('#txtFecha').val();   
-                console.log(fecha)            ;
+                //console.log(fecha)            ;
                 hora = $(this).val();                
                 json.forEach((e) => {
                     for(var p in e){
@@ -294,7 +348,14 @@
 
         $('#btnCerrar').click(function(){                       
             $('#ModalEventos').modal('toggle');
-            window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>';
+            $("#divCliente").empty();
+            console.log(id_prof);
+            if($('#txtPerfil').val() == 'profesional'){
+                window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>/1';
+            }else if($('#txtPerfil').val() == 'cliente'){
+                console.log('recarga cliente');
+                window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>/0';
+            }
         });    
 
         function EnviarInformacion(accion, objEvento, modal) {
@@ -329,7 +390,14 @@
             }
             return color;
         }
-     
+
+        function obtieneFecha(fecha) {
+            var mm = fecha.getMonth() + 1;
+            var dd = fecha.getDate();
+            var yy = fecha.getFullYear();
+            return yy+'-'+mm+'-'+dd;
+        }
+        
     </script>
 </body>
 </html>

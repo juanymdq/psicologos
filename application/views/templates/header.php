@@ -40,7 +40,7 @@
                                 } 
                             }?>
                         </div>
-                        <?php if($this->session->userdata('nombre') == null) {?> 
+                        <?php if($this->session->userdata('nombre') == null && $this->session->userdata('pr_nombre') == null) {?> 
                         <div class="logins">
                             <div class="login-cliente">                            
                                 <a href="<?=base_url('cliente/login')?>?var=0">
