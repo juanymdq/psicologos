@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	
-	<title>Profesionales</title>
+	<title>Calendario</title>
 
     
     <script
@@ -29,6 +29,7 @@
     
   
     <style>
+   
         .fc th {
             padding: 10px 0px;
             vertical-align: middle;
@@ -36,19 +37,25 @@
         }
         /*COLOREA LAS FECHA PASADAS*/
         .fc-past {            
-            background-color: #FFDBD4;
+            background-color: #D5D5D5;
+        }
+        .modal-dialog {
+            position:relative;
+            top: 10%;
         }
         
         .modal-content{
             width: 300px;
-            
+           
+           
         }
         .modal-content > h5{
             text-align: center;
         }
         .modal-body {
             overflow: scroll;
-            height: 400px;
+            
+            
         }
         .modal-header{            
             text-align: center;            
@@ -56,11 +63,7 @@
             flex-direction: column;
            
         }
-        .diaSemana {
-            
-            
-        }
-     
+          
         #txtFechaView{           
             text-align: center;
             
@@ -69,27 +72,30 @@
             display: flex;
         }
         #CalendarioWeb {
-            margin-bottom: 100px
+            margin-bottom: 300px
         }
     </style>
  
 
 </head>
 <body>
-
+<!--
     <div class="container">   
         <div class="flex-container">
             <div class="row">
                 <div class="col"></div>
-                <div class="col-7"><br/><br/><div id="CalendarioWeb"></div></div>
+                <div class="col-7"><br/><br/><div id="CalendarioWeb" class="fc fc-media-screen fc-direction-ltr fc-theme-standard" style="height: 100%;"></div></div>
                 <div class="col"></div>
             </div>
         </div>
     </div>    
-
+    -->
+    <div class="container">
+    <div id="CalendarioWeb" class="fc fc-media-screen fc-direction-ltr fc-theme-standard" style="height: 90%;"></div>
+    </div>
     <script>
         var json;
-        var id_prof;
+       
         $(document).ready(function(){
            
             $('#CalendarioWeb').fullCalendar({
@@ -97,18 +103,22 @@
                     left: 'today,prev,next',
                     center: 'title',                    
                 },       
-
+                eventLimit: true, // for all non-TimeGrid views
+                eventLimitText: "Horarios",
+                views: {
+                    month: {
+                        eventLimit: 3
+                    }
+                },
                 viewRender: function(view){
+                    //Obtenemos el objeto de horarios
                     var j = view.options.events;
-                    //console.log(j[0].hora);
-                    console.log(Date.parse(view.dayGrid.cellEls[0].dataset.date));
-                    //console.log(view.dayGrid.cellEls.length);
-                    //console.log(view.dayGrid.cellEls);*/
-                    view.dayGrid.cellEls[6].style.backgroundColor = 'red';
+                    //verificamos si esta accediendo un profesional o un cliente
                     if($('#txtPerfil').val() == 'cliente'){
-                        console.log('vista cliente');
-                       
+                        console.log('vista cliente');                                               
+                        console.log(view.dayGrid.cellEls.length)
                         var k = 0;
+                        //recorremos todo el calendario renderizado (unos 42 dias)
                         while(k <= view.dayGrid.cellEls.length - 1){
                             fchCalendar = Date.parse(view.dayGrid.cellEls[k].dataset.date);
                             var i=0;
@@ -123,11 +133,12 @@
                                 //console.log(j[i].start);
                                 i++;
                             }                        
-                            if(!encontro) {
-                               console.log(view.dayGrid.cellEls[k].dataset.date)
-                               view.dayGrid.cellEls[k].style.backgroundColor = 'FB9864';
+                            if(!encontro) {                               
+                               //celdas deshabilitadas                               
+                               view.dayGrid.cellEls[k].style.backgroundColor = 'D5D5D5';
                             }else{
-                                view.dayGrid.cellEls[k].style.backgroundColor = 'D7FBFD';
+                                //Celdas habilitadas con horarios
+                                view.dayGrid.cellEls[k].style.backgroundColor = 'D4FCAE';
                             }
                             
                             k++;
@@ -137,13 +148,11 @@
 
                     }
                 },
-
-                dayRender: function(date, cell){
-                   
-                },
                
                 dayClick: function(date, jsEvent, view){  
-                    
+                    var perfil = $('#txtPerfil').val();
+                    console.log(view.options.events[0].id_user)
+                    console.log(perfil);
                     var myDate = new Date();                     
                     //Trae la fecha en milisegundos
                     d = new Date(date._i);         
@@ -153,27 +162,32 @@
                     //Cuantos días se agregarán desde hoy?
                     var diasAdicionales = 0;
                     myDate.setDate(myDate.getDate() + diasAdicionales);
-                    if (date < myDate) 
-                    {
-                        //VERDADERO Hiciste clic en una fecha menor a hoy + diasAdicionales
-                        alert("No puedes agendar esta fecha!");
-                    } 
-                    else 
-                    {
-                        console.log('ingreso vacio');
-                        $('#txtFechaView').val(date.format('DD/MM/YYYY'));
-                        $('#txtFecha').val(date.format());
-                        $('#txtIDuser').val();
-                       // $('#txtPerfil').val(<?=$this->session->userdata('perfil')?>)
-                        //obtenemos la descripcion del dia
-                        $('.diaSemana').text(date._locale._config.weekdays[dd]);
-                        $('#ModalEventos').modal();
-                    }                   
+                    if(perfil == 'cliente'){
+                        alert("La fecha seleccionada no posee horarios de atención");
+                    }else if(perfil == 'profesional'){
+                        if (date < myDate) 
+                        {
+                            //VERDADERO Hiciste clic en una fecha menor a hoy + diasAdicionales
+                            alert("No puedes agendar esta fecha!");
+                        } 
+                        else 
+                        {
+                            console.log('ingreso vacio');
+                            $('#txtFechaView').val(date.format('DD/MM/YYYY'));
+                            $('#txtFecha').val(date.format());
+                            $('#txtIDuser').val(view.options.events[0].id_user);                        
+                            //obtenemos la descripcion del dia
+                            $('.diaSemana').text(date._locale._config.weekdays[dd]);
+                            document.getElementById("modal-content").style.height = '80%';
+                            $('#ModalEventos').modal();
+                        }     
+                    }              
                 },
 
-                events: <?=$horarios?>,
-             
-                eventClick:function(callEvent,jsEvent,view){ 
+                events: <?=$horarios?>,     
+
+                eventClick:function(callEvent,jsEvent,view){   
+                   
                     //Trae la fecha en milisegundos
                     d = new Date(callEvent.start._d);
                     //le suma un dia ya que 0=domingo
@@ -191,11 +205,9 @@
                     $('#txtIDuser').val(callEvent.id_user);
                     id_prof = callEvent.id_user;
                     //traemos todos los horarios mostrados en calendario
-                    json = callEvent.source.rawEventDefs;
-                    //console.log(json);
+                    json = callEvent.source.rawEventDefs;                   
                     // recorremos los horarios
-                    var perfil = $('#txtPerfil').val();
-                    console.log(perfil);
+                    var perfil = $('#txtPerfil').val();                   
                    if(perfil=='profesional'){
                         json.forEach((e) => {
                             for(var p in e){
@@ -222,22 +234,33 @@
                             
                             }
                         });
+                        document.getElementById("modal-content").style.height = '80%';
                     }else if(perfil == 'cliente'){
-                       
+                        //limpia todos los radios del div
+                        $("#divCliente").empty(); 
                         console.log('pantalla de cliente');
+                        //inicia el form
                         jQuery ( "#divCliente" ) .append("<form>")
+                        //recorremos todo el objeto de horarios
                         json.forEach((e) => {
+                            //accedemos a cada elemento del objeto
                             for(var p in e){
-                                //cuando encuentre la fecha que se clickeo
-                                if(fecha==e[p]){
-                                    jQuery ( "#divCliente" ) .append(
-                                        "<input type='radio' name='hora' value='prueba'><br>");
+                                //cuando encuentre la fecha que se clickeo                                
+                                if(fecha==e[p]){                                    
+                                    //crea tantos objetos radios en el div cliente como horarios haya para el dia
+                                    jQuery ( "#divCliente" ) .append(                                        
+                                        "<input type='radio' name='hora' id='hora"+e['id']+"' value='"+e['hora']+"'>&nbsp&nbsp<label for='hora"+e['id']+"'>"+e['hora']+"</label><br>");
                                 }
                             }
+
                         });
                         jQuery ( "#divCliente" ) .append("</form>")
+                        //checkea el horario seleccionado
+                        jQuery("#hora"+callEvent.id).attr('checked', 'checked');
+                        document.getElementById("modal-content").style.height = 'auto';
                     }
-                    
+                    //mostramos el div modal
+                   
                     $('#ModalEventos').modal();
                 },
 
@@ -253,14 +276,20 @@
     <!-- Modal PARA AGREGAR MODIFICAR Y ELIMINAR-->
     <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
         <div class="modal-dialog">
-            <div class="modal-content">
-            <h5>Seleccionar horarios</h5>                
+            <div class="modal-content" id="modal-content">
+            <?php
+            if($this->session->userdata('perfil') == 'profesional'){
+            ?>
+            <h5>Seleccionar horarios</h5> 
+            <?php }else if($this->session->userdata('perfil') == 'cliente'){?>
+                <h5>Seleccionar horario de atención</h5> 
+            <?php }?>
                 <div class="modal-header">
                     <div class="diaSemana"></div>                  
                     <div class="fch"><input type="text" id="txtFechaView" disabled="true"/></div> 
                     <div class="hidd">
-                        <input type="text" id="txtIDuser" name="txtIDuser"/>
-                        <input type="text" id="txtPerfil" name="txtPerfil" value="<?=$this->session->userdata('perfil')?>"/>
+                        <input type="hidden" id="txtIDuser" name="txtIDuser"/>
+                        <input type="hidden" id="txtPerfil" name="txtPerfil" value="<?=$this->session->userdata('perfil')?>"/>
                         <input type="hidden" id="txtFecha" name="txtFecha" disabled="true"/>                  
                     </div>
                 </div>
@@ -304,8 +333,13 @@
                     <?php }?>
                 </div>
                 <div class="modal-footer">
+                <?php
+                    if($this->session->userdata('perfil') == 'profesional'){
+                ?>
                     <button type="button" id="btnCerrar" class="btn btn-success">Cerrar</button>
-                   
+                <?php }else if($this->session->userdata('perfil') == 'cliente'){?>
+                    <button type="button" id="btnCerrar" class="btn btn-success">Aceptar</button>
+                <?php }?>
                 </div>
             </div>
         </div>
@@ -330,33 +364,47 @@
             }else{//borrar horas               
                 fecha = $('#txtFecha').val();   
                 //console.log(fecha)            ;
-                hora = $(this).val();                
-                json.forEach((e) => {
-                    for(var p in e){
-                        var ch = e['hora'];                        
-                        //le sacamos los ultimos 0 para que coincida perfecta la hora
-                        var tmp = ch.substr(0,5);                    
-                        //cuando encuentre la fecha que se clickeo
-                        if(fecha==e['start'] && hora==tmp){                           
-                            obj = {'id': e['id']}
-                            EnviarInformacion('eliminar', obj); 
-                        }
+                hora = $(this).val(); 
+                
+                var i=0;
+                var encontro = false;
+                
+                while(i <= json.length -1 && !encontro){
+                    console.log(json[i].hora);
+                    var ch = json[i].hora;
+                    //le sacamos los ultimos 0 para que coincida perfecta la hora
+                    var tmp = ch.substr(0,5);
+                    if(fecha==json[i].start && hora==tmp){ 
+                        var obj = {'id': json[i].id}                          
+                        encontro = true;
                     }
-                });               
+                    i++;
+                }
+                if(encontro) {                    
+                   EnviarInformacion('eliminar', obj);
+                }          
             }
         })
 
         $('#btnCerrar').click(function(){                       
-            $('#ModalEventos').modal('toggle');
-            $("#divCliente").empty();
-            console.log(id_prof);
+            $('#ModalEventos').modal('toggle');                        
             if($('#txtPerfil').val() == 'profesional'){
                 window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>/1';
             }else if($('#txtPerfil').val() == 'cliente'){
                 console.log('recarga cliente');
-                window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>/0';
+                window.location.href = "<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id_prof'))?>/0";
             }
-        });    
+        });  
+
+        $('body').on('click', function(){
+           //TODO: actualizar horarios cunado no se cierre el modal con el boton cerrar
+           /* 
+            console.log($.isEmptyObject(json));
+           if(!$.isEmptyObject(json)){
+                $("#divCliente").empty(); 
+           }
+           */
+        }) 
 
         function EnviarInformacion(accion, objEvento, modal) {
             

@@ -17,10 +17,13 @@ class Calendar extends MY_Controller {
        
     }
 
-    public function find_all_eventos($id,$opcion) {               
+    public function find_all_eventos($id,$opcion) {   
+        //seteamos el id del profesional en la sesion
+        $data = array('id_prof' => $id);
+        $this->session->set_userdata($data);              
         //$datos['eventos'] = $this->calendar_model->find_by_user($id);
         $datos['horarios'] = $this->calendar_model->find_horarios_by_user($id);
-       
+        $datos['horas'] = $this->calendar_model->find_by_user($id);
         if($opcion == 1) {//1 indica que viene desde la creacion de horarios del profesional 
             $datos['perfil'] = 'profesional';          
             $datos['ruta_relativa'] = "<p>
@@ -52,7 +55,8 @@ class Calendar extends MY_Controller {
                         'start' => $this->input->post('fecha'),
                         'hora' => $this->input->post('hora'),
                         'display' => $this->input->post('display'),
-                        'color' => $this->input->post('color')
+                        'color' => $this->input->post('color'),
+                        'estado' => 'disponible'
                     );
                     //guarda en la bd
                     $this->calendar_model->insert($data);                  

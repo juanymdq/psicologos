@@ -100,15 +100,17 @@
                                     </a>
                                 </div>
                                 <div class="d-lg-none">
-                                    <?php if($this->session->userdata('nombre') != null) {
+                                    <?php if($this->session->userdata('nombre') != null || $this->session->userdata('pr_nombre') != null) {
                                         switch($this->session->userdata('perfil')){
                                             case 'administrador':?>
                                                 <a class="nav-item nav-link" href="<?=base_url('administrador')?>"> <span><i class="fas fa-user-shield"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
                                             <?php break;
                                             case 'profesional':?>
-                                                <a class="nav-item nav-link" href="<?=base_url('profesional/home_profesionales')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
+                                            <!-- $route['profesional/cpanel'] = 'Profesional/profesional_cpanel'; -->
+                                                <a class="nav-item nav-link" href="<?=base_url('profesional/cpanel')?>"> <span><i class="fas fa-briefcase"></i></span><?=$this->session->userdata('pr_nombre') . " " . $this->session->userdata('pr_apellido');?></a>
                                             <?php break;
                                             case 'cliente':?>
+                                            <!-- $route['cliente/cpanel'] = 'Cliente/cliente_cpanel'; -->
                                                 <a class="nav-item nav-link" href="<?=base_url('cliente/cpanel')?>"> <span><i class="fas fa-user"></i></span><?=$this->session->userdata('nombre') . " " . $this->session->userdata('apellido');?></a>
                                             <?php break;
                                         } 
