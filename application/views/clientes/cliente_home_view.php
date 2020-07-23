@@ -83,7 +83,7 @@
 					<div class="icon"><i class="fas fa-credit-card icono" title="Pagos"></i></div>
 					<div class="div-text">Pagos</div>					
 				</a>
-			</div>
+			</div>			
 			<div>
 				<a href="">
 					<div class="icon"><i class="fas fa-key icono" title="cambiar contraseña"></i></div>

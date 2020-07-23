@@ -72,8 +72,20 @@
             display: flex;
         }
         #CalendarioWeb {
-            margin-bottom: 300px
+            margin-bottom: 400px
         }
+        .help-modal {
+            padding: 0 15px 0 15px;
+            color: 'green';
+        }
+        .help-modal>p {
+            font-size:12px;
+            color: #FF0000;
+        }
+        .modal-footer>div{            
+            margin:0px auto;
+        }
+
     </style>
  
 
@@ -102,8 +114,10 @@
                 header: {
                     left: 'today,prev,next',
                     center: 'title',                    
-                },       
-                eventLimit: true, // for all non-TimeGrid views
+                },     
+                selectable: true,
+                allDaySlot: true,                 
+                eventLimit: true, // limite de eventos a mostrar en cada fecha
                 eventLimitText: "Horarios",
                 views: {
                     month: {
@@ -115,22 +129,22 @@
                     var j = view.options.events;
                     //verificamos si esta accediendo un profesional o un cliente
                     if($('#txtPerfil').val() == 'cliente'){
-                        console.log('vista cliente');                                               
-                        console.log(view.dayGrid.cellEls.length)
+                        console.log('vista cliente');                                     
                         var k = 0;
                         //recorremos todo el calendario renderizado (unos 42 dias)
                         while(k <= view.dayGrid.cellEls.length - 1){
+                            //Obtenemos la fecha
                             fchCalendar = Date.parse(view.dayGrid.cellEls[k].dataset.date);
                             var i=0;
                             var encontro = false;
+                            //El ciclo es para buscar las fechas que tienen horarios
+                            //Al final se pintaran de color gris las celdas que no posean turnos para
+                            //que el cliente no pueda acceder a ellas
                             while(i <= j.length-1 && !encontro){
-                                fchDB = Date.parse(j[i].start);
-                                //console.log(fechaInicio.getTime());
+                                fchDB = Date.parse(j[i].start);                               
                                 if(fchDB == fchCalendar) {
-                                    encontro = true  
-                                    //console.log(fchCal)                                      
-                                }
-                                //console.log(j[i].start);
+                                    encontro = true                                                                        
+                                }                              
                                 i++;
                             }                        
                             if(!encontro) {                               
@@ -139,20 +153,16 @@
                             }else{
                                 //Celdas habilitadas con horarios
                                 view.dayGrid.cellEls[k].style.backgroundColor = 'D4FCAE';
-                            }
-                            
+                            }                            
                             k++;
-                           
-                           
                         }
 
                     }
                 },
                
                 dayClick: function(date, jsEvent, view){  
-                    var perfil = $('#txtPerfil').val();
-                    console.log(view.options.events[0].id_user)
-                    console.log(perfil);
+                    console.log(view.options.events)
+                    var perfil = $('#txtPerfil').val();                   
                     var myDate = new Date();                     
                     //Trae la fecha en milisegundos
                     d = new Date(date._i);         
@@ -179,7 +189,7 @@
                             //obtenemos la descripcion del dia
                             $('.diaSemana').text(date._locale._config.weekdays[dd]);
                             document.getElementById("modal-content").style.height = '80%';
-                            $('#ModalEventos').modal();
+                            $('#ModalEventos').modal({backdrop: 'static', keyboard: false});
                         }     
                     }              
                 },
@@ -234,6 +244,7 @@
                             
                             }
                         });
+                        //define el tamaño del modal
                         document.getElementById("modal-content").style.height = '80%';
                     }else if(perfil == 'cliente'){
                         //limpia todos los radios del div
@@ -249,19 +260,20 @@
                                 if(fecha==e[p]){                                    
                                     //crea tantos objetos radios en el div cliente como horarios haya para el dia
                                     jQuery ( "#divCliente" ) .append(                                        
-                                        "<input type='radio' name='hora' id='hora"+e['id']+"' value='"+e['hora']+"'>&nbsp&nbsp<label for='hora"+e['id']+"'>"+e['hora']+"</label><br>");
+                                        "<input type='radio' name='hora' id='"+e['id']+"' value='"+e['hora']+"'>&nbsp&nbsp<label for='hora"+e['id']+"'>"+e['hora']+"</label><br>");
                                 }
                             }
 
                         });
                         jQuery ( "#divCliente" ) .append("</form>")
                         //checkea el horario seleccionado
-                        jQuery("#hora"+callEvent.id).attr('checked', 'checked');
+                        jQuery("#"+callEvent.id).attr('checked', 'checked');
+                        //define el tamaño del modal
                         document.getElementById("modal-content").style.height = 'auto';
                     }
-                    //mostramos el div modal
-                   
-                    $('#ModalEventos').modal();
+                    //mostramos el div modal. Las opciones agregadas son paara que ele modal solo
+                   //se cierre desde el boton
+                    $('#ModalEventos').modal({backdrop: 'static', keyboard: false});
                 },
 
                 editable: false,
@@ -282,7 +294,8 @@
             ?>
             <h5>Seleccionar horarios</h5> 
             <?php }else if($this->session->userdata('perfil') == 'cliente'){?>
-                <h5>Seleccionar horario de atención</h5> 
+                <h5>Seleccionar horario de atención</h5>                
+                <div class="help-modal"><p>Seleccione el horario deseado, luego haga click en <strong>siguiente</strong> para continuar con el proceso de registración de turno</p></div>
             <?php }?>
                 <div class="modal-header">
                     <div class="diaSemana"></div>                  
@@ -333,13 +346,16 @@
                     <?php }?>
                 </div>
                 <div class="modal-footer">
-                <?php
-                    if($this->session->userdata('perfil') == 'profesional'){
-                ?>
-                    <button type="button" id="btnCerrar" class="btn btn-success">Cerrar</button>
-                <?php }else if($this->session->userdata('perfil') == 'cliente'){?>
-                    <button type="button" id="btnCerrar" class="btn btn-success">Aceptar</button>
-                <?php }?>
+                    <?php
+                        if($this->session->userdata('perfil') == 'profesional'){
+                    ?>
+                        <button type="button" id="btnCerrar" class="btn btn-success">Cerrar</button>
+                    <?php }else if($this->session->userdata('perfil') == 'cliente'){?>
+                        
+                        <div><button type="button" id="btnCerrar" class="btn btn-warning">Cerrar</button></div>
+                        <div><button type="button" id="btnNext" class="btn btn-success">Siguiente ></button></div>
+                       
+                    <?php }?>
                 </div>
             </div>
         </div>
@@ -351,8 +367,9 @@
         $("input[name=chkHora]").change(function(){
              
             if($(this).is(':checked')){//agregar horas
-                //console.log('checked');
+                //Obtiene un color al azar
                 color = getRandomColor();
+                //creamos el objeto para guardar el evento
                 obj = {
                     'id': $('#txtIDuser').val(),
                     'fecha': $('#txtFecha').val(),
@@ -360,52 +377,60 @@
                     'display': 'background',
                     'color': color
                 }     
+                //Llamamos a guardar
                 EnviarInformacion('agregar', obj);          
-            }else{//borrar horas               
+            }else{//borrar horas      
+                //obtenemos la fecha desde el input
                 fecha = $('#txtFecha').val();   
-                //console.log(fecha)            ;
-                hora = $(this).val(); 
-                
+                //obtenemos la hora desde el checkbox
+                hora = $(this).val();                
+                //iniciamos variable de ciclo 
                 var i=0;
+                //iniciamos variable para ver si encontro el elemento a borrar
                 var encontro = false;
-                
+                //mientras no se termine el ciclo y no haya encontrado
                 while(i <= json.length -1 && !encontro){
-                    console.log(json[i].hora);
+                    //colocamos la hora del array en variable ch
                     var ch = json[i].hora;
                     //le sacamos los ultimos 0 para que coincida perfecta la hora
                     var tmp = ch.substr(0,5);
+                    //si coincide fecha y hora
                     if(fecha==json[i].start && hora==tmp){ 
-                        var obj = {'id': json[i].id}                          
+                        //agregamos el id del elemento a borrar al objeto
+                        var obj = {'id': json[i].id}                                                  
                         encontro = true;
                     }
                     i++;
                 }
                 if(encontro) {                    
+                    //si encontro viene en true, se manda a eliminar el evento
                    EnviarInformacion('eliminar', obj);
                 }          
             }
         })
 
-        $('#btnCerrar').click(function(){                       
+        //Esta funcion se ejecuta al cerrar el modal
+        $('#btnCerrar').click(function(){           
+            //ocultamo el modal            
             $('#ModalEventos').modal('toggle');                        
             if($('#txtPerfil').val() == 'profesional'){
+                //recargamos la pagina enviando el id del profesional desde la sesion
                 window.location.href = '<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id'))?>/1';
             }else if($('#txtPerfil').val() == 'cliente'){
                 console.log('recarga cliente');
+                //recargamos la pagina enviando el id del profesional desde la sesion
                 window.location.href = "<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id_prof'))?>/0";
             }
         });  
 
-        $('body').on('click', function(){
-           //TODO: actualizar horarios cunado no se cierre el modal con el boton cerrar
-           /* 
-            console.log($.isEmptyObject(json));
-           if(!$.isEmptyObject(json)){
-                $("#divCliente").empty(); 
-           }
-           */
-        }) 
+        $('#btnNext').click(function(){
+            console.log($('input:radio[name=hora]:checked').attr('id'))
+            var id = $('input:radio[name=hora]:checked').attr('id');
+            //$route['cliente/datos_del_turno/(:any)'] = 'Turnos/turno_cliente/$1';
+            window.location.href = "<?=base_url('cliente/datos_del_turno/')?>"+id;
+        });
 
+        //Esta funcion se encarga de enviar la peticion de guardar o eliminar via ajax        
         function EnviarInformacion(accion, objEvento, modal) {
             
             var url = '<?=base_url()?>calendar/accion?accion='+accion;
@@ -424,12 +449,14 @@
                               
         }
 
+        //pone todos los check descheckeados
         function limpiarcheck() {           
             $('input[type=checkbox]').each(function(){
                 $(this).attr('checked', false);            
             });
         }
 
+        //funcion que genera colores al azar
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
             var color = '#';

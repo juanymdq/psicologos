@@ -13,6 +13,7 @@ class Turnos_model extends CI_Model {
         //cargamos la base de datos
         $this->load->database();
     }    
+    /*
     //busca los horarios de un profesional en particular para paginar los mismos
     function find_by_prof($id,$inicio) { 
         //comprueba que la fecha de turnos sea mayo o igual al dia actual
@@ -37,6 +38,7 @@ class Turnos_model extends CI_Model {
         
         return $aResult->result_array();
     }
+    
     //busca todos los horarios de un profesional
     function find_all_horarios_by_prof($id) { 
         //comprueba que la fecha de turnos sea mayo o igual al dia actual
@@ -60,14 +62,14 @@ class Turnos_model extends CI_Model {
         
         return $aResult->result_array();
     }
-
+*/
     function find_by_cliente($id) { 
        
         $this->db->select('*');        
         $this->db->from('turnos as t');                
         $this->db->join('cliente as c', 'c.id = t.id_cliente');
-        $this->db->join('horarios_profesionales as h', 'h.id = t.id_horario');
-        $this->db->join('profesional as p', 'p.id = h.id_profesional');
+        $this->db->join('eventos as e', 'e.id = t.id_horario');
+        $this->db->join('profesional as p', 'p.id = e.id_user');
         $this->db->where('t.id', $id);                
                 
         $aResult = $this->db->get();
@@ -80,7 +82,7 @@ class Turnos_model extends CI_Model {
         return $aResult->result_array();
     }
 
-
+/*
 //busca todos los horarios de la tabla
     function find_all_horarios() {
         $this->db->select();
@@ -95,14 +97,13 @@ class Turnos_model extends CI_Model {
 
         return $aResult->result_array();
         
-    }
+    }*/
 //busca un horario en particular y trae todos los datos
     function find_one_horario($id) {
-        $this->db->select();
-        $this->db->from('horarios_profesionales h');   
-        $this->db->join('profesional p', 'h.id_profesional = p.id');        
-        $this->db->where('h.id', $id);
-        //$this->db->where('h.id_profesional','p.id');
+        $this->db->select('*, e.id as idh');
+        $this->db->from('eventos as e');   
+        $this->db->join('profesional p', 'e.id_user = p.id');        
+        $this->db->where('e.id', $id);       
         
         $aResult = $this->db->get();
 
@@ -139,33 +140,16 @@ class Turnos_model extends CI_Model {
         //modifica el horario a estado "reservado"
         $this->db->set('estado','reservado');
         $this->db->where('id', $id);
-        $this->db->update('horarios_profesionales');
+        $this->db->update('eventos');
         //-------------------------------------------------
         //envia el id del turno guardado
         return  $idT;
     }
-    
-    //insercion de datos en tabla
-    function insert_fecha($data) {
-        $this->db->insert('horarios_profesionales', $data);
-        return $this->db->insert_id();
-    }
-/* //TODO: sin usar
-    function modifica_disponibilidad_de_horario($id, $estado) {
-        $this->db->set('estado','reservado');
-        $this->db->where('id', $id);
-        $this->db->update('horarios_profesionales');
-    }
-*/
+   
     //modifica el estado del pago de ticket a status = approved
     function update_status_turno($id,$data) {
         $this->db->where($this->table_id, $id);
         $this->db->update($this->table_turnos, $data);
     }
-    //borra registros de la tabla horarios_profesionales
-    function delete_horarios($id) {
-        $this->db->where($this->table_id, $id);
-        $this->db->delete('horarios_profesionales');
-        return $this->db->affected_rows();
-    }
+   
 }

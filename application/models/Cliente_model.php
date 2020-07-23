@@ -73,14 +73,16 @@ class Cliente_model extends CI_Model {
 
     //buscar todos los turnos agendados para un cliente
     function find_turnos($id) {
-        $this->db->select('*');        
+        $this->db->select('e.id,e.title,e.start,e.hora,e.color,p.pr_nombre,p.pr_apellido,t.id_sesion');        
         $this->db->from('turnos as t');                
         $this->db->join('cliente as c', 'c.id = t.id_cliente');
-        $this->db->join('horarios_profesionales as h', 'h.id = t.id_horario');
-        $this->db->join('profesional as p', 'p.id = h.id_profesional');
+        $this->db->join('eventos as e', 'e.id = t.id_horario');
+        $this->db->join('profesional as p', 'p.id = e.id_user');
         $this->db->where('c.id', $id);                
-                
-        $aResult = $this->db->get();
+        $query = $this->db->get();        
+        $res = $query->result_array();
+        return json_encode($res);        
+       /* $aResult = $this->db->get();
 
         if(!$aResult->num_rows() == 1)
         {
@@ -88,6 +90,7 @@ class Cliente_model extends CI_Model {
         }
         
         return $aResult->result_array();
+        */
     }
 
     function update($id, $data) {

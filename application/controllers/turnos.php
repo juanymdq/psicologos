@@ -33,7 +33,7 @@ class Turnos extends MY_Controller {
         $this->render_page('turnos/lista_profesionales_view',$datos);
       
     }  
-
+/*
      //busca todos los horarios de un profesional y los datos del mismo
      public function ver_horarios($id) {       
         //busca todos los horarios del profesional  
@@ -63,7 +63,7 @@ class Turnos extends MY_Controller {
             $this->render_page('turnos/horarios_view', $datos);
         }
 }
-
+*/
     //busca todos los horarios de un profesional y los datos del mismo
     /*
     public function ver_horarios($id) {       
@@ -94,7 +94,10 @@ class Turnos extends MY_Controller {
         //busca el horario seleccionado y los datos del profesional           
         $turnos = $this->turnos_model->find_one_horario($id);
         $datos['horario'] = $turnos;
+        
         $item = array_values($turnos)[0];
+        $fecha = $item['start']." ".$item['hora'];
+        $datos['fecha_string'] = $this->fecha($fecha);
         $id = $item['id'];
         //$this->render_page('turnos/turno_register_view', $datos);
         $datos['ruta_relativa'] = "<p>
@@ -109,7 +112,7 @@ class Turnos extends MY_Controller {
 
     public function guardar_turno() {
         $data = array (
-        'id_horario' => $this->input->post('id_turno'),
+        'id_horario' => $this->input->post('id_evento'),
         'id_cliente' => $this->session->userdata('id'),
         'comentarios' => $this->input->post('comentarios')        
         );
@@ -221,7 +224,7 @@ flowType=WPS#/checkout/done
         }
     }
     //realiza acciones sobre los horarios, Agreagar y eliminar
-    public function accion($accion) {
+/*    public function accion($accion) {
         
         //$accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'Leer' ;
 
@@ -260,10 +263,9 @@ flowType=WPS#/checkout/done
         }
     }
 
-    
+    */
     public function envia_mail($idTurno) {
-
-        // Load Composer's autoloader
+        
         $datosTurno = $this->turnos_model->find_by_cliente($idTurno);
         
         if(!empty($datosTurno)){            
@@ -281,7 +283,7 @@ flowType=WPS#/checkout/done
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
                 $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
                 $mail->Username   = 'juanymdq@gmail.com';                     // SMTP username
-                $mail->Password   = 'kano0479';                               // SMTP password
+                $mail->Password   = 'Jifernandez1979';                               // SMTP password
                 
                 //Recipients
                 $mail->Charset = PHPMailer::CHARSET_UTF8;
@@ -295,6 +297,8 @@ flowType=WPS#/checkout/done
                 // Set email format to HTML
                 $mail->isHTML(true);
                 $asunto = 'Terapia virtual - Confirmación de turno';
+                $fecha = $item['start']." ".$item['hora'];
+                $fecha_string = $this->fecha($fecha);
                 $bodyc = "
                 <html>
                     <head>
@@ -303,7 +307,7 @@ flowType=WPS#/checkout/done
                     <body>                
                         <p>Cliente: ".$item['apellido'].", &nbsp;". $item['nombre']."</p>
                         <p>Profesional: ".$item['pr_apellido'].", &nbsp;". $item['pr_nombre']."</p>
-                        <p>Fecha de turno: ".$item['fecha_string']."</p>
+                        <p>Fecha de turno: ".$fecha_string."</p>
                         <p>Estado de pago de la sesion: ".$item['payment_status']."</p>
                         <p>El siguiente id lo necesitará para conectarse el dia del turno con el profesional por videollamada</p>
                         <p>Id de la videollamada: <strong>".$item['id_sesion']."</strong></p>

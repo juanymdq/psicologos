@@ -23,7 +23,7 @@ class Calendar extends MY_Controller {
         $this->session->set_userdata($data);              
         //$datos['eventos'] = $this->calendar_model->find_by_user($id);
         $datos['horarios'] = $this->calendar_model->find_horarios_by_user($id);
-        $datos['horas'] = $this->calendar_model->find_by_user($id);
+        //$datos['horas'] = $this->calendar_model->find_by_user($id);
         if($opcion == 1) {//1 indica que viene desde la creacion de horarios del profesional 
             $datos['perfil'] = 'profesional';          
             $datos['ruta_relativa'] = "<p>
@@ -68,20 +68,15 @@ class Calendar extends MY_Controller {
                     $this->calendar_model->delete($id);
                 }
                 break;           
-            case 'buscar':
+           /* case 'buscar':
                 $fecha = $this->input->post('fecha');
                 
                 //$datos['horas'] = $this->calendar_model->find_horas_by_fecha($fecha);
                 
                 $this->calendar_model->find_horas_by_fecha($fecha);
                 //$this->render_page('calendar/calendar_view', $datos);
-            break;
-          /*  default:
-                $datos['eventos'] = $this->calendar_model->findAll();               
-                $this->render_page('calendar/calendar_view', $datos);
-                break;*/
+            break;       */
         }
-      //  $datos['eventos'] = $this->calendar_model->find_by_user($this->session->userdata('id'));               
-      //  $this->render_page('calendar/calendar_view', $datos);
+     
     }
 }

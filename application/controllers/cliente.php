@@ -418,6 +418,7 @@ class Cliente extends MY_Controller
 
     function ver_turnos($id) {
         $datos['turnos'] = $this->cliente_model->find_turnos($id);
+       
         $datos['ruta_relativa'] = "<p>
             <a href='".base_url('principal')."'>Inicio</a> > 
             <a href='".base_url('cliente/cpanel')."'>Cliente</a> >

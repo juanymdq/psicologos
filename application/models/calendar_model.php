@@ -9,53 +9,20 @@ class Calendar_model extends CI_Model {
         $this->load->database();
     }
 
-    //trae todos los registros de la tabla
-    function findAll() {
-        //header('Content-Type: application/json');
-        $this->db->select();
-        $this->db->from($this->table);
-        $query = $this->db->get();        
-        $res = $query->result_array();
-        return json_encode($res);
-    }
-
-    function find_by_user($id) {
-        //$this->db->select('* , COUNT(*) as count');        
-        $this->db->select('id,id_user,title,start,hora,display,color');      
-        $this->db->from($this->table);
-        $this->db->where('id_user', $id);
-        $this->db->group_by('start');
-        $query = $this->db->get();        
-        $res = $query->result_array();
-        return json_encode($res);
-    }
-
-    function find_horarios_by_user($id) {
-        //$this->db->select('* , COUNT(*) as count');        
-
-        date_default_timezone_set('America/Argentina/Buenos_Aires');
-        $fechaActual = date('Y-m-d H:i:s');
-        
+    //Obtiene todos los horarios de la tabla eventos para un profecional en particular
+    //Ademas va a traer solos los eventos que sean mayores oiguales a la fecha actual
+    function find_horarios_by_user($id) {        
         $this->db->select();      
         $this->db->from($this->table);
-        $this->db->where('start >=', $fechaActual);
+        $this->db->where('CONCAT(start," ",hora) >= NOW()');
         $this->db->where('id_user', $id);
+        $this->db->where('estado', 'disponible');
 
         $query = $this->db->get();        
         $res = $query->result_array();
         return json_encode($res);
     }
-
-    function find_horas_by_fecha($fecha) {
-        
-        $this->db->select('hora');      
-        $this->db->from($this->table);
-        $this->db->where('start', $fecha);        
-        $query = $this->db->get();        
-        $res = $query->result_array();       
-        echo json_encode($res);
-    }
-
+   
     //insercion de datos en tabla
     function insert($data) {
         $this->db->insert($this->table, $data);   

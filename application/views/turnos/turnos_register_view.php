@@ -183,10 +183,10 @@ p {
             <?php   
                 if(isset($horario)){
                 $item = array_values($horario)[0];
-                $id = $item['id'];
+                $id = $item['idh'];
             ?>
             <div>   
-                <input type="hidden" value="<?=$item['id']?>" name="id_turno">                
+                <input type="hidden" value="<?=$item['idh']?>" name="id_evento">                
                 <div class="row">                   
                     <legend class="titulo-prof" style="color: black">Detalle de la visita</legend>
                     <hr />
@@ -204,7 +204,7 @@ p {
                         <div class="row">         
                             <span class="col-md-1 text-center"><i class="fa fa-calendar bigicon" style="color: black"></i></span>                                
                             <div class="col-md-11">                            
-                                <label><?=$item["fecha_string"]?>hs.</label>
+                                <label><?=$fecha_string?>hs.</label>
                             </div>                            
                         </div>
                         <hr />
@@ -220,7 +220,9 @@ p {
                     </div>                    
                     <div class="fields">
                         <div class="row">    
-                            <span class="col-md-8"><a href="<?=base_url('cliente/ver_horarios_de_profesional?id='.$item["id"])?>">Cambiar horario</a></span>
+                        <!-- $route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1'; -->
+                
+                            <span class="col-md-8"><a href="<?=base_url('profesional/calendario_de_horarios/'.$item['id']).'/0'?>">  Cambiar horario</a></span>
                         </div>              
                     </div>   
                 </div>                                 
