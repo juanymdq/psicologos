@@ -64,21 +64,21 @@
 			<div>
 				<!--  -->
 				<a href="<?=base_url('profesional/listar_clientes')?>">
-					<div class="icon"><i class="fas fa-calendar-alt icono" title="Listar Clientes"></i></div>
+					<div class="icon"><i class="fas fa-users icono" title="Listar Clientes"></i></div>
 					<div class="div-text">Listar Clientes</div>
 				</a>
 			</div>  
 			<div>
-				<!-- $route['profesional/crear_horarios_de_atencion/(:any)'] = 'profesional/find_all_eventos/$1'; -->
-				<a href="<?=base_url('profesional/crear_horarios_de_profesional/'.$this->session->userdata('id').'?var=1&pagina=1')?>">                     
+				<!--$route['profesional/turnos_pendientes/(:any)'] = 'Profesional/getTurnos/$1'; -->
+				<a href="<?=base_url('profesional/turnos_pendientes/'.$this->session->userdata('id'))?>">                     
 					<div class="icon"><i class="fas fa-notes-medical icono" title="Horarios"></i></div>
-					<div class="div-text">Cargar horarios de atención</div>
+					<div class="div-text">Turnos</div>
 				</a>
 			</div>
 			<div>
 			<!-- $route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1'; -->				
 				<a href="<?=base_url('profesional/calendario_de_horarios/'.$this->session->userdata('id')).'/1'?>">
-					<div class="icon"><i class="fas fa-credit-card icono" title="Pagos"></i></div>
+					<div class="icon"><i class="fas fa-calendar-alt icono" title="Pagos"></i></div>
 					<div class="div-text">Calendario</div>					
 				</a>
 			</div>

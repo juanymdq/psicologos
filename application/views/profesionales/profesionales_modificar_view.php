@@ -118,8 +118,8 @@
         }
         // Correcto!
         function handleSuccess(stream) {
-        window.stream = stream;
-        video.srcObject = stream;
+            window.stream = stream;
+            video.srcObject = stream;
         }
         // Load init
         init();

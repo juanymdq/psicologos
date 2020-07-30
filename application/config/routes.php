@@ -76,14 +76,17 @@ $route['profesional/cpanel'] = 'Profesional/profesional_cpanel';
 $route['profesional/crear'] = 'Profesional';
 $route['profesional/guardar'] = 'Profesional/profesional_save';
 $route['profesional/restablecer_password'] = 'Profesional/forgot_password';
-$route['profesional/crear_horarios_de_atencion/(:any)'] = 'profesional/find_all_eventos/$1';
+//$route['profesional/crear_horarios_de_atencion/(:any)'] = 'profesional/find_all_eventos/$1';
 //ingresda al calendario para cargar horarios
 $route['profesional/calendario_de_horarios/(:any)/(:any)'] = 'calendar/find_all_eventos/$1/$2';
 
 $route['profesional/agregar_horario/(:any)'] = 'Turnos/accion/$1';
 $route['profesional/editar/(:any)'] = 'Profesional/profesional_save/$1';
 $route['profesional/mensaje/(:any)'] = 'Profesional/mensajes_profesional/$1';
-
+$route['profesional/turnos_pendientes/(:any)'] = 'Profesional/getTurnos/$1';
+$route['profesional/videollamada/(:any)'] = 'Profesional/goVideoCall/$1';
+//*************************************************************************
+$route['cliente/videollamada/(:any)'] = 'Webcam/acceso_camara/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

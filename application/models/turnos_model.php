@@ -151,5 +151,10 @@ class Turnos_model extends CI_Model {
         $this->db->where($this->table_id, $id);
         $this->db->update($this->table_turnos, $data);
     }
+    //Guarda el token de la videollamada
+    function updateToken($id, $data) {
+        $this->db->where($this->table_id, $id);
+        $this->db->update($this->table_turnos, $data);
+    }
    
 }

@@ -49,8 +49,6 @@
         
         <div class="card-container">
             <div class="header">
-                <!-- $route['cliente/ver_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1'; -->                
-                
                 <!-- $route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1'; -->
                 <a href="<?=base_url('profesional/calendario_de_horarios/'.$item['id']).'/0'?>" title="Ver horarios">                
                     <img src="<?=$item["pr_foto"]?>"/>

@@ -40,37 +40,30 @@
             background-color: #D5D5D5;
         }
         .modal-dialog {
-            position:relative;
-            top: 10%;
+           
         }
         
         .modal-content{
-            width: 300px;
-           
+            width: 300px;    
+            max-height: 95vh;
            
         }
         .modal-content > h5{
             text-align: center;
         }
         .modal-body {
-            overflow: scroll;
-            
+            max-height: calc(100% - 120px);
+            overflow-y: scroll;          
             
         }
         .modal-header{            
-            text-align: center;            
-            display: flex;
-            flex-direction: column;
-           
+            text-align: center;    
         }
           
         #txtFechaView{           
-            text-align: center;
-            
+            text-align: center;            
         }
-        .flex-container{
-            display: flex;
-        }
+       
         #CalendarioWeb {
             margin-bottom: 400px
         }
@@ -91,17 +84,7 @@
 
 </head>
 <body>
-<!--
-    <div class="container">   
-        <div class="flex-container">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col-7"><br/><br/><div id="CalendarioWeb" class="fc fc-media-screen fc-direction-ltr fc-theme-standard" style="height: 100%;"></div></div>
-                <div class="col"></div>
-            </div>
-        </div>
-    </div>    
-    -->
+
     <div class="container">
     <div id="CalendarioWeb" class="fc fc-media-screen fc-direction-ltr fc-theme-standard" style="height: 90%;"></div>
     </div>
@@ -161,7 +144,7 @@
                 },
                
                 dayClick: function(date, jsEvent, view){  
-                    console.log(view.options.events)
+                    console.log(view)
                     var perfil = $('#txtPerfil').val();                   
                     var myDate = new Date();                     
                     //Trae la fecha en milisegundos
@@ -185,10 +168,10 @@
                             console.log('ingreso vacio');
                             $('#txtFechaView').val(date.format('DD/MM/YYYY'));
                             $('#txtFecha').val(date.format());
-                            $('#txtIDuser').val(view.options.events[0].id_user);                        
+                            //$('#txtIDuser').val();                        
                             //obtenemos la descripcion del dia
                             $('.diaSemana').text(date._locale._config.weekdays[dd]);
-                            document.getElementById("modal-content").style.height = '80%';
+                            //document.getElementById("modal-content").style.height = '30%';                            
                             $('#ModalEventos').modal({backdrop: 'static', keyboard: false});
                         }     
                     }              
@@ -219,11 +202,11 @@
                     // recorremos los horarios
                     var perfil = $('#txtPerfil').val();                   
                    if(perfil=='profesional'){
+                        console.log('pantalla de profesional');
                         json.forEach((e) => {
                             for(var p in e){
                                 //cuando encuentre la fecha que se clickeo
-                                if(fecha==e[p]){                               
-                                    console.log('pantalla de profesional');
+                                if(fecha==e[p]){                                                                   
                                     //iteramos por todos los checkbox buscando las horas del dia guardadas
                                     $('input[type=checkbox]').each(function(){
                                         //colocamos la hora en variable cb
@@ -245,7 +228,7 @@
                             }
                         });
                         //define el tamaño del modal
-                        document.getElementById("modal-content").style.height = '80%';
+                       // document.getElementById("modal-content").style.height = '30% !important';
                     }else if(perfil == 'cliente'){
                         //limpia todos los radios del div
                         $("#divCliente").empty(); 
@@ -269,7 +252,7 @@
                         //checkea el horario seleccionado
                         jQuery("#"+callEvent.id).attr('checked', 'checked');
                         //define el tamaño del modal
-                        document.getElementById("modal-content").style.height = 'auto';
+                       // document.getElementById("modal-content").style.height = 'auto';
                     }
                     //mostramos el div modal. Las opciones agregadas son paara que ele modal solo
                    //se cierre desde el boton
@@ -287,7 +270,7 @@
    
     <!-- Modal PARA AGREGAR MODIFICAR Y ELIMINAR-->
     <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content" id="modal-content">
             <?php
             if($this->session->userdata('perfil') == 'profesional'){
@@ -301,7 +284,7 @@
                     <div class="diaSemana"></div>                  
                     <div class="fch"><input type="text" id="txtFechaView" disabled="true"/></div> 
                     <div class="hidd">
-                        <input type="hidden" id="txtIDuser" name="txtIDuser"/>
+                        <input type="hidden" id="txtIDuser" name="txtIDuser" value="<?=$this->session->userdata('id_prof')?>"/>
                         <input type="hidden" id="txtPerfil" name="txtPerfil" value="<?=$this->session->userdata('perfil')?>"/>
                         <input type="hidden" id="txtFecha" name="txtFecha" disabled="true"/>                  
                     </div>
@@ -349,7 +332,7 @@
                     <?php
                         if($this->session->userdata('perfil') == 'profesional'){
                     ?>
-                        <button type="button" id="btnCerrar" class="btn btn-success">Cerrar</button>
+                        <div><button type="button" id="btnCerrar" class="btn btn-success">Cerrar</button></div>
                     <?php }else if($this->session->userdata('perfil') == 'cliente'){?>
                         
                         <div><button type="button" id="btnCerrar" class="btn btn-warning">Cerrar</button></div>

@@ -40,6 +40,30 @@ class Profesional_model extends CI_Model {
 
     }
 
+    function getAllTurnos($id) { 
+/*
+SELECT * 
+FROM eventos as e
+INNER JOIN (turnos as t INNER JOIN cliente as c ON t.id_cliente=c.id) ON t.id_horario=e.id  and e.id_user=45
+*/
+       
+        $this->db->select('*, t.id as idt');        
+        $this->db->from('turnos as t');                
+        $this->db->join('cliente as c', 'c.id = t.id_cliente');
+        $this->db->join('eventos as e', 'e.id = t.id_horario');       
+        $this->db->where('e.id_user', $id);                
+                
+        $aResult = $this->db->get();
+
+        if(!$aResult->num_rows() == 1)
+        {
+            return false;
+        }else{        
+            return $aResult->result_array();
+        }
+    }
+
+
     //busca un elemento en particular por id
     function find($id) {
             $this->db->select();

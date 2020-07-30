@@ -118,6 +118,7 @@ p {
 </head>
 <body>
     <section>
+   
     <div class="container">
         <h1>Confirmación de turno</h1>
         <p><a href="<?=base_url('turnos')?>" class="btn btn-default">Volver y cancelar</a></p>
@@ -173,7 +174,7 @@ p {
                                     <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-edit bigicon" style="color: black"></i></span>
                                     <div class="col-md-8">
                                         <textarea class="form-control" id="message" name="comentarios" placeholder="Podes añadir cualquier comentario de interes para el especialista (opcional)." rows="5" cols="40" onkeyup="agrega()"></textarea>
-                                    </div>
+                                    </div>                                                                        
                                 </div>
                             </div>                             
                     </form>
@@ -243,7 +244,8 @@ p {
                         <label for="btn-pago"></label> <img src="<?=base_url()?>application/assets/img/mercadopago.png" class="icono-mpago"> 
                         <form action="<?=base_url('turnos/redirectmp')?>" method="POST">
                             <input type="hidden" value="<?=$id?>" name="id_horario">
-                            <input type="hidden" id="comentariosmp" name="comentariosmp">                            
+                            <input type="hidden" id="comentariosmp" name="comentariosmp"> 
+                                                   
                             <script
                             src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
                             data-preference-id="<?php echo $preference->id; ?>"
@@ -260,7 +262,7 @@ p {
                         <input type="hidden" value="<?=$id?>" name="id_horario">
                         <input type="hidden" name="paymentID" id="paymentID">
                         <input type="hidden" name="payerID" id="payerID">
-                        <input type="hidden"name="paymentToken" id="paymentToken">
+                        <input type="hidden"name="paymentToken" id="paymentToken">                        
                         <?php                        
                             $productName = "Producto demostración";
                             $currency = "USD";
@@ -284,7 +286,9 @@ p {
             texto = document.getElementById('message').value;
             document.getElementById('comentariosmp').value = texto;           
             document.getElementById('comentariospp').value = texto; 
-        }  
+        } 
+
+    
     </script>
 </body>
 </html>

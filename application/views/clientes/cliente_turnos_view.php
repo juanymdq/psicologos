@@ -39,38 +39,17 @@
         .fc-past {            
             background-color: #D5D5D5;
         }
-        .modal-dialog {
-            position:relative;
-            top: 10%;
-        }
-        
-        .modal-content{
-            width: 300px;
-           
-           
-        }
+      
         .modal-content > h5{
             text-align: center;
         }
-        .modal-body {
-            overflow: scroll;
-            
-            
-        }
-        .modal-header{            
-            text-align: center;            
-            display: flex;
-            flex-direction: column;
-           
-        }
+      
           
         #txtFechaView{           
             text-align: center;
             
         }
-        .flex-container{
-            display: flex;
-        }
+      
         #CalendarioWeb {
             margin-bottom: 400px
         }
@@ -91,8 +70,7 @@
 
 </head>
 <body>
-    <div class="container">
-    <?=var_dump($turnos)?>
+    <div class="container">  
     <div id="CalendarioWeb" class="fc fc-media-screen fc-direction-ltr fc-theme-standard" style="height: 90%;"></div>
     </div>
     <script>
@@ -107,7 +85,41 @@
                 }, 
                 editable: true,
                 selectable: true,
-                allDaySlot: true,   
+                allDaySlot: true, 
+
+                viewRender: function(view){
+                    var j = view.options.events;
+                    //verificamos si esta accediendo un profesional o un cliente
+                                                
+                        var k = 0;
+                        //recorremos todo el calendario renderizado (unos 42 dias)
+                        while(k <= view.dayGrid.cellEls.length - 1){
+                            //Obtenemos la fecha
+                            fchCalendar = Date.parse(view.dayGrid.cellEls[k].dataset.date);
+                            var i=0;
+                            var encontro = false;
+                            //El ciclo es para buscar las fechas que tienen horarios
+                            //Al final se pintaran de color gris las celdas que no posean turnos para
+                            //que el cliente no pueda acceder a ellas
+                            while(i <= j.length-1 && !encontro){
+                                fchDB = Date.parse(j[i].start);                               
+                                if(fchDB == fchCalendar) {
+                                    encontro = true                                                                        
+                                }                              
+                                i++;
+                            }                        
+                            if(!encontro) {                               
+                               //celdas deshabilitadas                               
+                               view.dayGrid.cellEls[k].style.backgroundColor = 'D5D5D5';
+                            }else{
+                                //Celdas habilitadas con horarios
+                                view.dayGrid.cellEls[k].style.backgroundColor = 'D4FCAE';
+                            }                            
+                            k++;
+                        }
+
+                   
+                },  
 
                 dayClick: function(date, jsEvent, view){ 
                     
@@ -115,7 +127,21 @@
                 },   
 
                 eventClick:function(callEvent,jsEvent,view){
-                    console.log(callEvent)
+                   console.log(callEvent.idt);
+                   
+                    var url = '<?=base_url()?>turnos/fecha_cliente_turnos_view';
+                    $.ajax({
+                        type:'post',
+                        url: url,
+                        data: {fecha:callEvent.start._i, hora:callEvent.hora}
+                    }).done(function(res){
+                       console.log(res);
+                       $('#pr_nombre').text(callEvent.pr_nombre);
+                       $('#pr_apellido').text(callEvent.pr_apellido);
+                      
+                       $('#fechaTurno').text(res);
+
+                    });
                     $('#ModalEventos').modal({backdrop: 'static', keyboard: false});
                 },                            
 
@@ -130,20 +156,33 @@
         
         
     </script>
-    <?php
-    $item = array_values($turnos)[0];
-    var_dump($item);
-    ?>
+   
     <!-- Modal PARA AGREGAR MODIFICAR Y ELIMINAR-->
     <div class="modal fade" id="ModalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">       
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content" id="modal-content">            
-                h5>Datos del turno</h5>            
+                <h5>Datos del turno</h5>     
+                <?php
+                if(isset($turnos)){
+                $turno = json_decode($turnos);
+                $item = array_values($turno)[0];                    
+                //$route['profesional/videollamada/(:any)'] = 'Profesional/goVideoCall/$1';
+                $uri = 'profesional/videollamada/'.$item->idt.$item->token_id;               
+                ?>
                 <div class="modal-header">
-                
+                    
                 </div>
                 <div class="modal-body">
-                    <label></label>
+                   <div>
+                        Lic. <label id="pr_nombre"></label>&nbsp;<label id="pr_apellido"></label>
+                   </div>
+                   <div>                   
+                        Fecha: <label id="fechaTurno"></label>
+                   </div>
+                    <div>
+                    <p></p>
+                        <a href="<?=base_url($uri)?>" id="">Acceder a Videollamada</a>
+                   </div>
                 </div>
                 <div class="modal-footer">                   
                         <div><button type="button" id="btnCerrar" class="btn btn-warning">Cerrar</button></div>
@@ -151,7 +190,7 @@
             </div>
         </div>
     </div>
-    
+    <?php }?>
     <script>
          $('#btnCerrar').click(function(){           
             //ocultamo el modal            

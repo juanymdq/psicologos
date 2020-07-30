@@ -48,12 +48,12 @@ class Profesional extends MY_Controller {
     }
     //busca todos los horarios cargado por el profesional
     //y redirige a la vista de crear horarios
-    public function find_all_eventos($id) {
+  /*  public function find_all_eventos($id) {
         
         $datos['horarios'] = $this->turnos_model->find_by_prof($id,0,7);
         $datos['ruta_relativa'] = "<p><a href='".base_url('principal')."'>Inicio</a> > Profesional</p>";
         $this->render_page('profesionales/crear_horarios_view', $datos);
-    }
+    }*/
 
     public function find_horarios() { 
         if(!empty($_POST['idProf'])){             
@@ -225,7 +225,8 @@ class Profesional extends MY_Controller {
                 $data['foto'] = $item->pr_foto;  
                 $data['resenia'] = $item->pr_resenia;
                 $data['autorizado'] = $item->pr_autorizado;
-                $data['registra'] = false;$data['ruta_relativa'] = "<p>
+                $data['registra'] = false;
+                $data['ruta_relativa'] = "<p>
                 <a href='".base_url('principal')."'>Inicio</a> > 
                 <a href='".base_url('profesional/cpanel')."'>Profesional</a> >
                 editar
@@ -252,6 +253,42 @@ class Profesional extends MY_Controller {
     public function view_all_clients() {
         $datos['query'] = $this->profesional_model->findAll();
         $this->load->view('profesionales/view_clientes', $datos);
+    }
+
+    //obtiene los turnos pendientes de un profesional
+    function getTurnos($id) {
+        if($this->profesional_model->getAllTurnos($id)){
+            $datos['turnos'] = $this->profesional_model->getAllTurnos($id);
+        }else{
+            //significa que no hay turnos registrados para este profesional
+            $datos['turnos'] = 0;
+        }
+        $datos['ruta_relativa'] = "<p>
+        <a href='".base_url('principal')."'>Inicio</a> > 
+        <a href='".base_url('profesional/cpanel')."'>Profesional</a> >
+        Turnos Pendientes
+        </p>";
+        $this->render_page('profesionales/turnos_pendientes_view', $datos);
+    }
+    //deriva a la pantalla de videollamadas
+    function goVideoCall($id) {
+        $datos['call'] = $id;
+        if($this->session->userdata('perfil')=='profesional'){
+            $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('profesional/cpanel')."'>Profesional</a> >
+            <a href='".base_url('profesional/turnos_pendientes/'.$this->session->userdata('id'))."'>Turnos Pendientes</a> >
+            Videollamada
+            </p>";
+        }else{
+            $datos['ruta_relativa'] = "<p>
+            <a href='".base_url('principal')."'>Inicio</a> > 
+            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
+            <a href='".base_url('cliente/mis_turnos/'.$this->session->userdata('id'))."'>Mis Turnos</a> >
+            Videollamada
+            </p>";
+        }
+        $this->load->view('profesionales/videollamada_view', $datos);
     }
 
     //borra un profesional

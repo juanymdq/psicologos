@@ -9,7 +9,7 @@ class Calendar_model extends CI_Model {
         $this->load->database();
     }
 
-    //Obtiene todos los horarios de la tabla eventos para un profecional en particular
+    //Obtiene todos los horarios de la tabla eventos para un profesional en particular
     //Ademas va a traer solos los eventos que sean mayores oiguales a la fecha actual
     function find_horarios_by_user($id) {        
         $this->db->select();      

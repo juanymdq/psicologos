@@ -8,8 +8,8 @@ require 'vendor/autoload.php';
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Turnos extends MY_Controller {
-
+class Turnos extends MY_Controller {    
+    
     public function __construct()
     {
          parent::__construct(); 
@@ -99,12 +99,15 @@ class Turnos extends MY_Controller {
         $fecha = $item['start']." ".$item['hora'];
         $datos['fecha_string'] = $this->fecha($fecha);
         $id = $item['id'];
+        //$route['cliente/cpanel'] = 'Cliente/cliente_cpanel';
+        //$route['cliente/listar_profesionales'] = 'Turnos';
+        //$route['profesional/calendario_de_horarios/(:any)'] = 'calendar/find_all_eventos/$1';
         //$this->render_page('turnos/turno_register_view', $datos);
         $datos['ruta_relativa'] = "<p>
             <a href='".base_url('principal')."'>Inicio</a> > 
             <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
             <a href='".base_url('cliente/listar_profesionales')."'>Lista de Profesionales</a> >
-            <a href='".base_url('cliente/ver_horarios_de_profesional/'.$id)."'>Horarios de profesional</a> >
+            <a href='".base_url('profesional/calendario_de_horarios/'.$id)."/0'>Horarios de profesional</a> >
             Datos del turno
             </p>";
         $this->render_page('turnos/turnos_register_view', $datos);
@@ -121,6 +124,14 @@ class Turnos extends MY_Controller {
             $this->render_page('turnos/turno_register_pago_view', $datos);          
         }
     }
+
+    //guarda el token de la videollamada en la tabla turnos
+    function actualizaToken() {
+        $id = $this->input->post('id');
+        $token = $this->input->post('token');
+        $data = array('token_id' => $token);
+        $this->turnos_model->updateToken($id,$data);
+    }
     /*
 https://www.sandbox.paypal.com/webapps/hermes?
 flow=1-P&ulReturn=true&
@@ -135,11 +146,12 @@ flowType=WPS#/checkout/done
         //&& (!empty($_POST['payerID'])) && (!empty($_POST['paymentToken']))
         if(!empty($_POST['paymentID'])) {
             //generamos array para guardar en bd
+            $token = '#'.rand(1,10000000000000000);
             $data = array(
                 'id_cliente' => $this->session->userdata('id'),
                 'id_horario' => $_POST['id_horario'],     
                 'comentarios' => $_POST['comentariospp'],
-                'id_sesion' => $this->session->session_id,
+                'token_id' => $token,
                 'payment_id' => $_POST['paymentID'],
                 'payment_status' => 'Pagado via Paypal',
                 'merchant_order' => '1'
@@ -161,7 +173,7 @@ flowType=WPS#/checkout/done
         $idh = $_POST['id_horario'];
         $coments = $_POST['comentariosmp'];
         $payment_id = $_POST['payment_id'];
-        $merchant_order = $_POST['merchant_order'];
+        $merchant_order = $_POST['merchant_order'];        
         //verificamos que exista el payment
         if(!empty($_POST['payment_id'])){
             if($_POST['payment_status_detail']=='accredited'){
@@ -170,11 +182,12 @@ flowType=WPS#/checkout/done
                 $status = 'Pago por ticket. Pendiente de pago';
             }
             //generamos array para guardar en bd
+            $token = '#'.rand(1,10000000000000000);
             $data = array(
                 'id_cliente' => $this->session->userdata('id'),
                 'id_horario' => $idh,     
                 'comentarios' => $coments,
-                'id_sesion' => $this->session->session_id,
+                'token_id' => $token,
                 'payment_id' => $payment_id,
                 'payment_status' => $status,
                 'merchant_order' => $merchant_order
@@ -222,48 +235,7 @@ flowType=WPS#/checkout/done
         }else{//redirige a la pagina ipn.php para recibir las notificaciones del pago presencial
         $this->render_page('turnos/ipn', $datos, true);       
         }
-    }
-    //realiza acciones sobre los horarios, Agreagar y eliminar
-/*    public function accion($accion) {
-        
-        //$accion = (isset($_GET['accion'])) ? $_GET['accion'] : 'Leer' ;
-
-        switch($accion){
-            case 'agregar':
-                $f = $this->input->post('fecha');
-                $id_prof = $this->input->post('id_profesional');
-                $fecha = $this->fecha($f);
-                $data = array(
-                    'id_profesional' => $id_prof,
-                    'fecha' => $this->input->post('fecha'),
-                    'fecha_string' => $fecha,
-                    'estado' => 'disponible'          
-                );
-                if($this->turnos_model->insert_fecha($data) != null){                    
-                    //$route['profesional/crear_horarios_de_profesional/(:any)'] = 'Turnos/ver_horarios/$1'; 
-                    header('Location:'.base_url('profesional/crear_horarios_de_profesional/'.$id_prof.'?var=1&pagina=1'));                     
-                }
-                break;
-            case 'eliminar':
-                $id_prof = $this->input->post('id_profesional');                
-                $id = $this->input->post('id');
-                $ar = $this->turnos_model->delete_horarios($id);                
-                //$ar=1 significa que elimino el registro
-                if($ar!=null){
-                    $datos['horarios'] = $this->turnos_model->find_by_prof($id_prof);                    
-                }else{
-                    $datos['error_message'] = "No se pudo eliminar el registro";
-                }
-                $this->render_page('profesionales/crear_horarios_view', $datos);     
-                break;            
-            default:
-                $datos['eventos'] = $this->profesional_model->findAll();
-                $this->render_page('profesionales/crear_horarios_view', $datos);
-                break;
-        }
-    }
-
-    */
+    }  
     public function envia_mail($idTurno) {
         
         $datosTurno = $this->turnos_model->find_by_cliente($idTurno);
@@ -308,9 +280,7 @@ flowType=WPS#/checkout/done
                         <p>Cliente: ".$item['apellido'].", &nbsp;". $item['nombre']."</p>
                         <p>Profesional: ".$item['pr_apellido'].", &nbsp;". $item['pr_nombre']."</p>
                         <p>Fecha de turno: ".$fecha_string."</p>
-                        <p>Estado de pago de la sesion: ".$item['payment_status']."</p>
-                        <p>El siguiente id lo necesitará para conectarse el dia del turno con el profesional por videollamada</p>
-                        <p>Id de la videollamada: <strong>".$item['id_sesion']."</strong></p>
+                        <p>Estado de pago de la sesion: ".$item['payment_status']."</p>                        
                     </body>
                 </html>";
                 $bodyCont=utf8_decode($bodyc);
@@ -401,6 +371,86 @@ flowType=WPS#/checkout/done
              break;
         }
         return $textsemana .', '. $ndia . ' de '. $textmes . ' de ' .$anio. ', ' . $hora; 
+    }
+
+    //funcion para agregar la fecha formato string
+    function fecha_cliente_turnos_view() {
+
+        $fechahora = $this->input->post('fecha');
+        //-----Hora-----------------
+       // $temphora = explode(":", $fechahora[1]);
+        $hora = $this->input->post('hora');
+        //-------------------------------
+        $d = new DateTime($fechahora);
+        //numero de dia de la semana 1: lunes
+        $ndiasemana = $d->format('N');                             
+        //numero de mes
+        $nmes = $d->format('m');
+        //numero de dia
+        $ndia = $d->format('d');   
+        $anio = $d->format('Y');
+        switch($nmes){
+            case 1: 
+                $textmes = 'Enero';
+            break;
+            case 2: 
+                $textmes = 'Febrero';
+            break;
+            case 3: 
+                $textmes = 'Marzo';
+            break;
+            case 4: 
+                $textmes = 'Abril';
+            break;
+            case 5: 
+                $textmes = 'Mayo';
+            break;
+            case 6: 
+                $textmes = 'Junio';
+            break;
+            case 7: 
+                $textmes = 'Julio';
+            break;
+            case 8: 
+                $textmes = 'Agosto';
+            break;
+            case 9: 
+                $textmes = 'Septiembre';
+            break;
+            case 10: 
+                $textmes = 'Octubre';
+            break;
+            case 11: 
+                $textmes = 'Noviembre';
+            break;
+            case 12: 
+                $textmes = 'Diciembre';
+            break;
+        }
+        switch($ndiasemana){
+            case 1:
+                $textsemana = 'Lunes';
+             break;
+             case 2:
+                $textsemana = 'Martes';
+             break;
+             case 3:
+                $textsemana = 'Miércoles';
+             break;
+             case 4:
+                $textsemana = 'Jueves';
+             break;
+             case 5:
+                $textsemana = 'Viernes';
+             break;
+             case 6:
+                $textsemana = 'Sábado';
+             break;
+             case 7:
+                $textsemana = 'Domingo';
+             break;
+        }
+        echo $textsemana .', '. $ndia . ' de '. $textmes . ' de ' .$anio. ', ' . $hora; 
     }
 
 }

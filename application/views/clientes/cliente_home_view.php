@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="<?=base_url()?>application/assets/css/body.css"/>
+
 </head>
 
 
