@@ -34,7 +34,7 @@
                                 Registro de Clientes
                             </div>
                             <div class="enc-cuerpo">
-                                Deberas completar este formulario para acceder a los servicios de TerapiaVirtual.
+                               <p> Deberas completar este formulario para acceder a los servicios de TerapiaVirtual.</p>
                             </div>
                         </div>
                     <?php }else{?>
@@ -119,7 +119,7 @@
                                     <span class="col-md-1 text-center"><i class="fa fa-asterisk" style="color:red; font-size:12px"></i></span>
                                 </div>
                             </div>
-                            <button type="submit">Registrarse</button>
+                            <button type="submit" class="btn-register">Registrarse</button>
                             <p class="message">¿Ya tienes cuenta? <a href="<?=base_url('cliente/login')?>?var=0">Sign In</a></p>
                         <?php }else{ ?>
                             <button type="submit">Actualizar</button>
@@ -148,7 +148,7 @@
                     <span class="help-block"><?php echo form_error('email', '<div class="text-danger">', '</div>') ?></span> 
                     <input type="password" placeholder="Password" name="password" class="form-control"/>                                        
                     <span class="help-block"><?php echo form_error('password', '<div class="text-danger">', '</div>') ?></span> 
-                    <button type="submit">Ingresar </button>
+                    <button type="submit" class="btn-register">Ingresar </button>
                     <!-- $route['cliente/crear'] = 'Cliente'; -->
                     <p class="message">¿No estás registrado? <a href="<?=base_url('cliente/crear')?>?var=1">Crear una cuenta</a></p>
                     <!-- $route['cliente/restablecer_contraseña'] = 'cliente/forgot_password'; -->

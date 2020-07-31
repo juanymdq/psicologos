@@ -1,49 +1,47 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+	<head>
+		<style>
+		.flex-container {
+			display: flex;
+			flex-wrap: wrap;  
+			background-color: #4E94AE;
+		}
 
-</head>
+		.flex-container > div {
+			background-color: #f1f1f1;
+			width: 150px;
+			margin: 40px;
+			text-align: center;
+			line-height: 65px;		
+		}
+
+		.icon{	
+			margin: 10px;
+		}
+
+		.icono {
+			font-size: 3em;
+			color: #4E94AE;
+		}
+		.div-text {	
+			font-size: 14px;
+			color: #4E94AE;
+			height: 40%;
+		}
+		.message {	
+			width: auto;
+		}
+		.message p {		
+			color: red;
+		}
+			
+		</style>
+	</head>
 
 
-<style>
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;  
-  background-color: #4E94AE;
-}
 
-.flex-container > div {
-  background-color: #f1f1f1;
-  width: 150px;
-  margin: 40px;
-  text-align: center;
-  line-height: 65px;
-  
-}
-
-.icon{	
-	margin: 10px;
-}
-
-.icono {
-	font-size: 3em;
-	color: #4E94AE;
-}
-.div-text {	
-	font-size: 14px;
-	color: #4E94AE;
-	height: 40%;
-}
-.message {	
-	width: auto;
-}
-.message p {		
-	color: red;
-}
-	
-</style>
 <body>
 	<div class="container">
 		

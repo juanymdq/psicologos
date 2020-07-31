@@ -2,42 +2,42 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-	<style>
-	.flex-container {
-		display: flex;
-		flex-wrap: wrap;  
-		background-color: #4E94AE;
+		<style>
+		.flex-container {
+			display: flex;
+			flex-wrap: wrap;  
+			background-color: #4E94AE;
 		}
 
-	.flex-container > div {
-		background-color: #f1f1f1;
-		width: 150px;
-		margin: 40px;
-		text-align: center;	
-	}
+		.flex-container > div {
+			background-color: #f1f1f1;
+			width: 150px;
+			margin: 40px;
+			text-align: center;	
+		}
 
-	.icon{	
-		margin: 10px;
-		
-	}
+		.icon{	
+			margin: 10px;
+			
+		}
 
-	.icono {
-		font-size: 3em;
-		color: #4E94AE;
-	}
-	.div-text {	
-		font-size: 14px;
-		color: #4E94AE;
-		height: 30%;		
-	}
-	.message {	
-		width: auto;
-	}
-	.message p {		
-		color: red;
-	}
-		
-	</style>
+		.icono {
+			font-size: 3em;
+			color: #4E94AE;
+		}
+		.div-text {	
+			font-size: 14px;
+			color: #4E94AE;
+			height: 30%;		
+		}
+		.message {	
+			width: auto;
+		}
+		.message p {		
+			color: red;
+		}
+			
+		</style>
 	</head>
 
 

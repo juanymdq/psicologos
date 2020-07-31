@@ -83,10 +83,23 @@
                 background: aliceblue;
             }
             .cabecera>p {
-    font-size: 32px;
-    font-family: 'Numito';
-}
+                font-size: 32px;
+                font-family: 'Numito';
+            }
+            #videos-container {
+                position: relative;
+                border: 3px solid #73AD21;
+                width: 600px;
+                height:450px;}
 
+            #video-remote {
+                position:absolute;
+                bottom:5px;
+                right:10px;
+                width: 150px;
+                height: 150px;
+                border: 3px solid #73AD21;
+            }
         </style>
         <script>
             document.createElement('article');
@@ -129,7 +142,11 @@
                 <table style="width: 100%;" id="rooms-list"></table>
 
                 <!-- local/remote videos container -->
-                <div id="videos-container"></div>
+                <div id="videos-container">
+
+                    <div id="video-remote"></div>
+
+                </div>
             </section>
             </div>
             <script>
@@ -170,7 +187,7 @@
                     onRemoteStream: function(media) {
                         
                         var mediaElement = getMediaElement(media.video, {
-                            width: (videosContainer.clientWidth / 2) - 50,
+                            //width: (videosContainer.clientWidth / 2) - 50,
                             buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
                         });
                         mediaElement.id = media.stream.streamid;
@@ -258,11 +275,15 @@
                             config.attachStream = stream;
 
                             var mediaElement = getMediaElement(video, {
-                                width: (videosContainer.clientWidth / 2) - 50,
+                                //width: (videosContainer.clientWidth / 2) - 50,
+                                //buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
+                                //width: (videoRemote.clientWidth / 2) - 50,
                                 buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
                             });
+                            //mediaElement.toggle('mute-audio');
+                            //videosContainer.appendChild(mediaElement);
                             mediaElement.toggle('mute-audio');
-                            videosContainer.appendChild(mediaElement);
+                            videoRemote.appendChild(mediaElement);
 
                             callback && callback();
                         },
@@ -277,6 +298,8 @@
                 
                 /* UI specific */
                 var videosContainer = document.getElementById('videos-container') || document.body;
+                //agregado
+                var videoRemote = document.getElementById('video-remote') || document.body;
                 var btnSetupNewRoom = document.getElementById('setup-new-room');
                 var roomsList = document.getElementById('rooms-list');
 
@@ -295,7 +318,7 @@
                         if (location.hash.length > 2) uniqueToken.parentNode.parentNode.parentNode.innerHTML = '<h2 style="text-align:center;display: block;"><a href="' + location.href + '" target="_blank">Right click to copy & share this private link</a></h2>';
                         else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-');
                 })();
-
+/*
                 function scaleVideos() {
                     var videos = document.querySelectorAll('video'),
                         length = videos.length, video;
@@ -329,7 +352,7 @@
 
 
                 window.onresize = scaleVideos;
-
+*/
             </script>
 
           

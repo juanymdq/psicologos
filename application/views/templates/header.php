@@ -1,6 +1,6 @@
 <html>
     <head>
-    <meta name="viewport"content="width-device-with, user-scalable-no,initial-scale-1.0,maximum-scale-1.0, minimum-scale-1.0">
+        <meta name="viewport"content="width-device-with, user-scalable-no,initial-scale-1.0,maximum-scale-1.0, minimum-scale-1.0">
         	<!-- STYLES -->
 	  <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -120,10 +120,10 @@
                         </div>
                     </nav>
                     <div class="ruta-contacto">
-                        <div class="ruta-relativa">
+                        <div class="ruta-relativa">                           
                             <?php
                             if(isset($ruta_relativa)) echo $ruta_relativa
-                            ?>
+                            ?>                           
                         </div>
                        
                     </div>

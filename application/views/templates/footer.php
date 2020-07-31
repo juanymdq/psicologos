@@ -1,3 +1,4 @@
+<div class="container">
 <footer>	
 	<div class="copyrights">
 		<div class="container_footer">
@@ -12,3 +13,4 @@
 		</div>
 	</div>
 </footer>
+</div>
