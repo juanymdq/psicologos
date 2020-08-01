@@ -243,15 +243,15 @@ class Cliente extends MY_Controller
                 $mail->Host       = 'ssl://smtp.googlemail.com';                    // Set the SMTP server to send through
                 $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-                $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                $mail->Username   = 'juanymdq@gmail.com';                     // SMTP username
-                $mail->Password   = 'Jifernandez1979';                               // SMTP password
+                $mail->SMTPAuth   = true; 
+                //TODO: colocar email y pass SMTPs                                  // Enable SMTP authentication
+                $mail->Username   = 'user@mail.com';                     // SMTP username
+                $mail->Password   = '*******';                               // SMTP password
                 
                 //Recipients
                 $mail->Charset = PHPMailer::CHARSET_UTF8;
-                $mail->setFrom('from@example.com', 'Terapia Virtual');
-                //$mail->addAddress('jifernandez04@hotmail.com', 'Juany');     // Add a recipient              
-                $mail->addAddress($email, 'Juany');     // Add a recipient
+                $mail->setFrom('from@example.com', 'Terapia Virtual');                             
+                $mail->addAddress($email, 'Juan');     // Add a recipient
                 // Set email format to HTML
                 $mail->isHTML(true);
                 $asunto = 'Cambio de contraseña';

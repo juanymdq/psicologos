@@ -33,62 +33,7 @@ class Turnos extends MY_Controller {
         $this->render_page('turnos/lista_profesionales_view',$datos);
       
     }  
-/*
-     //busca todos los horarios de un profesional y los datos del mismo
-     public function ver_horarios($id) {       
-        //busca todos los horarios del profesional  
-        if(!isset($_GET['pagina'])){
-            $inicio=0;
-        }else{
-            $inicio = ($_GET['pagina']-1) * 7; 
-        }
-        $datos['allHorarios'] =  $this->turnos_model->find_all_horarios_by_prof($id);       
-        $datos['horarios'] = $this->turnos_model->find_by_prof($id,$inicio);
-        //busca el profesional segun id
-        $datos['prof'] = $this->profesional_model->find($id);
-        if($_GET['var'] == 1) {//1 indica que viene desde la creacion de horarios del profesional
-            $datos['ruta_relativa'] = "<p>
-            <a href='".base_url('principal')."'>Inicio</a> > 
-            <a href='".base_url('profesional/cpanel')."'>Profesional</a> >            
-            Alta de horarios de atención
-            </p>";
-            $this->render_page('profesionales/crear_horarios_view', $datos);
-        }else if($_GET['var'] == 0){//si es 0 indica que el cliente esta viendo los horarios
-            $datos['ruta_relativa'] = "<p>
-            <a href='".base_url('principal')."'>Inicio</a> > 
-            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
-            <a href='".base_url('cliente/listar_profesionales')."'>Lista de Profesionales</a> >
-            Horarios de profesional
-            </p>";
-            $this->render_page('turnos/horarios_view', $datos);
-        }
-}
-*/
-    //busca todos los horarios de un profesional y los datos del mismo
-    /*
-    public function ver_horarios($id) {       
-            //busca todos los horarios del profesional
-            $datos['horarios'] = $this->turnos_model->find_by_prof($id);
-            //busca el profesional segun id
-            $datos['prof'] = $this->profesional_model->find($id);
-            $datos['ruta_relativa'] = "<p>
-            <a href='".base_url('principal')."'>Inicio</a> > 
-            <a href='".base_url('cliente/cpanel')."'>Cliente</a> >
-            <a href='".base_url('cliente/listar_profesionales')."'>Lista de Profesionales</a> >
-            Horarios de profesional
-            </p>";
-            $this->render_page('turnos/horarios_view', $datos);
-      
-    }*/
-   /*
-    public function ver_horarios_limit() { 
-        if(!empty($_GET['id'])){
-            $id = $_GET['id'];      
-            $datos['fechas_limit'] = $this->turnos_model->find_by_prof_limit($id);
-            $this->render_page('turnos/horarios_view', $datos);
-        }       
-    }
-    */
+  
     public function turno_cliente($id)    
     {               
         //busca el horario seleccionado y los datos del profesional           
@@ -144,9 +89,10 @@ flowType=WPS#/checkout/done
     //SE LLAMA CUANDO SE PAGA POR PAYPAL
     function redirectpaypal() {
         //&& (!empty($_POST['payerID'])) && (!empty($_POST['paymentToken']))
-        if(!empty($_POST['paymentID'])) {
-            //generamos array para guardar en bd
+        if(!empty($_POST['paymentID'])) {           
+            //se genera token para usar en videollamada
             $token = '#'.rand(1,10000000000000000);
+             //generamos array para guardar en bd
             $data = array(
                 'id_cliente' => $this->session->userdata('id'),
                 'id_horario' => $_POST['id_horario'],     
@@ -181,8 +127,9 @@ flowType=WPS#/checkout/done
             }else if($_POST['payment_status_detail']=='pending_waiting_payment'){
                 $status = 'Pago por ticket. Pendiente de pago';
             }
-            //generamos array para guardar en bd
+              //se genera token para usar en videollamada
             $token = '#'.rand(1,10000000000000000);
+            //generamos array para guardar en bd
             $data = array(
                 'id_cliente' => $this->session->userdata('id'),
                 'id_horario' => $idh,     
@@ -196,7 +143,7 @@ flowType=WPS#/checkout/done
                 case 'accredited':  
                     $idTurno = $this->turnos_model->insert_turno($idh, $data);   
                     //$this->turnos_model->modifica_disponibilidad_de_horario($_POST['id_turno'],'reservado');
-                    $datos['payment_message'] = '¡Listo! Se acreditó tu pago. En tu resumen verás el cargo de '.$_POST['amount'].' como '.$_POST['statement_descriptor'].
+                    $datos['payment_message'] = '¡Listo! Se acreditó tu pago. En tu resumen verás el cargo de '.$_POST['amount'].' como '.$_POST['statement_descriptor'];
                     //$datos['payment_message'] = 'Pago vía Mercadopago aprobado';                    
                     $this->render_page('turnos/estadomp', $datos, true);
                 break;
@@ -254,13 +201,14 @@ flowType=WPS#/checkout/done
                 $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
                 $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-                $mail->Username   = 'juanymdq@gmail.com';                     // SMTP username
-                $mail->Password   = 'Jifernandez1979';                               // SMTP password
+                //TODO: colocar email y pass SMTPs                                  // Enable SMTP authentication
+                $mail->Username   = 'user@mail.com';                     // SMTP username
+                $mail->Password   = '*******';                               // SMTP password
                 
                 //Recipients
                 $mail->Charset = PHPMailer::CHARSET_UTF8;
                 $mail->setFrom('from@example.com', 'Terapia Virtual');
-                $mail->addAddress('jifernandez04@hotmail.com', 'Juany');     // Add a recipient
+                $mail->addAddress('addressmail@mail.com', 'Juan');     // Add a recipient
                 if(!empty($datosTurno)){        
                     $item = array_values($datosTurno)[0];
                 }else{
